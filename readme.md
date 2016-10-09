@@ -1,7 +1,7 @@
 Here is a Jersey-server demo.
 Follow this tutorial to get it up and running on your own computer.
 
-1. Follow this guide: https://www.jetbrains.com/help/idea/2016.2/creating-and-running-your-first-restful-web-service-on-glassfish-application-server.html, to set up your IntelliJ correctly so it's ready for this repository. After you have followed this guide step-by-step move on with step no. 2. 
+1. Follow this guide: https://www.jetbrains.com/help/idea/2016.2/creating-and-running-your-first-restful-web-service-on-glassfish-application-server.html, to set up your IntelliJ correctly so it's ready for this repository. After you have followed the above guide step-by-step move on with step no. 2. 
 2. Clone this repository into a folder of your choice.
 3. Open up IntelliJ and create new project.
 4. Select Java Enterprise and apply following settings:
