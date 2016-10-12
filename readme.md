@@ -1,3 +1,12 @@
+## Git Rules
+
+* **Aldrig push til masterbranch medmindre programmet virker og er godkendt af releasemanageren**
+* Gør brug af **branches** til at kode og teste uden at påvirke masterbranch. **Mere om git og branches:** https://www.jetbrains.com/help/idea/2016.2/managing-branches.html
+* Ved **conflicts** f.eks. 2 personer har ændret i samme dokument, find den anden person og bliv enig om hvad som skal beholdes. 
+* Ved oprettelse af nye branches kald da den nye branch dit navn. 
+* Brug funktionen **"Issues"** til at oprette og løse problemer/bugs. 
+
+
 Here is a Jersey-server demo.
 Follow this tutorial to get it up and running on your own computer.
 
