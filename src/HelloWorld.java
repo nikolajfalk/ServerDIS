@@ -14,6 +14,6 @@ public class HelloWorld {
     @Produces("text/plain")
     public String getClichedMessage() {
         // Return some cliched textual content
-        return "Hello World10";
+        return "Hello World11";
     }
 }
