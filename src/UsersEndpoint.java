@@ -2,12 +2,11 @@
  * Created by mortenlaursen on 09/10/2016.
  */
 import com.google.gson.Gson;
+import model.User;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
 // The Java class will be hosted at the URI path "/users"
