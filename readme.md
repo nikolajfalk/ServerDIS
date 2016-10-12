@@ -7,7 +7,7 @@
 * Brug funktionen **"Issues"** til at oprette og løse problemer/bugs. 
 
 
-Here is a Jersey-server demo.
+##Installation og download
 Follow this tutorial to get it up and running on your own computer.
 
 1. Follow this guide: https://www.jetbrains.com/help/idea/2016.2/creating-and-running-your-first-restful-web-service-on-glassfish-application-server.html, to set up your IntelliJ correctly so it's ready for this repository. After you have followed the above guide step-by-step move on with step no. 2. 
