@@ -4,7 +4,6 @@
 public class Book {
     String name;
     int ISBN;
-    String author;
 
     public Book(String name, int ISBN) {
         this.name = name;
