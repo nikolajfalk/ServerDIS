@@ -73,7 +73,7 @@ public class DBConnector {
                         resultSet.getString("Username"),
                         resultSet.getString("Email"),
                         resultSet.getString("Password"),
-                        resultSet.getBoolean(Usertype)
+                        resultSet.getBoolean("Usertype")
                 ));
             }
         }
