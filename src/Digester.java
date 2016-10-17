@@ -3,7 +3,6 @@ import java.security.MessageDigest;
 /**
  * Created by madsgade on 17/10/2016.
  */
-//what
 public class Digester {
     private final static String SALT = "n0zaCTADRUuTb@JUp01n%5@(l@IAaLlZ";
     private static MessageDigest digester;
@@ -18,14 +17,14 @@ public class Digester {
 
     public static String hash(String str) {
         if (str == null || str.length() == 0) {
-            throw new IllegalArgumentException("Error");
+            throw new IllegalArgumentException("Fejl");
         }
         return Digester._hash(str);
     }
 
     public static String hashWithSalt(String str) {
         if (str == null || str.length() == 0) {
-            throw new IllegalArgumentException("Error");
+            throw new IllegalArgumentException("Fejl");
         }
 
         str = str + Digester.SALT;
