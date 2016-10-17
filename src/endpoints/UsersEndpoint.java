@@ -18,19 +18,20 @@ public class UsersEndpoint implements IEndpoints {
     @GET
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("text/plain")
-    public Response getAll() {
-        return null;
-    }
-
-    @Override
     public Response get() {
-        return null;
+        if (controller.getUsers() != null) {
+            return null;
+        }
+        else return null;
     }
 
     @Path("/users/{id}")
     @Produces("application/json")
     @GET
     public Response get(@PathParam("id") int userId) {
+        if (controller.getUser(userId)!=null) {
+            return null;
+        }
         return null;
     }
 

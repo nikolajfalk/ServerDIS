@@ -10,19 +10,13 @@ import java.util.ArrayList;
  * Created by mortenlaursen on 17/10/2016.
  */
 public class UserController {
-    Gson gson;
 
-
-    public UserController() {
-        this.gson = new Gson();
+    public ArrayList<User> getUsers() {
+        return DBConnector.getUsers();
     }
 
-    public String getUsers() {
-        return gson.toJson(DBConnector.getUsers());
-    }
-
-    public String getUser(int id) {
-        return gson.toJson(DBConnector.getUser(id));
+    public User getUser(int id) {
+        return DBConnector.getUser(id);
     }
 
     public boolean editUser(int id) {
@@ -34,7 +28,7 @@ public class UserController {
     }
 
     public boolean addUser(String data) {
-        User u = gson.fromJson(data,User.class);
+        User u = new Gson().fromJson(data,User.class);
         return DBConnector.addUser(u);
     }
 

@@ -6,7 +6,11 @@ import model.Book;
 
 import java.util.ArrayList;
 
+/**
+ * Created by mortenlaursen on 17/10/2016.
+ */
 public class BookController {
+    Gson gson;
 
     public ArrayList<Book> getBooks() {
         return DBConnector.getBooks();
@@ -25,7 +29,6 @@ public class BookController {
     }
 
     public boolean addBook(String data) {
-        Gson gson = new Gson();
         Book b = gson.fromJson(data,Book.class);
         return DBConnector.addBook(b);
     }
