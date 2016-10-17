@@ -16,8 +16,9 @@ public class MyApplication extends Application{
     @Override
     public Set<Class<?>> getClasses() {
         HashSet h = new HashSet<Class<?>>();
-        h.add( HelloWorld.class );
         h.add( UsersEndpoint.class);
+        h.add( HashingEndpoint.class);
+        h.add( CrypterEndpoint.class);
         return h;
     }
 

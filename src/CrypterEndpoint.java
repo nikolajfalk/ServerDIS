@@ -1,35 +1,32 @@
 /**
- * Created by mortenlaursen on 09/10/2016.
+ * Created by madsgade on 17/10/2016.
  */
 
 import com.google.gson.Gson;
-import model.User;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.util.ArrayList;
 
-// The Java class will be hosted at the URI path "/users"
-@Path("/users")
-public class UsersEndpoint {
-    ArrayList<User>allUsers;
-    MySQL mysql;
+@Path("/crypter")
+public class CrypterEndpoint {
     Gson gson;
+    Crypter crypter;
 
-    public UsersEndpoint() {
-        allUsers = new ArrayList<>();
-        mysql = new MySQL();
+    public CrypterEndpoint() {
         gson = new Gson();
+        crypter = new Crypter();
     }
 
     // The Java method will process HTTP GET requests
     @GET
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("text/plain")
-    public String getAllUsers() {
-        return gson.toJson(mysql.getAllUsers());
+
+    public String xor() {
+        return Crypter.xor();
     }
+
 
     @Path("/getit")
     @GET
@@ -38,7 +35,3 @@ public class UsersEndpoint {
         return "Got it!";
     }
 }
-
-
-
-
