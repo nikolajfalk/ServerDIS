@@ -95,7 +95,8 @@ public class DBConnector {
 
     public void addUser(User u) throws Exception {
 
-        PreparedStatement addUserStatement = conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?))";
+        PreparedStatement addUserStatement =
+            conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?)");
 
         try {
             addUserStatement.setString(1, u.getFirstName());
