@@ -1,7 +1,7 @@
 package database;
 
 import model.Book;
-import model.Curiculum;
+import model.Curriculum;
 import model.User;
 
 import java.util.ArrayList;
@@ -33,23 +33,23 @@ public class DBConnector {
     }
     
     /*Curriculum methods*/
-    public static ArrayList<Curiculum> getCuriculums() {
-        return new ArrayList<Curiculum>();
+    public static ArrayList<Curriculum> getCurriculums() {
+        return new ArrayList<Curriculum>();
     }
 
-    public static Curiculum getCuriculum(int id) {
-        return new Curiculum();
+    public static Curriculum getCurriculum(int id) {
+        return new Curriculum();
     }
 
-    public static boolean editCuriculum(int id) {
+    public static boolean editCurriculum(int id) {
         return true;
     }
 
-    public static boolean addCuriculum(Curiculum c) {
+    public static boolean addCurriculum(Curriculum c) {
         return true;
     }
 
-    public static boolean deleteCuriculum(int id) {
+    public static boolean deleteCurriculum(int id) {
         return true;
     }
     
