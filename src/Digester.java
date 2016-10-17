@@ -19,14 +19,14 @@ public class Digester {
 
     public static String hash(String str) {
         if (str == null || str.length() == 0) {
-            throw new IllegalArgumentException("Error");
+            throw new IllegalArgumentException("Fejl");
         }
         return Digester._hash(str);
     }
 
     public static String hashWithSalt(String str) {
         if (str == null || str.length() == 0) {
-            throw new IllegalArgumentException("Error");
+            throw new IllegalArgumentException("Fejl");
         }
 
         str = str + Digester.SALT;
