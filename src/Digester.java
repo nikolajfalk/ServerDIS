@@ -3,10 +3,8 @@ import java.security.MessageDigest;
 /**
  * Created by madsgade on 17/10/2016.
  */
-
-//Kommentar
 public class Digester {
-    private final static String SALT = "663dcb9d0ec5b599957e470daf6cb728";
+    private final static String SALT = "n0zaCTADRUuTb@JUp01n%5@(l@IAaLlZ";
     private static MessageDigest digester;
 
     static {
@@ -45,6 +43,6 @@ public class Digester {
                 hexString.append(Integer.toHexString(0xFF & aHash));
             }
         }
-            return hexString.toString();
+        return hexString.toString();
     }
 }
