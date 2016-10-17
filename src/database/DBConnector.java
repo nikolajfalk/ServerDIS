@@ -112,8 +112,17 @@ public class DBConnector {
         }
     }
 
-    public static boolean deleteUser(int id) {
-        return true;
+    public void deleteUser(int id) throws SQLException {
+
+        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Users WHERE UserID=?");
+
+        try {
+            deleteUserStatement.setInt(1, id);
+            deleteUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
     
     /*Curriculum methods*/
