@@ -1,6 +1,7 @@
 /**
  * Created by mortenlaursen on 09/10/2016.
  */
+
 import endpoints.BookEndpoint;
 import endpoints.UsersEndpoint;
 import model.Curriculum;
@@ -35,3 +36,4 @@ public class MyApplication extends Application{
         return "This is root!";
     }
 }
+
