@@ -93,9 +93,21 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addUser(User u) {
+    public void addUser(User u) throws Exception {
 
-        return true;
+        PreparedStatement addUserStatement = conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?))";
+
+        try {
+            addUserStatement.setString(1, u.getFirstName());
+            addUserStatement.setString(2, u.getLastName());
+            addUserStatement.setString(3, u.getUsername());
+            addUserStatement.setString(4, u.getEmail());
+            addUserStatement.setString(5, u.getPassword());
+            addUserStatement.setBoolean(6, u.getUserType());
+
+            addUserStatement.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     public static boolean deleteUser(int id) {
