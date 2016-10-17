@@ -7,11 +7,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 @Path("/hashing")
-public class TesterEndpoint {
+public class HashingEndpoint {
     Gson gson;
     Digester hash;
 
-    public TesterEndpoint() {
+    public HashingEndpoint() {
         gson = new Gson();
         hash = new Digester();
     }
