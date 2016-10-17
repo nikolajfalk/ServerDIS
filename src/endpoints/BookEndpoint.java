@@ -28,7 +28,6 @@ public class BookEndpoint implements IEndpoints {
                     .build();
         }
         else {
-            System.out.println("tst");
             return Response
                     .status(400)
                     .build();
