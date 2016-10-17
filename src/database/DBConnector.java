@@ -149,42 +149,58 @@ public class DBConnector {
         return true;
     }
     
-    /*books methods*/
-    public ArrayList<Book> getBooks() throws Exception {
-        ArrayList<Book> results = null;
-        ResultSet resultSet = null;
-        sql = "SELECT * FROM Books";
+//    /*books methods*/
+//    public ArrayList<Book> getBooks() throws Exception {
+//        ArrayList<Book> results = null;
+//        ResultSet resultSet = null;
+//        sql = "SELECT * FROM Books";
+//
+//        try {
+//            resultSet = stmt.executeQuery(sql);
+//            results = new ArrayList<>();
+//
+//            while ( resultSet.next() ) {
+//                results.add(new Book(
+//                        resultSet.getString("Title"),
+//                        resultSet.getString("Publisher"),
+//                        resultSet.getString("ISBN")
+//                ));
+//            }
+//        }
+//        catch ( SQLException sqlException ){
+//            System.out.println(sqlException.getMessage());
+//        }
+//        return results;
+//    }
 
-        try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
-
-            while ( resultSet.next() ) {
-                results.add(new Book(
-                        resultSet.getString("Title"),
-                        resultSet.getString("Publisher"),
-                        resultSet.getString("ISBN")
-                ));
-            }
-        }
-        catch ( SQLException sqlException ){
-            System.out.println(sqlException.getMessage());
-        }
-        return results;
-    }
-
-    public static Book getBook(int id) {
-        return new Book();
-    }
+//    public static Book getBook(int id) {
+//        return new Book();
+//    }
 
     public static boolean editBook(int id) {
         return true;
     }
 
-    public void addBook(Book b) throws Exception {
+    public void addBook(Book b) throws SQLException {
 
+    PreparedStatement addBookStatement = conn
+            .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
+        try {
+            addBookStatement.setString(1, b.getTitle());
+            addBookStatement.setInt(2, b.getVersion());
+            addBookStatement.setDouble(3, b.getISBN());
+            addBookStatement.setDouble(4, b.getPriceAB());
+            addBookStatement.setDouble(5, b.getPriceSAXO());
+            addBookStatement.setDouble(6, b.getPriceCDON());
+            addBookStatement.setString(7, b.getPublisher());
+            addBookStatement.setString(8, b.getAuthor());
 
+            addBookStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean deleteBook(int id) {
