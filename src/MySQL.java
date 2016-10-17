@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by mortenlaursen on 09/10/2016.
  */
 //Should it incloude 'implements Serializable'?
+    /*
 public class MySQL {
 
     public MySQL() {
@@ -13,9 +14,9 @@ public class MySQL {
     }
 
     public ArrayList<User> getAllUsers() {
-        User u1 = new User(1,"Morten","Morten@gmail.com");
-        User u2 = new User(2,"Aske","Aske@hotmail.com");
-        User u3 = new User(3,"Anon","anon@4chan.org");
+        User u1 = new User(1,"Morten","Morten@gmail.com","1234");
+        User u2 = new User(2,"test","test@hotmail.com","1234");
+        User u3 = new User(3,"Anon","anon@4chan.org","1234");
 
         ArrayList<User>output = new ArrayList<>();
         output.add(u1);
@@ -24,4 +25,4 @@ public class MySQL {
 
         return output;
     }
-}
+}*/
