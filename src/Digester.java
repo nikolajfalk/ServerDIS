@@ -5,7 +5,7 @@ import java.security.MessageDigest;
  */
 //what
 public class Digester {
-    private final static String SALT = "n0zaCTADRUuTb@JUp01n%5@(l@IAaLlZ";
+    private final static String SALT = "d53ce%19ef4e%86eKbrotq%O%W92mP%LWSEQ==dJO6e%c";
     private static MessageDigest digester;
 
     static {
