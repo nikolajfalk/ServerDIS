@@ -29,6 +29,7 @@ public class UsersEndpoint implements IEndpoints {
         }
         else {
             return Response
+                    //error response
                     .status(400)
                     .build();
         }
