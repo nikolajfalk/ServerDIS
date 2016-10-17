@@ -93,6 +93,7 @@ public class DBConnector {
     }
 
     public static boolean addUser(User u) {
+
         return true;
     }
 
