@@ -179,8 +179,10 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addBook(Book b) {
-        return true;
+    public void addBook(Book b) throws Exception {
+
+
+
     }
 
     public static boolean deleteBook(int id) {
