@@ -2,7 +2,9 @@ package endpoints; /**
  * Created by mortenlaursen on 09/10/2016.
  */
 
+import com.google.gson.Gson;
 import controllers.UserController;
+import database.DBConnector;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -20,9 +22,16 @@ public class UsersEndpoint implements IEndpoints {
     @Produces("text/plain")
     public Response get() {
         if (controller.getUsers() != null) {
-            return null;
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(DBConnector.getUsers()))
+                    .build();
         }
-        else return null;
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
     }
 
     @Path("/users/{id}")
@@ -48,7 +57,11 @@ public class UsersEndpoint implements IEndpoints {
     @Produces("application/json")
     public Response create(String data) {
         if (controller.addUser(data)) {
-            return null;
+            //demo to check if it returns this on post.
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(controller.getUsers()))
+                    .build();
         }
         else return null;
     }

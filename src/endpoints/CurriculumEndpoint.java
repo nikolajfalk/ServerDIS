@@ -15,12 +15,7 @@ import java.util.ArrayList;
  */
 @Path("/curriculum")
 public class CurriculumEndpoint implements IEndpoints{
-
-    Gson gson = new Gson();
-
-
     CurriculumController curriculumController;
-
 
     public CurriculumEndpoint(){
 

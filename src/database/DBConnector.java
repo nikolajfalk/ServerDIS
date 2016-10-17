@@ -13,7 +13,10 @@ public class DBConnector {
 
     /*5 user methods*/
     public static ArrayList<User> getUsers() {
-        return new ArrayList<User>();
+        ArrayList<User>out = new ArrayList<User>();
+        //test
+        out.add(new User(2,"test","test",null,null,true));
+        return out;
     }
 
     public static User getUser(int id) {
