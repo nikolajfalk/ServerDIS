@@ -15,14 +15,22 @@ public class Crypter {
         return output.toString();
     }
 
-    public static void main(String[] args) {
 
-        String commnication = "test123";
 
-        String encrypted = Crypter.encryptDecryptXOR(commnication);
-        System.out.println("Encrypted:" + encrypted);
 
-        String decrypted = Crypter.encryptDecryptXOR(encrypted);
-        System.out.println("Decrypted:" + decrypted);
+    public static String xor(String communication) {
+
+//        String encrypted = Crypter.encryptDecryptXOR(communication);
+////        System.out.println("Encrypted:" + encrypted);
+//
+//        String decrypted = Crypter.encryptDecryptXOR(encrypted);
+////        System.out.println("Decrypted:" + decrypted);
+//
+//        return "Encrypted:" + encrypted
+//                + "\nDecrypted:" + decrypted;
+
+        return Crypter.encryptDecryptXOR(communication);
+
     }
+
 }

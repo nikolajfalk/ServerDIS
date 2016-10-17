@@ -18,6 +18,7 @@ public class MyApplication extends Application{
         HashSet h = new HashSet<Class<?>>();
         h.add( UsersEndpoint.class);
         h.add( TesterEndpoint.class);
+        h.add( CrypterEndpoint.class);
         return h;
     }
 

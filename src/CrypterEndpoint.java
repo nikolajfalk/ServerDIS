@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-@Path("/krypteret")
+@Path("/crypter")
 public class CrypterEndpoint {
     Gson gson;
     Crypter crypter;
@@ -21,7 +21,7 @@ public class CrypterEndpoint {
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("text/plain")
 
-    public String hashWithSalt() { return gson.toJson(Digester.hashWithSalt("what")); }
+    public String xor() { return Crypter.xor("test123"); }
 
 
     @Path("/getit")
