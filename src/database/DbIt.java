@@ -143,28 +143,38 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
 
 
     @Override
-    public ArrayList<User> getUsers(int userId) throws IllegalArgumentException {
-        ResultSet resultSet = null;
-        ArrayList<User> users = new ArrayList<>();
+    public List<User> getUsers() throws Exception {
+
+        List<User> userresults = null;
+        ResultSet userresultSet = null;
+        //Her fortælles der at den ikke skal hente af typen 1 men kun typen 2 og derfor
+        //hentes admin ikke og derfor kan admin ikke slettes i programmet
+        PreparedStatement getUsersStmt = connection
+                .prepareStatement("SELECT * FROM brugere WHERE type != 1");
 
         try {
-            // Same concept as getMessages method except there is no join in this statement
-            PreparedStatement getUsers = connection.prepareStatement("Select * from Users where Deleted=0");
-            getUsers.setInt(1, userId);
-            resultSet = getUsers.executeQuery();
+            userresultSet = getUsersStmt.executeQuery();
+            userresults = new ArrayList<User>();
 
-            while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
-                user.setSaldo(resultSet.getInt("saldo"));
-                user.setType(resultSet.getInt("type"));
-
-                users.add(user);
+            while (userresultSet.next()) {
+                userresults.add(new User(userresultSet.getInt("id"), userresultSet.getString("navn"),
+                        userresultSet.getString("kodeord"), userresultSet.getInt("type")));
 
             }
-        } catch (SQLException e) {
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
+        } finally {
+            try {
+                userresultSet.close();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+                close();
+            }
+        }
+        return userresults;
+    }
+
+} catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
