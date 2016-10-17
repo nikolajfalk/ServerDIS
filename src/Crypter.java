@@ -3,5 +3,5 @@
  */
 public class Crypter {
 
-    String
+    public String test;
 }
