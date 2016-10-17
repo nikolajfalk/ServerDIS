@@ -2,7 +2,7 @@
  * Created by mortenlaursen on 09/10/2016.
  */
 import com.google.gson.Gson;
-import model.User;
+//import model.User;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -39,8 +39,10 @@ public class UsersEndpoint {
     @Produces("application/json")
     public void addUser(String data) {
         System.out.println(data);
-        User user = (gson.fromJson(data,User.class));
-        controller.addUser(user);
+        //User user = (gson.fromJson(data,User.class));
+        controller.addUser(data);
+
+        /*tests*/
         String s = new String(gson.toJson(controller.getUsers(0,null,null,null,null,false)));
         System.out.println(s);
         System.out.println("test");

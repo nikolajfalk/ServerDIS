@@ -9,17 +9,15 @@ import java.util.ArrayList;
  */
 public class UserController {
     Gson gson;
-    DBDemoUser dbdemo = new DBDemoUser();
+    DBDemoUser dbdemo;
 
     public UserController() {
+        gson = new Gson();
+        dbdemo = new DBDemoUser();
     }
 
-    public boolean addUser(int id, String firstName, String lastName, String email, String password, boolean isAdmin) {
-        return dbdemo.addUser(id, firstName, lastName, email, password, isAdmin);
-    }
-
-    public boolean addUser(User u) {
-        return dbdemo.addUser(u);
+    public boolean addUser(String data) {
+        return dbdemo.addUser(gson.fromJson(data,User.class));
     }
 
     public ArrayList<User> getUsers(int id, String firstName, String lastName, String email, String password, boolean isAdmin) {
