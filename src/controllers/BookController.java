@@ -8,8 +8,11 @@ import java.util.ArrayList;
 
 public class BookController {
 
-    public ArrayList<Book> getBooks() {
-        return DBConnector.getBooks();
+    public ArrayList<Book> getBooks() throws Exception {
+
+        DBConnector db = new DBConnector();
+
+        return db.getBooks();
     }
 
     public Book getBook(int id) {
