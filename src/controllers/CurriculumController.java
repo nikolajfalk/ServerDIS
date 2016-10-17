@@ -11,8 +11,9 @@ import java.util.ArrayList;
  */
 public class CurriculumController {
 
-    public ArrayList<Curriculum> getCurriculums() {
-        return DBConnector.getCurriculums();
+    public ArrayList<Curriculum> getCurriculums() throws Exception {
+        DBConnector db = new DBConnector();
+        return db.getCurriculums();
     }
 
     public Curriculum getCurriculum(int id) {return DBConnector.getCurriculum(id);}

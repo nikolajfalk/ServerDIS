@@ -25,7 +25,7 @@ public class CurriculumEndpoint implements IEndpoints{
 
     public CurriculumEndpoint(){
 
-        curriculumController = new CurriculumController();
+        curriculumController = new CurriculumController();;
     }
 
     @GET
@@ -43,11 +43,10 @@ public class CurriculumEndpoint implements IEndpoints{
                 .build(); //kør
     }
 
-    @Override
+
     @GET
-    @Path("/curriculum/")
     @Produces("application/json")
-    public Response get() {
+    public Response get() throws Exception {
 
         ArrayList<Curriculum> curriculumArrayList = curriculumController.getCurriculums();
 
@@ -59,7 +58,6 @@ public class CurriculumEndpoint implements IEndpoints{
                 .build(); //kør
     }
 
-    @Override
     @GET
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
@@ -75,11 +73,10 @@ public class CurriculumEndpoint implements IEndpoints{
                 .build(); //kør
     }
 
-    @Override
+
     @POST
-    @Path("/curriculum")
     @Produces("application/json")
-    public Response create(String data) {
+    public Response create(String data) throws Exception {
 
         if (curriculumController.addCurriculum(data)) {
             //demo to check if it returns this on post.
@@ -91,7 +88,7 @@ public class CurriculumEndpoint implements IEndpoints{
         else return null;
     }
 
-    @Override
+
     @PUT
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
@@ -103,7 +100,7 @@ public class CurriculumEndpoint implements IEndpoints{
     }
 
 
-    @Override
+
     @DELETE
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")

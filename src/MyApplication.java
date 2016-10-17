@@ -3,6 +3,7 @@
  */
 
 import endpoints.BookEndpoint;
+import endpoints.CurriculumEndpoint;
 import endpoints.UsersEndpoint;
 import model.Curriculum;
 
@@ -23,7 +24,8 @@ public class MyApplication extends Application{
         HashSet h = new HashSet<Class<?>>();
         h.add( UsersEndpoint.class);
         h.add(BookEndpoint.class);
-        h.add(Curriculum.class);
+        h.add(CurriculumEndpoint.class);
+       // h.add(Curriculum.class);
         h.add( HashingEndpoint.class);
         h.add( CrypterEndpoint.class);
         return h;

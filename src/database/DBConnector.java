@@ -81,8 +81,28 @@ public class DBConnector {
     }
     
     /*Curriculum methods*/
-    public static ArrayList<Curriculum> getCurriculums() {
-        return new ArrayList<Curriculum>();
+    public ArrayList<Curriculum> getCurriculums() throws Exception {
+        ArrayList<Curriculum> results = null;
+        ResultSet resultSet = null;
+        sql = "SELECT * FROM Curriculum ";
+
+        try {
+            resultSet = stmt.executeQuery(sql);
+            results = new ArrayList<>();
+
+            while ( resultSet.next() ) {
+                results.add(new Curriculum(
+                        resultSet.getString("School"),
+                        resultSet.getString("Education"),
+                        resultSet.getInt("Semester")
+                ));
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
     }
 
     public static Curriculum getCurriculum(int id) {
