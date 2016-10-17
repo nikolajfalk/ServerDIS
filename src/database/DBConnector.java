@@ -93,8 +93,39 @@ public class DBConnector {
 
     }
 
-    public static User getUser(int id) {
-        return new User();
+    public ArrayList getUser(int id) throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getUser = conn.prepareStatement("SELECT * FROM Users WHERE UserID=?");
+            getUser.setInt(1, id);
+            resultSet = getUser.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    User user = new User(
+                            resultSet.getInt("UserID"),
+                            resultSet.getString("First_Name"),
+                            resultSet.getString("Last_Name"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Password"),
+                            resultSet.getBoolean("Usertype")
+                    );
+
+                    results.add(user);
+
+                }catch(Exception e){
+
+                }
+            }
+
+        } catch (SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
     }
 
     public static boolean editUser(int id) {
