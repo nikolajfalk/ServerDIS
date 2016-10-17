@@ -149,6 +149,38 @@ public class DBConnector {
     }
     
     /*books methods*/
+    public ArrayList<Book> getBooks(int Id) throws IllegalArgumentException {
+        ResultSet resultSet = null;
+        ArrayList<Book> users = new ArrayList<>();
+
+        try {
+            // Same concept as getMessages method except there is no join in this statement
+            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM books WHERE id !=?");
+            getBooks.setInt(1, Id);
+            resultSet = getBooks.executeQuery();
+
+            while (resultSet.next()) {
+                Book book = new Book();
+                book.setId(resultSet.getInt("id"));
+                book.setFoodname(resultSet.getString("foodname"));
+                book.setFoodprice(resultSet.getInt("foodprice"));
+
+
+                users.add(book);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                close();
+            }
+        }
+        return users;
+    }
     public ArrayList<Book> getBooks() throws Exception {
         ArrayList<Book> results = null;
         ResultSet resultSet = null;
