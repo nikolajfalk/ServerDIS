@@ -57,32 +57,40 @@ public class DBConnector {
     }
 
     /*5 user methods*/
-    public ArrayList<User> getUsers() {
-        ArrayList<User> results = null;
+
+    public ArrayList getUsers() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
         ResultSet resultSet = null;
-        sql = "SELECT * FROM Users";
 
         try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
+            PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Users ");
+            resultSet = getUsers.executeQuery();
 
             while ( resultSet.next() ) {
-                results.add(new User(
-                        resultSet.getInt("UserID"),
-                        resultSet.getString("First_Name"),
-                        resultSet.getString("Last_Name"),
-                        resultSet.getString("Username"),
-                        resultSet.getString("Email"),
-                        resultSet.getString("Password"),
-                        resultSet.getBoolean("Usertype")
-                ));
+                try {
+
+                    User users = new User(
+                            resultSet.getInt("UserID"),
+                            resultSet.getString("First_Name"),
+                            resultSet.getString("Last_Name"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Password"),
+                            resultSet.getBoolean("Usertype")
+                    );
+
+                    results.add(users);
+
+                }catch(Exception e){
+
+                }
             }
         }
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
         }
         return results;
-        
+
     }
 
     public static User getUser(int id) {
@@ -125,7 +133,9 @@ public class DBConnector {
     }
     
     /*Curriculum methods*/
-    public ArrayList getCurriculums() throws IllegalArgumentException { ArrayList results = new ArrayList(); ResultSet resultSet = null;
+    public ArrayList getCurriculums() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
 
         try {
             PreparedStatement getCurriculums = conn.prepareStatement("SELECT * FROM Curriculum ");
@@ -192,33 +202,44 @@ public class DBConnector {
         }
     }
     
-//    /*books methods*/
-//    public ArrayList<Book> getBooks() throws Exception {
-//        ArrayList<Book> results = null;
-//        ResultSet resultSet = null;
-//        sql = "SELECT * FROM Books";
-//
-//        try {
-//            resultSet = stmt.executeQuery(sql);
-//            results = new ArrayList<>();
-//
-//            while ( resultSet.next() ) {
-//                results.add(new Book(
-//                        resultSet.getString("Title"),
-//                        resultSet.getString("Publisher"),
-//                        resultSet.getString("ISBN")
-//                ));
-//            }
-//        }
-//        catch ( SQLException sqlException ){
-//            System.out.println(sqlException.getMessage());
-//        }
-//        return results;
-//    }
+    /*books methods*/
 
-//    public static Book getBook(int id) {
-//        return new Book();
-//    }
+    public ArrayList getBooks() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM Books ");
+            resultSet = getBooks.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Book books = new Book(
+                            resultSet.getInt("BookID"),
+                            resultSet.getString("Publisher"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Author"),
+                            resultSet.getInt("Version"),
+                            resultSet.getDouble("ISBN"),
+                            resultSet.getDouble("PriceAB"),
+                            resultSet.getDouble("PriceSAXO"),
+                            resultSet.getDouble("PriceCDON")
+                    );
+
+                    results.add(books);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
+    }
 
     public static boolean editBook(int id) {
         return true;
