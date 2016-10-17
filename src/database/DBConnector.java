@@ -14,6 +14,7 @@ public class DBConnector {
     /*5 user methods*/
     public static ArrayList<User> getUsers() {
         return new ArrayList<User>();
+        
     }
 
     public static User getUser(int id) {
