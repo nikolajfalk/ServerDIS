@@ -94,8 +94,21 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addUser(User u) {
-        return true;
+    public void addUser(User u) throws Exception {
+
+        PreparedStatement addUserStatement = conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?))";
+
+        try {
+            addUserStatement.setString(1, u.getFirstName());
+            addUserStatement.setString(2, u.getLastName());
+            addUserStatement.setString(3, u.getUsername());
+            addUserStatement.setString(4, u.getEmail());
+            addUserStatement.setString(5, u.getPassword());
+            addUserStatement.setBoolean(6, u.getUserType());
+
+            addUserStatement.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 
     public static boolean deleteUser(int id) {
@@ -115,37 +128,50 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addCurriculum(Curriculum c) {
-        return true;
+    public void addCurriculum(Curriculum c) throws Exception {
+
+        PreparedStatement addCurriculumStatement = conn.prepareStatement("INSERT INTO Curriculum (School, Education, Semester) VALUES (?, ?, ?)");
+
+        try {
+
+            addCurriculumStatement.setString(1, c.getSchool());
+            addCurriculumStatement.setString(2, c.getEducation());
+            addCurriculumStatement.setInt(3, c.getSemester());
+
+            addCurriculumStatement.executeUpdate();
+
+        } catch (SQLException e) {
+
+        }
     }
 
     public static boolean deleteCurriculum(int id) {
         return true;
     }
     
-    /*books methods*/
-    public ArrayList<Book> getBooks() throws Exception {
-        ArrayList<Book> results = null;
-        ResultSet resultSet = null;
-        sql = "SELECT * FROM Books";
-
-        try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
-
-            while ( resultSet.next() ) {
-                results.add(new Book(
-                        resultSet.getString("Title"),
-                        resultSet.getString("Publisher"),
-                        resultSet.getString("ISBN")
-                ));
-            }
-        }
-        catch ( SQLException sqlException ){
-            System.out.println(sqlException.getMessage());
-        }
-        return results;
-    }
+//    /*books methods*/
+//    public ArrayList<Book> getBooks() throws Exception {
+//        ArrayList<Book> results = null;
+//        ResultSet resultSet = null;
+//        sql = "SELECT * FROM Books";
+//
+//        try {
+//            resultSet = stmt.executeQuery(sql);
+//            results = new ArrayList<>();
+//
+//            while ( resultSet.next() ) {
+//                results.add(new Book(
+//                        resultSet.getString("Title"),
+//                        resultSet.getString("Publisher"),
+//                        resultSet.getString("ISBN")
+//                ));
+//            }
+//        }
+//        catch ( SQLException sqlException ){
+//            System.out.println(sqlException.getMessage());
+//        }
+//        return results;
+//    }
 
     public static Book getBook(int id) {
         return new Book();
@@ -155,8 +181,17 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addBook(Book b) {
-        return true;
+    public void addBook(Book b) throws Exception {
+
+        PreparedStatement addBookStatement = conn.prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+        try {
+
+            addBookStatement.setString(1, b.getTitle());
+
+        } catch (SQLException e) {
+
+        }
     }
 
     public static boolean deleteBook(int id) {
