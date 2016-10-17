@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-@Path("/tester")
+@Path("/hashing")
 public class TesterEndpoint {
     Gson gson;
     Digester hash;
@@ -21,7 +21,7 @@ public class TesterEndpoint {
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("text/plain")
 
-    public String hashWithSalt() { return gson.toJson(Digester.hashWithSalt("test")); }
+    public String hashWithSalt() { return Digester.hashWithSalt("what"); }
 
 
     @Path("/getit")
