@@ -7,7 +7,6 @@ import java.security.MessageDigest;
 public class Digester {
     private final static String SALT = "82efbcc2cc33d33cdadf12806d75591a";
     private static MessageDigest digester;
-    private final static String what = "holla";
 
     static {
         try {
