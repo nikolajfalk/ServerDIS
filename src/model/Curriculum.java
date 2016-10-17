@@ -6,15 +6,17 @@ package model;
 public class Curriculum {
 
     String school, education;
-    int semester;
+    int semester, CurriculumID;
 
     public Curriculum(){
 
     }
-    public Curriculum(String school, String education, int semester) {
+
+    public Curriculum(int curriculumID, String school, String education, int semester) {
         this.school = school;
         this.education = education;
         this.semester = semester;
+        this.CurriculumID = curriculumID;
     }
 
     public String getSchool() {

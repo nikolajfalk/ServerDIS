@@ -92,9 +92,11 @@ public class DBConnector {
 
             while ( resultSet.next() ) {
                 results.add(new Curriculum(
+                        resultSet.getInt("CurriculumID"),
                         resultSet.getString("School"),
                         resultSet.getString("Education"),
                         resultSet.getInt("Semester")
+
                 ));
             }
         }
