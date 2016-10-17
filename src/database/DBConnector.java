@@ -302,6 +302,44 @@ public class DBConnector {
 
     }
 
+    public ArrayList getBook(int id) throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getBook = conn.prepareStatement("SELECT * FROM Books WHERE BookID=? ");
+            getBook.setInt(1, id);
+            resultSet = getBook.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Book book = new Book(
+                            resultSet.getInt("BookID"),
+                            resultSet.getString("Publisher"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Author"),
+                            resultSet.getInt("Version"),
+                            resultSet.getDouble("ISBN"),
+                            resultSet.getDouble("PriceAB"),
+                            resultSet.getDouble("PriceSAXO"),
+                            resultSet.getDouble("PriceCDON")
+                    );
+
+                    results.add(book);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
+    }
+
     public static boolean editBook(int id) {
         return true;
     }
