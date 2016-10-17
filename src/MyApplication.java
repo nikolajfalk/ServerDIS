@@ -2,6 +2,10 @@
  * Created by mortenlaursen on 09/10/2016.
  */
 
+import endpoints.BookEndpoint;
+import endpoints.UsersEndpoint;
+import model.Curriculum;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
@@ -18,6 +22,8 @@ public class MyApplication extends Application{
     public Set<Class<?>> getClasses() {
         HashSet h = new HashSet<Class<?>>();
         h.add( UsersEndpoint.class);
+        h.add(BookEndpoint.class);
+        h.add(Curriculum.class);
         h.add( HashingEndpoint.class);
         h.add( CrypterEndpoint.class);
         return h;
