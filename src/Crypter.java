@@ -8,27 +8,16 @@ public class Crypter {
         char[] key = {'A', 'B', 'C'}; //Can be any chars, and any length array
         StringBuilder output = new StringBuilder();
 
-        for(int i = 0; i < input.length(); i++) {
+        for (int i = 0; i < input.length(); i++) {
             output.append((char) (input.charAt(i) ^ key[i % key.length]));
         }
 
         return output.toString();
     }
 
-
-
-
     public static String xor() {
 
         String communication = "test123";
-//        String encrypted = Crypter.encryptDecryptXOR(communication);
-////        System.out.println("Encrypted:" + encrypted);
-//
-//        String decrypted = Crypter.encryptDecryptXOR(encrypted);
-////        System.out.println("Decrypted:" + decrypted);
-//
-//        return "Encrypted:" + encrypted
-//                + "\nDecrypted:" + decrypted;
 
         return Crypter.encryptDecryptXOR(communication);
 
