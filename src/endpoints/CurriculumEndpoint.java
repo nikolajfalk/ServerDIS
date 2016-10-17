@@ -7,6 +7,7 @@ import model.Curriculum;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -15,7 +16,12 @@ import java.util.ArrayList;
  */
 @Path("/curriculum")
 public class CurriculumEndpoint implements IEndpoints{
+
+    Gson gson = new Gson();
+
+
     CurriculumController curriculumController;
+
 
     public CurriculumEndpoint(){
 
@@ -42,7 +48,15 @@ public class CurriculumEndpoint implements IEndpoints{
     @Path("/curriculum/")
     @Produces("application/json")
     public Response get() {
-        return null;
+
+        ArrayList<Curriculum> curriculumArrayList = curriculumController.getCurriculums();
+
+
+        return Response
+                .status(200)
+                .entity(new Gson().toJson(curriculumArrayList))
+                .header("Access-Control-Allow-Origin", "*") //Skal måske være der
+                .build(); //kør
     }
 
     @Override
@@ -50,7 +64,15 @@ public class CurriculumEndpoint implements IEndpoints{
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
     public Response get(@PathParam("curriculumId") int id) {
-        return null;
+
+
+        Curriculum curriculum = curriculumController.getCurriculum(id);
+
+        return Response
+                .status(200)
+                .entity(new Gson().toJson(curriculum))
+                .header("Access-Control-Allow-Origin", "*") //Skal måske være der
+                .build(); //kør
     }
 
     @Override
@@ -58,6 +80,7 @@ public class CurriculumEndpoint implements IEndpoints{
     @Path("/curriculum")
     @Produces("application/json")
     public Response create(String data) {
+
         return null;
     }
 
