@@ -4,4 +4,6 @@
 public class Crypter {
 
     public String test;
+    public String hejmeddig;
+    
 }
