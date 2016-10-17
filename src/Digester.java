@@ -3,6 +3,7 @@ import java.security.MessageDigest;
 /**
  * Created by madsgade on 17/10/2016.
  */
+//what
 public class Digester {
     private final static String SALT = "n0zaCTADRUuTb@JUp01n%5@(l@IAaLlZ";
     private static MessageDigest digester;
