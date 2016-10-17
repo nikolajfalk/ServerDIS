@@ -108,6 +108,7 @@ public class DBConnector {
 
             addUserStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -148,72 +149,58 @@ public class DBConnector {
         return true;
     }
     
-    /*books methods*/
-    public ArrayList<Book> getBooks(int Id) throws IllegalArgumentException {
-        ResultSet resultSet = null;
-        ArrayList<Book> users = new ArrayList<>();
+//    /*books methods*/
+//    public ArrayList<Book> getBooks() throws Exception {
+//        ArrayList<Book> results = null;
+//        ResultSet resultSet = null;
+//        sql = "SELECT * FROM Books";
+//
+//        try {
+//            resultSet = stmt.executeQuery(sql);
+//            results = new ArrayList<>();
+//
+//            while ( resultSet.next() ) {
+//                results.add(new Book(
+//                        resultSet.getString("Title"),
+//                        resultSet.getString("Publisher"),
+//                        resultSet.getString("ISBN")
+//                ));
+//            }
+//        }
+//        catch ( SQLException sqlException ){
+//            System.out.println(sqlException.getMessage());
+//        }
+//        return results;
+//    }
 
-        try {
-            // Same concept as getMessages method except there is no join in this statement
-            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM books WHERE id !=?");
-            getBooks.setInt(1, Id);
-            resultSet = getBooks.executeQuery();
-
-            while (resultSet.next()) {
-                Book book = new Book();
-                book.setId(resultSet.getInt("id"));
-                book.setFoodname(resultSet.getString("foodname"));
-                book.setFoodprice(resultSet.getInt("foodprice"));
-
-
-                users.add(book);
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                resultSet.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                close();
-            }
-        }
-        return users;
-    }
-    public ArrayList<Book> getBooks() throws Exception {
-        ArrayList<Book> results = null;
-        ResultSet resultSet = null;
-        sql = "SELECT * FROM Books";
-
-        try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
-
-            while ( resultSet.next() ) {
-                results.add(new Book(
-                        resultSet.getString("Title"),
-                        resultSet.getString("Publisher"),
-                        resultSet.getString("ISBN")
-                ));
-            }
-        }
-        catch ( SQLException sqlException ){
-            System.out.println(sqlException.getMessage());
-        }
-        return results;
-    }
-
-    public static Book getBook(int id) {
-        return new Book();
-    }
+//    public static Book getBook(int id) {
+//        return new Book();
+//    }
 
     public static boolean editBook(int id) {
         return true;
     }
 
-    public static boolean addBook(Book b) {
-        return true;
+    public void addBook(Book b) throws SQLException {
+
+    PreparedStatement addBookStatement = conn
+            .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+        try {
+            addBookStatement.setString(1, b.getTitle());
+            addBookStatement.setInt(2, b.getVersion());
+            addBookStatement.setDouble(3, b.getISBN());
+            addBookStatement.setDouble(4, b.getPriceAB());
+            addBookStatement.setDouble(5, b.getPriceSAXO());
+            addBookStatement.setDouble(6, b.getPriceCDON());
+            addBookStatement.setString(7, b.getPublisher());
+            addBookStatement.setString(8, b.getAuthor());
+
+            addBookStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static boolean deleteBook(int id) {
