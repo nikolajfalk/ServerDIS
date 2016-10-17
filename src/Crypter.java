@@ -23,7 +23,7 @@ public class Crypter {
         String communication = "test123";
         //Dette er bare et eksempel på en String, der bliver krypteret
 
-        return Crypter.encryptDecryptXOR(communication);
+        return Crypter.encryptDecryptXOR(communication) + "\n" + Crypter.encryptDecryptXOR(Crypter.encryptDecryptXOR(communication));
         //Returnerer den krypterede værdi.
     }
 
