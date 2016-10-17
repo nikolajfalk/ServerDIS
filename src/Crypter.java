@@ -3,10 +3,6 @@
  */
 public class Crypter {
 
-    /*
-    Generering af tilfældigt tal
-    int randomNumber = (int) (Math.random() * 100 + 1);
-     */
 
     private static String encryptDecryptXOR(String input) {
         char[] key = {'A', 'B', 'C'}; //Can be any chars, and any length array
@@ -18,7 +14,6 @@ public class Crypter {
 
         return output.toString();
     }
-
 
     public static void main(String[] args) {
 
