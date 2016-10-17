@@ -68,12 +68,13 @@ public class DBConnector {
 
             while ( resultSet.next() ) {
                 results.add(new User(
+                        resultSet.getInt("UserID"),
                         resultSet.getString("First_Name"),
                         resultSet.getString("Last_Name"),
                         resultSet.getString("Username"),
                         resultSet.getString("Email"),
                         resultSet.getString("Password"),
-                        resultSet.getBoolean(Usertype)
+                        resultSet.getBoolean("Usertype")
                 ));
             }
         }
@@ -114,8 +115,20 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addCurriculum(Curriculum c) {
-        return true;
+    public void addCurriculum(Curriculum c) throws SQLException {
+        PreparedStatement addCurriculumStatement = conn.prepareStatement("INSERT INTO Curriculum (School, Education, Semester) VALUES (?, ?, ?)");
+
+        try {
+
+            addCurriculumStatement.setString(1, c.getSchool());
+            addCurriculumStatement.setString(2, c.getEducation());
+            addCurriculumStatement.setInt(3, c.getSemester());
+
+            addCurriculumStatement.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     public static boolean deleteCurriculum(int id) {
