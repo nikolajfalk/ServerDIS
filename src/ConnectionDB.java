@@ -8,26 +8,18 @@ import java.util.List;
 
 public class ConnectionDB {
 
-
-
-
-
-
     /**
      * Constructor for establishing connection.
      *
      * @throws Exception
      */
-
-
-
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/stregkode";
+    static final String DB_URL = "jdbc:mysql://bookit.ch3v4pqrs4c3.eu-central-1.rds.amazonaws.com/Bookit?useSSL=false";
 
     //  Database credentials
-    static final String USER = "root";
-    static final String PASS = "root";
+    static final String USER = "bookit";
+    static final String PASS = "bookit123";
 
     String sql;
     Connection conn = null;
@@ -35,75 +27,47 @@ public class ConnectionDB {
 
     public ConnectionDB() {
 
-
         try{
             //STEP 2: Register JDBC driver
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(JDBC_DRIVER).newInstance();
 
             //STEP 3: Open a connection
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
+            this.conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
             //STEP 4: Execute a query
-            stmt = conn.createStatement();
-            sql = "SELECT * FROM Publishers";
+            this.stmt = conn.createStatement();
+
+            System.out.println("Connected");
 
             //STEP 6: Clean-up environment
         }catch(SQLException se){
             //Handle errors for JDBC
             se.printStackTrace();
-        }catch(Exception e){
-            //Handle errors for Class.forName
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
-        }finally{
-            //finally block used to close resources
-            try{
-                if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
-            }// nothing we can do
-            try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }//end finally try
-        }//end try
-}
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     public List<String> getPublishers() throws Exception {
         List<String> results = null;
         ResultSet resultSet = null;
+        sql = "SELECT * FROM Books";
 
-
-        try
-        {
+        try {
             resultSet = stmt.executeQuery(sql);
             results = new ArrayList<>();
 
-            while ( resultSet.next() )
-            {
-                String first = resultSet.getString("Publisher Name");
+            while ( resultSet.next() ) {
+                String first = resultSet.getString("Title");
                 results.add(first);
             }
         }
-        catch ( SQLException sqlException )
-        {
-
-        }
-        finally
-        {
-            try
-            {
-                resultSet.close();
-            }
-            catch ( SQLException sqlException )
-            {
-                sqlException.printStackTrace();
-                resultSet.close();
-                stmt.close();
-                conn.close();
-            }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
         }
         return results;
     }

@@ -12,6 +12,7 @@ public class Tester {
         try {
             List<String> publishers =  conn.getPublishers();
             int i = 0;
+            System.out.println(conn.getPublishers().get(7));
         } catch (Exception e) {
             e.printStackTrace();
         }
