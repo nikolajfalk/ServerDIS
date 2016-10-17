@@ -1,28 +1,25 @@
 package model;
 
 public class Book {
-    private String name, publisher, title, author; 
-    private int version; 
-    private double ISBN, priceAB, priceSAXO, priceCDON;
 
-    public Book(String name, String publisher, String title, String author, int version, double ISBN, double priceAB, double priceSAXO, double priceCDON) {
-        this.name = name;
+    private double ISBN;
+    private String publisher;
+    private String title;
+    private String author;
+    private double priceAB;
+    private double priceSAXO;
+    private double priceCDON;
+    private int version;
+
+    public Book(String publisher, String title, String author, int version, double ISBN, double priceAB, double priceSAXO, double priceCDON) {
         this.publisher = publisher;
         this.title = title;
-        this.author = author;
+        this.author = author    ;
         this.version = version;
         this.ISBN = ISBN;
         this.priceAB = priceAB;
         this.priceSAXO = priceSAXO;
         this.priceCDON = priceCDON;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPublisher() {
