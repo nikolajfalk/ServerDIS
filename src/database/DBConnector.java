@@ -57,8 +57,31 @@ public class DBConnector {
     }
 
     /*5 user methods*/
-    public static ArrayList<User> getUsers() {
-        return new ArrayList<User>();
+    public ArrayList<User> getUsers() {
+        ArrayList<User> results = null;
+        ResultSet resultSet = null;
+        sql = "SELECT * FROM Users";
+
+        try {
+            resultSet = stmt.executeQuery(sql);
+            results = new ArrayList<>();
+
+            while ( resultSet.next() ) {
+                results.add(new User(
+                        resultSet.getString("First_Name"),
+                        resultSet.getString("Last_Name"),
+                        resultSet.getString("Username"),
+                        resultSet.getString("Email"),
+                        resultSet.getString("Password"),
+                        resultSet.getBoolean(Usertype)
+                ));
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+        
     }
 
     public static User getUser(int id) {

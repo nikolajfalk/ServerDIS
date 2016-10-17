@@ -2,20 +2,21 @@ package model;
 
 public class User {
     int id;
-    String firstName, lastName, email, password;
-    Boolean isAdmin;
+    String firstName, lastName, userName, email, password;
+    Boolean userType;
 
     public User(){
 
     }
 
-    public User(int id, String firstName, String lastName, String email, String password, Boolean isAdmin) {
+    public User(int id, String firstName, String lastName, String userName, String email, String password, Boolean userType) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.userName = userName;
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.userType = userType;
     }
 
     public int getId() {
@@ -42,6 +43,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return userName;
+    }
+
+    public void setUsername(String userName) {
+        this.userName = userName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -58,12 +67,12 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getAdmin() {
-        return isAdmin;
+    public Boolean getUserType() {
+        return userType;
     }
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
+    public void setUserType(Boolean admin) {
+        userType = admin;
     }
 
     @Override
