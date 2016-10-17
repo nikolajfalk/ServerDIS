@@ -22,8 +22,8 @@ public class MyApplication extends Application{
     public Set<Class<?>> getClasses() {
         HashSet h = new HashSet<Class<?>>();
         h.add( UsersEndpoint.class);
-        h.add(BookEndpoint.class);
-        h.add(Curriculum.class);
+        h.add( BookEndpoint.class);
+        h.add( Curriculum.class);
         h.add( HashingEndpoint.class);
         h.add( CrypterEndpoint.class);
         return h;
