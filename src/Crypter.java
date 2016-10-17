@@ -22,7 +22,7 @@ public class Crypter {
 
     public static void main(String[] args) {
 
-        String commnication = "test";
+        String commnication = "test123";
 
         String encrypted = Crypter.encryptDecryptXOR(commnication);
         System.out.println("Encrypted:" + encrypted);
