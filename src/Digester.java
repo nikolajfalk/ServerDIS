@@ -4,7 +4,7 @@ import java.security.MessageDigest;
  * Created by madsgade on 17/10/2016.
  */
 public class Digester {
-    private final String SALT = "Whattup";
+    private final static String SALT = "n0zaCTADRUuTb@JUp01n%5@(l@IAaLlZ";
     private static MessageDigest digester;
 
     static {
@@ -15,25 +15,34 @@ public class Digester {
         }
     }
 
-    public static String hash(String hashed) {
-        if (hashed = null || str.length() == 0) {
+    public static String hash(String str) {
+        if (str == null || str.length() == 0) {
             throw new IllegalArgumentException("Error");
         }
-        return Digester._hash(hashed);
+        return Digester._hash(str);
     }
 
+    public static String hashWithSalt(String str) {
+        if (str == null || str.length() == 0) {
+            throw new IllegalArgumentException("Error");
+        }
 
-    public static String hashWithSalt(String hashed) {
-        digester.update(hashed.getBytes());
+        str = str + Digester.SALT;
+
+        return Digester._hash(str);
+    }
+
+    private static String _hash(String str) {
+        digester.update(str.getBytes());
         byte[] hash = digester.digest();
         StringBuffer hexString = new StringBuffer();
-        for (byte & aHash : hash)  {
-            if ((0xff & aHash) < 0x10)  {
-                hexString.append("0" + Integer.toHexString(0xFF & aHash)));
+        for (byte aHash : hash) {
+            if ((0xff & aHash) < 0x10) {
+                hexString.append("0" + Integer.toHexString((0xFF & aHash)));
             } else {
                 hexString.append(Integer.toHexString(0xFF & aHash));
+            }
         }
-    }
-    return hexString.toString();
+        return hexString.toString();
     }
 }
