@@ -125,10 +125,38 @@ public class DBConnector {
     }
     
     /*Curriculum methods*/
-    public static ArrayList<Curriculum> getCurriculums() {
-        return new ArrayList<Curriculum>();
-    }
+    public ArrayList getCurriculums() throws IllegalArgumentException { ArrayList results = new ArrayList(); ResultSet resultSet = null;
 
+        try {
+            PreparedStatement getCurriculums = conn.prepareStatement("SELECT * FROM Curriculum ");
+            resultSet = getCurriculums.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Curriculum cul = new Curriculum(
+                            resultSet.getInt("CurriculumID"),
+                            resultSet.getString("School"),
+                            resultSet.getString("Education"),
+                            resultSet.getInt("Semester")
+                    );
+
+                    results.add(cul);
+
+                    String test = resultSet.getString("School");
+                }catch(Exception e){
+                    Integer test = resultSet.getInt("CurriculumID");
+
+                    System.out.println(test + "WORKS");
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
+    }
     public static Curriculum getCurriculum(int id) {
         return new Curriculum();
     }
