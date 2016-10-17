@@ -1,6 +1,5 @@
 package endpoints;
 
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 
 /**
