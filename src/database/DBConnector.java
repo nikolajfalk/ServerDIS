@@ -153,8 +153,15 @@ public class DBConnector {
         }
     }
 
-    public static boolean deleteCurriculum(int id) {
-        return true;
+    public void deleteCurriculum(int id) throws SQLException {
+        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Curriculum WHERE CurriculumID=?");
+
+        try {
+            deleteUserStatement.setInt(1, id);
+            deleteUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     
 //    /*books methods*/
@@ -211,7 +218,15 @@ public class DBConnector {
         }
     }
 
-    public static boolean deleteBook(int id) {
-        return true;
+    public void deleteBook(int id) throws SQLException {
+        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Books WHERE BookID=?");
+
+        try {
+            deleteUserStatement.setInt(1, id);
+            deleteUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
 }
