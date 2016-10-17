@@ -198,8 +198,38 @@ public class DBConnector {
         return results;
 
     }
-    public static Curriculum getCurriculum(int id) {
-        return new Curriculum();
+
+    public ArrayList getCurriculum(int curriculumID) throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getCurriculum = conn.prepareStatement("SELECT * FROM Curriculum WHERE CurriculumID=?");
+            getCurriculum.setInt(1, curriculumID);
+            resultSet = getCurriculum.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Curriculum curriculum = new Curriculum(
+                            resultSet.getInt("CurriculumID"),
+                            resultSet.getString("School"),
+                            resultSet.getString("Education"),
+                            resultSet.getInt("Semester")
+                    );
+
+                    results.add(curriculum);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
     }
 
     public static boolean editCurriculum(int id) {
