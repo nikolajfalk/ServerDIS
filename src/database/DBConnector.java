@@ -107,6 +107,7 @@ public class DBConnector {
 
             addUserStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
