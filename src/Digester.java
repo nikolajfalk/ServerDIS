@@ -45,6 +45,6 @@ public class Digester {
                 hexString.append(Integer.toHexString(0xFF & aHash));
             }
         }
-        return hexString.toString();
+            return hexString.toString();
     }
 }
