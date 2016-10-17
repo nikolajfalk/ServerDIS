@@ -81,23 +81,33 @@ public class DBConnector {
     }
     
     /*Curriculum methods*/
-    public ArrayList<Curriculum> getCurriculums() throws Exception {
-        ArrayList<Curriculum> results = null;
+    public ArrayList<Curriculum> getCurriculums() throws IllegalArgumentException {
+        ArrayList<Curriculum> results = new ArrayList<Curriculum>();
         ResultSet resultSet = null;
-        sql = "SELECT * FROM Curriculum ";
+
 
         try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
+            PreparedStatement getCurriculums = conn.prepareStatement("SELECT * FROM Curriculum ");
+            resultSet = getCurriculums.executeQuery();
 
             while ( resultSet.next() ) {
-                results.add(new Curriculum(
-                        resultSet.getInt("CurriculumID"),
-                        resultSet.getString("School"),
-                        resultSet.getString("Education"),
-                        resultSet.getInt("Semester")
+                try {
 
-                ));
+                    Curriculum cul = new Curriculum(
+                            resultSet.getInt("CurriculumID"),
+                            resultSet.getString("School"),
+                            resultSet.getString("Education"),
+                            resultSet.getInt("Semester")
+                    );
+
+                    results.add(cul);
+
+                    String test = resultSet.getString("School");
+                }catch(Exception e){
+                    Integer test = resultSet.getInt("CurriculumID");
+
+                    System.out.println(test + "WORKS");
+                }
             }
         }
         catch ( SQLException sqlException ){
@@ -107,8 +117,28 @@ public class DBConnector {
 
     }
 
-    public static Curriculum getCurriculum(int id) {
-        return new Curriculum();
+    public Curriculum getCurriculum(int id) throws IllegalArgumentException {
+
+        ResultSet resultSet = null;
+        ArrayList<Curriculum> results = null;
+
+        try {
+            PreparedStatement getCurriculum = conn.prepareStatement("Select * From Curricullum Where CurricullumID = ?");
+
+            resultSet = getCurriculum.executeQuery(sql);
+
+            while (resultSet.next()) {
+                results.add(new Curriculum(
+                        resultSet.getInt("CurriculumID"),
+                        resultSet.getString("School"),
+                        resultSet.getString("Education"),
+                        resultSet.getInt("Semester")
+                ));
+            }
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException.getMessage());
+        }
+        return results.get(0);
     }
 
     public static boolean editCurriculum(int id) {

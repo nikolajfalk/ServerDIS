@@ -10,13 +10,15 @@ import java.util.ArrayList;
  * Created by mortenlaursen on 17/10/2016.
  */
 public class CurriculumController {
-
+    DBConnector db = new DBConnector();
     public ArrayList<Curriculum> getCurriculums() throws Exception {
-        DBConnector db = new DBConnector();
+
         return db.getCurriculums();
     }
 
-    public Curriculum getCurriculum(int id) {return DBConnector.getCurriculum(id);}
+    public Curriculum getCurriculum(int id) throws IllegalAccessException {
+        return db.getCurriculum(id);
+    }
 
     public boolean editCurriculum(int id) {
         return DBConnector.editCurriculum(id);

@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
  */
 public interface IEndpoints {
   public Response get() throws Exception;
-  public Response get(int id);
+  public Response get(int id) throws IllegalAccessException;
   public Response create(String data) throws Exception;
   public Response edit(int id);
   public Response delete(int id);

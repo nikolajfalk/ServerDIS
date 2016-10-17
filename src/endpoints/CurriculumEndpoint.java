@@ -31,7 +31,7 @@ public class CurriculumEndpoint implements IEndpoints{
     @GET
     @Path("/curriculum/{curriculumId}/books")
     @Produces("application/json")
-    public Response getCurriculum(@PathParam("curriculumId") int curriculumID){
+    public Response getCurriculum(@PathParam("curriculumId") int curriculumID) throws IllegalAccessException {
 
         Curriculum curriculum = curriculumController.getCurriculum(curriculumID);
 
@@ -61,7 +61,7 @@ public class CurriculumEndpoint implements IEndpoints{
     @GET
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
-    public Response get(@PathParam("curriculumId") int id) {
+    public Response get(@PathParam("curriculumId") int id) throws IllegalAccessException {
 
 
         Curriculum curriculum = curriculumController.getCurriculum(id);
