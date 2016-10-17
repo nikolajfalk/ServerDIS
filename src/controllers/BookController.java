@@ -13,8 +13,8 @@ public class BookController {
     Gson gson;
 
 
-    public BookController(Gson gson) {
-        this.gson = gson;
+    public BookController() {
+        this.gson = new Gson();
     }
 
     public String getBooks() {
