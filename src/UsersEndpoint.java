@@ -1,6 +1,7 @@
 /**
  * Created by mortenlaursen on 09/10/2016.
  */
+
 import com.google.gson.Gson;
 import model.User;
 

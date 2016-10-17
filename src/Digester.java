@@ -4,7 +4,7 @@ import java.security.MessageDigest;
  * Created by madsgade on 17/10/2016.
  */
 public class Digester {
-    private final static String SALT = "n0zaCTADRUuTb@JUp01n%5@(l@IAaLlZ";
+    private final static String SALT = "82efbcc2cc33d33cdadf12806d75591a";
     private static MessageDigest digester;
 
     static {
@@ -38,7 +38,7 @@ public class Digester {
         StringBuffer hexString = new StringBuffer();
         for (byte aHash : hash) {
             if ((0xff & aHash) < 0x10) {
-                hexString.append("0" + Integer.toHexString((0xFF & aHash)));
+               hexString.append("0" + Integer.toHexString((0xFF & aHash)));
             } else {
                 hexString.append(Integer.toHexString(0xFF & aHash));
             }

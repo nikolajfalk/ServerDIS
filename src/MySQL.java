@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by mortenlaursen on 09/10/2016.
  */
+
 //Should it incloude 'implements Serializable'?
 public class MySQL {
 
