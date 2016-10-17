@@ -2,7 +2,8 @@ package endpoints; /**
  * Created by mortenlaursen on 09/10/2016.
  */
 
-import controllers.UserController;
+import com.google.gson.Gson;
+import controllers.BookController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -10,35 +11,40 @@ import javax.ws.rs.core.Response;
 // The Java class will be hosted at the URI path "/Book"
 @Path("/Book")
 public class BookEndpoint implements IEndpoints {
-    UserController controller = new UserController();
+    BookController controller = new BookController();
 
     public BookEndpoint() {
     }
 
     // The Java method will process HTTP GET requests
-    @GET
-    // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("text/plain")
-    public Response getAll() {
-        return null;
-    }
 
-    @Override
-    public Response get() {
-        return null;
+    @GET
+    @Produces("application/json")
+    public Response get() throws Exception {
+        if (controller.getBooks()!=null) {
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(controller.getBooks()))
+                    .build();
+        }
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
     }
 
     @Path("/Book/{id}")
     @Produces("application/json")
     @GET
-    public Response get(@PathParam("id") int userId) {
+    public Response get(@PathParam("id") int bookId) {
         return null;
     }
 
     @Path("/Book/{id}")
     @PUT
-    public Response edit(@PathParam("id") int userId) {
-        if(controller.editUser(userId)) {
+    public Response edit(@PathParam("id") int bookId) {
+        if(controller.editBook(bookId)) {
             return null;
         }
         else return null;
@@ -47,7 +53,7 @@ public class BookEndpoint implements IEndpoints {
     @POST
     @Produces("application/json")
     public Response create(String data) {
-        if (controller.addUser(data)) {
+        if (controller.addBook(data)) {
             return null;
         }
         else return null;
@@ -55,8 +61,8 @@ public class BookEndpoint implements IEndpoints {
 
     @Path("/Book/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int userId) {
-        if(controller.deleteUser(userId)) {
+    public Response delete (@PathParam("id") int bookId) {
+        if(controller.deleteBook(bookId)) {
             return null;
         }
         else return null;
