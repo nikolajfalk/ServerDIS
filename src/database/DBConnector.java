@@ -45,7 +45,7 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addCuriculum(Curiculum u) {
+    public static boolean addCuriculum(Curiculum c) {
         return true;
     }
 
@@ -66,7 +66,7 @@ public class DBConnector {
         return true;
     }
 
-    public static boolean addBook(Book u) {
+    public static boolean addBook(Book b) {
         return true;
     }
 
