@@ -68,6 +68,7 @@ public class DBConnector {
 
             while ( resultSet.next() ) {
                 results.add(new User(
+                        resultSet.getInt("userId"),
                         resultSet.getString("First_Name"),
                         resultSet.getString("Last_Name"),
                         resultSet.getString("Username"),
