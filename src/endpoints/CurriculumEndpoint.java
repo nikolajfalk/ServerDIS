@@ -81,7 +81,14 @@ public class CurriculumEndpoint implements IEndpoints{
     @Produces("application/json")
     public Response create(String data) {
 
-        return null;
+        if (curriculumController.addCurriculum(data)) {
+            //demo to check if it returns this on post.
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
+                    .build();
+        }
+        else return null;
     }
 
     @Override
@@ -89,14 +96,21 @@ public class CurriculumEndpoint implements IEndpoints{
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
     public Response edit(@PathParam("curriculumId") int id) {
-        return null;
+        if(curriculumController.editCurriculum(id)) {
+            return null;
+        }
+        else return null;
     }
+
 
     @Override
     @DELETE
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
     public Response delete(@PathParam("curriculumId") int id) {
-        return null;
+        if(curriculumController.deleteCurriculum(id)) {
+            return null;
+        }
+        else return null;
     }
 }
