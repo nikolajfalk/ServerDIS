@@ -18,8 +18,9 @@ public class Crypter {
 
 
 
-    public static String xor(String communication) {
+    public static String xor() {
 
+        String communication = "test123";
 //        String encrypted = Crypter.encryptDecryptXOR(communication);
 ////        System.out.println("Encrypted:" + encrypted);
 //

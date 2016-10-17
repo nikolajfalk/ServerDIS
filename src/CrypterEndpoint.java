@@ -21,7 +21,7 @@ public class CrypterEndpoint {
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("text/plain")
 
-    public String xor() { return Crypter.xor("test123"); }
+    public String xor() { return Crypter.xor(); }
 
 
     @Path("/getit")
