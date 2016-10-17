@@ -1,8 +1,11 @@
+/*
 package model.shared;
 import
+*/
 /**
  * Created by ssmith on 17-10-2016.
- */
+ *//*
+
 public class User  implements  {
     private int userID;
     private String firstName;
@@ -11,9 +14,11 @@ public class User  implements  {
     private String email;
     private String password;
     private boolean userType;
-    /*
+    */
+/*
 
-     */
+     *//*
+
     public User(String firstName, String lastName, String userName, String email, String password, boolean userType) {
         this.firstName = firstName;
         this.password = lastName;
@@ -84,3 +89,4 @@ public class User  implements  {
     }
 }
 
+*/

@@ -2,39 +2,40 @@
  * Created by aleksanderkristiansen on 17/10/2016.
  */
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.xml.transform.TransformerException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ConnectionDB {
 
 
-
-    private static final String URL = "jdbc:mysql://52.58.62.183:3306/kantinen";
-    private static final String USERNAME = "dummy";
-    private static final String PASSWORD = "gruppe3";
+    private static final String URL = "jdbc:mysql://db4free.net/bookit";
+    private static final String USERNAME = "bookit";
+    private static final String PASSWORD = "bookit";
 
     private static Connection connection = null; // manages connection
+    private PreparedStatement getSchoolsStmt;
 
     /**
      * Constructor for establishing connection.
+     *
      * @throws Exception
      */
     public ConnectionDB() throws Exception {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            getPersonsStmt = connection.prepareStatement(
-                    "SELECT * FROM customers ORDER BY email ");
+            getSchoolsStmt = connection.prepareStatement(
+                    "select DISTINCT School from Curicullum");
 
 
         } catch (SQLException sqlException) {
-            throw new DALException("Kan ikke oprette forbindelse til database");
+
+//            throw new DALException("Kan ikke oprette forbindelse til database");
+            sqlException.printStackTrace();
         }
 
-    }
-
-    public Connection getConnection() {
-        return connection;
     }
 
     /**
@@ -47,44 +48,31 @@ public class ConnectionDB {
             e.printStackTrace();
         }
     }
+
     /**
      * Methods used for items.
      */
 
-    @Override
-    public List<User> getPersons() throws Exception {
-        List<User> results = null;
+
+    public List<String> getSchools() throws Exception {
+        List<String> results = null;
         ResultSet resultSet = null;
 
-        try
-        {
-            resultSet = getPersonsStmt.executeQuery();
-            results = new ArrayList<User>();
+        try {
+            resultSet = getSchoolsStmt.executeQuery();
+            results = new ArrayList<>();
 
-            while ( resultSet.next() )
-            {
-                results.add( new User(
-                        resultSet.getInt("id"),
-                        resultSet.getString( "email" ),
-                        resultSet.getString( "password" ),
-                        resultSet.getInt( "admin" ),
-                        resultSet.getDouble("saldo")));
+            while (resultSet.next()) {
+                results.add(resultSet.getString("School"));
             }
-        }
-        catch ( SQLException sqlException )
-        {
-            throw new DALException(" \"getPersons\" fejlede");
-        }
-        finally
-        {
-            try
-            {
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        } finally {
+            try {
                 resultSet.close();
-            }
-            catch ( SQLException sqlException )
-            {
+            } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
-                connectionDB.close();
+                close();
             }
         }
         return results;

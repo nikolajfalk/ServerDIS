@@ -1,8 +1,11 @@
+/*
 package model.shared;
 
+*/
 /**
  * Created by ssmith on 17-10-2016.
- */
+ *//*
+
 public class Book {
     private int bookID;
     private String title;
@@ -77,3 +80,4 @@ public class Book {
         this.priceAb = priceAb;
     }
 }
+*/
