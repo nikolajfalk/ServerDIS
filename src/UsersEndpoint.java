@@ -14,7 +14,6 @@ import java.util.ArrayList;
 // The Java class will be hosted at the URI path "/users"
 @Path("/users")
 public class UsersEndpoint {
-    ArrayList<User>allUsers = new ArrayList<>();
     Gson gson = new Gson();
     UserController controller = new UserController();
 
@@ -45,7 +44,6 @@ public class UsersEndpoint {
         String s = new String(gson.toJson(controller.getUsers(0,null,null,null,null,false)));
         System.out.println(s);
         System.out.println("test");
-
     }
 }
 

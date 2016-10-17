@@ -6,11 +6,12 @@ import java.util.ArrayList;
  * Created by mortenlaursen on 17/10/2016.
  */
 public class DBDemoUser {
-    ArrayList<User>userOutput = new ArrayList<>();
+    ArrayList<User>userOutput;
 
 
 
     public DBDemoUser() {
+        userOutput = new ArrayList<>();
         demo();
         System.out.println("-------------dbconstructur");
     }

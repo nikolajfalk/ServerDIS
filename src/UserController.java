@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class UserController {
     Gson gson;
-    DBDemoUser dbdemo;
+    DBDemoUser dbdemo = new DBDemoUser();
 
     public UserController() {
     }
