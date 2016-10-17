@@ -7,8 +7,6 @@ public class DbIt {
 
 }
 
-
-
 /**
  * The server-side implementation of the RPC service.
  * In this class every method wont be explained in details since they more or less a the same
@@ -120,29 +118,6 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
     }
 
     @Override
-    public boolean changeUserPassword(User user) throws IllegalArgumentException {
-        try {
-            // Look at the previous method
-            PreparedStatement updatePassword = connection.prepareStatement("UPDATE users SET password = ? WHERE username = ?");
-
-            updatePassword.setString(1, user.getPassword());
-            updatePassword.setString(2, user.getUsername());
-
-
-            int rowsAffected = updatePassword.executeUpdate();
-
-            if (rowsAffected == 1) {
-                return true;
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return false;
-    }
-
-
-
-    @Override
     public List<User> getUsers() throws Exception {
 
         List<User> userresults = null;
@@ -150,32 +125,60 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
         //Her fortælles der at den ikke skal hente af typen 1 men kun typen 2 og derfor
         //hentes admin ikke og derfor kan admin ikke slettes i programmet
         PreparedStatement getUsersStmt = connection
-                .prepareStatement("SELECT * FROM brugere WHERE type != 1");
+                .prepareStatement("SELECT * FROM Users WHERE Deleted = 0");
 
         try {
             userresultSet = getUsersStmt.executeQuery();
             userresults = new ArrayList<User>();
 
             while (userresultSet.next()) {
-                userresults.add(new User(userresultSet.getInt("id"), userresultSet.getString("navn"),
-                        userresultSet.getString("kodeord"), userresultSet.getInt("type")));
+                userresults.add(new User(userresultSet.getInt("UserID"),
+                        userresultSet.getString("First_Name"),
+                        userresultSet.getString("Last_Name"),
+                        userresultSet.getString("Username"),
+                        userresultSet.getString("Email"),
+                        userresultSet.getString("Password"),
+                        userresultSet.getInt("Usertype")));
 
             }
-        } catch (SQLException sqlException) {
-            System.out.println(sqlException);
-        } finally {
-            try {
-                userresultSet.close();
-            } catch (SQLException sqlException) {
-                sqlException.printStackTrace();
-                close();
-            }
-        }
+//        } catch (SQLException sqlException) {
+//            System.out.println(sqlException);
+//        } finally {
+//            try {
+//                userresultSet.close();
+//            } catch (SQLException sqlException) {
+//                sqlException.printStackTrace();
+//                close();
+//            }
+//        }
         return userresults;
     }
 
 } catch (SQLException e) {
-            e.printStackTrace();
+
+
+
+        @Override
+        public boolean changeUserPassword(User user) throws IllegalArgumentException {
+            try {
+                // Look at the previous method
+                PreparedStatement updatePassword = connection.prepareStatement("UPDATE users SET password = ? WHERE username = ?");
+
+                updatePassword.setString(1, user.getPassword());
+                updatePassword.setString(2, user.getUsername());
+
+
+                int rowsAffected = updatePassword.executeUpdate();
+
+                if (rowsAffected == 1) {
+                    return true;
+                }
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+            return false;
+        }
+        e.printStackTrace();
         } finally {
             try {
                 resultSet.close();
@@ -220,13 +223,21 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
     public boolean createBook(Food food) throws IllegalArgumentException {
         try {
             // Same concept as createMessage method
-            PreparedStatement createFood = connection
-                    .prepareStatement("INSERT INTO food (foodname, foodprice) VALUES (?,?)");
+            PreparedStatement createBook = connection
+                    .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, " +
+                            "PriceCDON, Publisher, Author) VALUES (\"?\", \"?\", ?, ?, ?, ?, '?', '?')");
 
-            createFood.setString(1, food.getFoodname());
-            createFood.setString(2, Integer.toString(food.getFoodprice()));
+            createBook.setString(1, book.getTitle);
+            createBook.setInt(2, book.getVersion);
+            createBook.setDouble(3, book.getISBN);
+            createBook.setDouble(4, book.getPriceAB);
+            createBook.setDouble(5, book.getPriceSAXO);
+            createBook.setDouble(6, book.getPriceCDON);
+            createBook.setString(7, book.getPublisher);
+            createBook.setString(8, book.getAuthor);
 
-            int rowsAffected = createFood.executeUpdate();
+
+            int rowsAffected = createBook.executeUpdate();
             if (rowsAffected == 1) {
                 return true;
             }
@@ -262,18 +273,17 @@ public class RpcServiceImpl extends RemoteServiceServlet implements RpcService {
         return false;
     }
 
-    @Override
-    public boolean deleteFood(int id) throws IllegalArgumentException {
+    public boolean deleteBook(int id) throws IllegalArgumentException {
         try {
 			/*
 			 * This statement is deleting a row/rows in the users table by id. There should only be on user with a id
 			 * since this should be unique
 			 */
-            PreparedStatement deleteFood = connection.prepareStatement("DELETE FROM food WHERE id = ?");
+            PreparedStatement deleteBook = connection.prepareStatement("UPDATE Books SET Deleted=1 WHERE ISBN = ?");
 
-            deleteFood.setInt(1, id);
+            deleteBook.setInt(1, id);
 
-            int rowsAffected = deleteFood.executeUpdate();
+            int rowsAffected = deleteBook.executeUpdate();
 
             if (rowsAffected == 1) {
                 return true;
