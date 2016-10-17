@@ -29,10 +29,15 @@ public class HelloWorld {
 
 
 
+
+
         try {
-            return connectionDB.getSchools().get(0);
+            return connectionDB.getPublishers().get(0);
         } catch (Exception e){
             e.printStackTrace();
+
+
+
             return "error";
         }
 
