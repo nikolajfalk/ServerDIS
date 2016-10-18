@@ -8,6 +8,7 @@ import database.DBConnector;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 // The Java class will be hosted at the URI path "/users"
 @Path("/users")
@@ -56,7 +57,7 @@ public class UsersEndpoint implements IEndpoints {
 
     @POST
     @Produces("application/json")
-    public Response create(String data) {
+    public Response create(String data) throws Exception {
         if (controller.addUser(data)) {
             //demo to check if it returns this on post.
             return Response
@@ -69,7 +70,7 @@ public class UsersEndpoint implements IEndpoints {
 
     @Path("/users/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int userId) {
+    public Response delete (@PathParam("id") int userId) throws SQLException {
         if(controller.deleteUser(userId)) {
             return null;
         }

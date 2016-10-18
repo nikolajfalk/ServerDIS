@@ -57,34 +57,118 @@ public class DBConnector {
     }
 
     /*5 user methods*/
-    public static ArrayList<User> getUsers() {
-        ArrayList<User>out = new ArrayList<User>();
-        //test
-        out.add(new User(2,"test","test",null,null,true));
-        return out;
+
+    public ArrayList getUsers() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Users ");
+            resultSet = getUsers.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    User users = new User(
+                            resultSet.getInt("UserID"),
+                            resultSet.getString("First_Name"),
+                            resultSet.getString("Last_Name"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Password"),
+                            resultSet.getBoolean("Usertype")
+                    );
+
+                    results.add(users);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
     }
 
-    public static User getUser(int id) {
-        return new User();
+    public ArrayList getUser(int id) throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getUser = conn.prepareStatement("SELECT * FROM Users WHERE UserID=?");
+            getUser.setInt(1, id);
+            resultSet = getUser.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    User user = new User(
+                            resultSet.getInt("UserID"),
+                            resultSet.getString("First_Name"),
+                            resultSet.getString("Last_Name"),
+                            resultSet.getString("Username"),
+                            resultSet.getString("Email"),
+                            resultSet.getString("Password"),
+                            resultSet.getBoolean("Usertype")
+                    );
+
+                    results.add(user);
+
+                }catch(Exception e){
+
+                }
+            }
+
+        } catch (SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
     }
 
     public static boolean editUser(int id) {
         return true;
     }
 
-    public static boolean addUser(User u) {
+    public boolean addUser(User u) throws Exception {
+
+        PreparedStatement addUserStatement =
+            conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?)");
+
+        try {
+            addUserStatement.setString(1, u.getFirstName());
+            addUserStatement.setString(2, u.getLastName());
+            addUserStatement.setString(3, u.getUsername());
+            addUserStatement.setString(4, u.getEmail());
+            addUserStatement.setString(5, u.getPassword());
+            addUserStatement.setBoolean(6, u.getUserType());
+
+            addUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
-    public static boolean deleteUser(int id) {
+    public boolean deleteUser(int id) throws SQLException {
+
+        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Users WHERE UserID=?");
+
+        try {
+            deleteUserStatement.setInt(1, id);
+            deleteUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
     
     /*Curriculum methods*/
-    public ArrayList<Curriculum> getCurriculums() throws IllegalArgumentException {
-        ArrayList<Curriculum> results = new ArrayList<Curriculum>();
+    public ArrayList getCurriculums() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
         ResultSet resultSet = null;
-
 
         try {
             PreparedStatement getCurriculums = conn.prepareStatement("SELECT * FROM Curriculum ");
@@ -117,79 +201,188 @@ public class DBConnector {
 
     }
 
-    public Curriculum getCurriculum(int id) throws IllegalArgumentException {
-
+    public Curriculum getCurriculum(int curriculumID) throws IllegalArgumentException {
+       // ArrayList results = new ArrayList();
         ResultSet resultSet = null;
-        ArrayList<Curriculum> results = null;
+        Curriculum curriculum = null;
 
         try {
-            PreparedStatement getCurriculum = conn.prepareStatement("Select * From Curricullum Where CurricullumID = ?");
+            PreparedStatement getCurriculum = conn.prepareStatement("SELECT * FROM Curriculum WHERE CurriculumID=?");
+            getCurriculum.setInt(1, curriculumID);
+            resultSet = getCurriculum.executeQuery();
 
-            resultSet = getCurriculum.executeQuery(sql);
+            while ( resultSet.next() ) {
+                try {
 
-            while (resultSet.next()) {
-                results.add(new Curriculum(
-                        resultSet.getInt("CurriculumID"),
-                        resultSet.getString("School"),
-                        resultSet.getString("Education"),
-                        resultSet.getInt("Semester")
-                ));
+                    curriculum = new Curriculum(
+                            resultSet.getInt("CurriculumID"),
+                            resultSet.getString("School"),
+                            resultSet.getString("Education"),
+                            resultSet.getInt("Semester")
+                    );
+
+                  //results.add(curriculum);
+
+                }catch(Exception e){
+
+                }
             }
-        } catch (SQLException sqlException) {
+        }
+        catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
         }
-        return results.get(0);
+        return curriculum;
+
     }
 
     public static boolean editCurriculum(int id) {
         return true;
     }
 
-    public static boolean addCurriculum(Curriculum c) {
+    public boolean addCurriculum(Curriculum c) throws SQLException {
+        PreparedStatement addCurriculumStatement = conn.prepareStatement("INSERT INTO Curriculum (School, Education, Semester) VALUES (?, ?, ?)");
+
+        try {
+
+            addCurriculumStatement.setString(1, c.getSchool());
+            addCurriculumStatement.setString(2, c.getEducation());
+            addCurriculumStatement.setInt(3, c.getSemester());
+
+            addCurriculumStatement.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
         return true;
     }
 
-    public static boolean deleteCurriculum(int id) {
+    public boolean deleteCurriculum(int id) throws SQLException {
+        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Curriculum WHERE CurriculumID=?");
+
+        try {
+            deleteUserStatement.setInt(1, id);
+            deleteUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
     
     /*books methods*/
-    public ArrayList<Book> getBooks() throws Exception {
-        ArrayList<Book> results = null;
+
+    public ArrayList getBooks() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
         ResultSet resultSet = null;
-        sql = "SELECT * FROM Books";
 
         try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
+            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM Books ");
+            resultSet = getBooks.executeQuery();
 
             while ( resultSet.next() ) {
-                results.add(new Book(
-                        resultSet.getString("Title"),
-                        resultSet.getString("Publisher"),
-                        resultSet.getString("ISBN")
-                ));
+                try {
+
+                    Book books = new Book(
+                            resultSet.getInt("BookID"),
+                            resultSet.getString("Publisher"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Author"),
+                            resultSet.getInt("Version"),
+                            resultSet.getDouble("ISBN"),
+                            resultSet.getDouble("PriceAB"),
+                            resultSet.getDouble("PriceSAXO"),
+                            resultSet.getDouble("PriceCDON")
+                    );
+
+                    results.add(books);
+
+                }catch(Exception e){
+
+                }
             }
         }
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
         }
         return results;
+
     }
 
-    public static Book getBook(int id) {
-        return new Book();
+    public ArrayList getBook(int id) throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getBook = conn.prepareStatement("SELECT * FROM Books WHERE BookID=? ");
+            getBook.setInt(1, id);
+            resultSet = getBook.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Book book = new Book(
+                            resultSet.getInt("BookID"),
+                            resultSet.getString("Publisher"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Author"),
+                            resultSet.getInt("Version"),
+                            resultSet.getDouble("ISBN"),
+                            resultSet.getDouble("PriceAB"),
+                            resultSet.getDouble("PriceSAXO"),
+                            resultSet.getDouble("PriceCDON")
+                    );
+
+                    results.add(book);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
     }
 
     public static boolean editBook(int id) {
         return true;
     }
 
-    public static boolean addBook(Book b) {
+    public boolean addBook(Book b) throws SQLException {
+
+    PreparedStatement addBookStatement = conn
+            .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+        try {
+            addBookStatement.setString(1, b.getTitle());
+            addBookStatement.setInt(2, b.getVersion());
+            addBookStatement.setDouble(3, b.getISBN());
+            addBookStatement.setDouble(4, b.getPriceAB());
+            addBookStatement.setDouble(5, b.getPriceSAXO());
+            addBookStatement.setDouble(6, b.getPriceCDON());
+            addBookStatement.setString(7, b.getPublisher());
+            addBookStatement.setString(8, b.getAuthor());
+
+            addBookStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  true;
+    }
+
+    public boolean deleteBook(int id) throws SQLException {
+        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Books WHERE BookID=?");
+
+        try {
+            deleteUserStatement.setInt(1, id);
+            deleteUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
-    public static boolean deleteBook(int id) {
-        return true;
-    }
+
 }

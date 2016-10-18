@@ -4,11 +4,9 @@ import com.google.gson.Gson;
 import database.DBConnector;
 import model.Book;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-/**
- * Created by mortenlaursen on 17/10/2016.
- */
 public class BookController {
 
     public ArrayList<Book> getBooks() throws Exception {
@@ -18,21 +16,25 @@ public class BookController {
         return db.getBooks();
     }
 
-    public Book getBook(int id) {
-        return DBConnector.getBook(id);
+    public ArrayList<Book> getBook(int id) {
+        DBConnector db = new DBConnector();
+        return db.getBook(id);
     }
 
     public boolean editBook(int id) {
         return DBConnector.editBook(id);
     }
 
-    public boolean deleteBook(int id) {
-        return DBConnector.deleteBook(id);
+    public boolean deleteBook(int id) throws SQLException {
+        DBConnector db = new DBConnector();
+        return db.deleteBook(id);
     }
 
-    public boolean addBook(String data) {
-        Book b = new Gson().fromJson(data,Book.class);
-        return DBConnector.addBook(b);
+    public boolean addBook(String data) throws SQLException {
+        Gson gson = new Gson();
+        DBConnector db = new DBConnector();
+        Book b = gson.fromJson(data,Book.class);
+        return db.addBook(b);
     }
 
 }

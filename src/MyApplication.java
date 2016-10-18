@@ -25,7 +25,7 @@ public class MyApplication extends Application{
         h.add( UsersEndpoint.class);
         h.add(BookEndpoint.class);
         h.add(CurriculumEndpoint.class);
-       // h.add(Curriculum.class);
+        h.add(Curriculum.class);
         h.add( HashingEndpoint.class);
         h.add( CrypterEndpoint.class);
         return h;
