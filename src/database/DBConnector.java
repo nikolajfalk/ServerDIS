@@ -167,7 +167,7 @@ public class DBConnector {
     
     /*Curriculum methods*/
     public ArrayList getCurriculums() throws IllegalArgumentException {
-        ArrayList<Curriculum> results = new ArrayList<Curriculum>();
+        ArrayList<Curriculum> results = new ArrayList<>();
         ResultSet resultSet = null;
 
         try {

@@ -2,6 +2,7 @@
  * Created by mortenlaursen on 09/10/2016.
  */
 
+import Encrypters.CrypterEndpoint;
 import endpoints.BookEndpoint;
 import endpoints.CurriculumEndpoint;
 import endpoints.UsersEndpoint;

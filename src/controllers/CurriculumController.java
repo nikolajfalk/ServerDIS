@@ -12,12 +12,14 @@ import java.util.ArrayList;
  */
 public class CurriculumController {
     DBConnector db = new DBConnector();
-
-    public ArrayList<Curriculum> getCurriculums() {
-        return db.getCurriculums();
+    Gson gson;
+    public String getCurriculums()throws IllegalAccessException{
+        return gson.toJson(db.getCurriculums());
     }
 
-    public Curriculum getCurriculum(int id) {return db.getCurriculum(id);}
+    public String getCurriculum(int id) {
+        return gson.toJson(db.getCurriculum(id));
+    }
 
     public boolean editCurriculum(int id) {
         return db.editCurriculum(id);
