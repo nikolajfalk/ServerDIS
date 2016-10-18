@@ -132,7 +132,7 @@ public class DBConnector {
         return true;
     }
 
-    public void addUser(User u) throws Exception {
+    public boolean addUser(User u) throws Exception {
 
         PreparedStatement addUserStatement =
             conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?)");
@@ -149,9 +149,10 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
-    public void deleteUser(int id) throws SQLException {
+    public boolean deleteUser(int id) throws SQLException {
 
         PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Users WHERE UserID=?");
 
@@ -161,6 +162,7 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
     
     /*Curriculum methods*/
@@ -199,9 +201,10 @@ public class DBConnector {
 
     }
 
-    public ArrayList getCurriculum(int curriculumID) throws IllegalArgumentException {
-        ArrayList results = new ArrayList();
+    public Curriculum getCurriculum(int curriculumID) throws IllegalArgumentException {
+       // ArrayList results = new ArrayList();
         ResultSet resultSet = null;
+        Curriculum curriculum = null;
 
         try {
             PreparedStatement getCurriculum = conn.prepareStatement("SELECT * FROM Curriculum WHERE CurriculumID=?");
@@ -211,14 +214,14 @@ public class DBConnector {
             while ( resultSet.next() ) {
                 try {
 
-                    Curriculum curriculum = new Curriculum(
+                    curriculum = new Curriculum(
                             resultSet.getInt("CurriculumID"),
                             resultSet.getString("School"),
                             resultSet.getString("Education"),
                             resultSet.getInt("Semester")
                     );
 
-                    results.add(curriculum);
+                  //results.add(curriculum);
 
                 }catch(Exception e){
 
@@ -228,7 +231,7 @@ public class DBConnector {
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
         }
-        return results;
+        return curriculum;
 
     }
 
@@ -236,7 +239,7 @@ public class DBConnector {
         return true;
     }
 
-    public void addCurriculum(Curriculum c) throws SQLException {
+    public boolean addCurriculum(Curriculum c) throws SQLException {
         PreparedStatement addCurriculumStatement = conn.prepareStatement("INSERT INTO Curriculum (School, Education, Semester) VALUES (?, ?, ?)");
 
         try {
@@ -250,9 +253,10 @@ public class DBConnector {
         } catch (SQLException e){
             e.printStackTrace();
         }
+        return true;
     }
 
-    public void deleteCurriculum(int id) throws SQLException {
+    public boolean deleteCurriculum(int id) throws SQLException {
         PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Curriculum WHERE CurriculumID=?");
 
         try {
@@ -261,6 +265,7 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
     
     /*books methods*/
@@ -344,7 +349,7 @@ public class DBConnector {
         return true;
     }
 
-    public void addBook(Book b) throws SQLException {
+    public boolean addBook(Book b) throws SQLException {
 
     PreparedStatement addBookStatement = conn
             .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -364,9 +369,10 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return  true;
     }
 
-    public void deleteBook(int id) throws SQLException {
+    public boolean deleteBook(int id) throws SQLException {
         PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Books WHERE BookID=?");
 
         try {
@@ -375,6 +381,8 @@ public class DBConnector {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
+
 
 }

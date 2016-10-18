@@ -4,30 +4,32 @@ import com.google.gson.Gson;
 import database.DBConnector;
 import model.Curriculum;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  * Created by mortenlaursen on 17/10/2016.
  */
 public class CurriculumController {
+    DBConnector db = new DBConnector();
 
     public ArrayList<Curriculum> getCurriculums() {
-        return DBConnector.getCurriculums();
+        return db.getCurriculums();
     }
 
-    public Curriculum getCurriculum(int id) {return DBConnector.getCurriculum(id);}
+    public Curriculum getCurriculum(int id) {return db.getCurriculum(id);}
 
     public boolean editCurriculum(int id) {
-        return DBConnector.editCurriculum(id);
+        return db.editCurriculum(id);
     }
 
-    public boolean deleteCurriculum(int id) {
-        return DBConnector.deleteCurriculum(id);
+    public boolean deleteCurriculum(int id) throws SQLException {
+        return db.deleteCurriculum(id);
     }
 
-    public boolean addCurriculum(String data) {
+    public boolean addCurriculum(String data) throws SQLException {
         Curriculum c = new Gson().fromJson(data,Curriculum.class);
-        return DBConnector.addCurriculum(c);
+        return db.addCurriculum(c);
     }
 
 }

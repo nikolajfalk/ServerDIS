@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import database.DBConnector;
 import model.User;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  */
 public class UserController {
     Gson gson;
-
+    DBConnector db = new DBConnector();
 
 
     public UserController() {
@@ -19,24 +20,24 @@ public class UserController {
     }
 
     public String getUsers() {
-        return gson.toJson(DBConnector.getUsers());
+        return gson.toJson(db.getUsers());
     }
 
     public String getUser(int id) {
-        return gson.toJson(DBConnector.getUser(id));
+        return gson.toJson(db.getUser(id));
     }
 
     public boolean editUser(int id) {
-        return DBConnector.editUser(id);
+        return db.editUser(id);
     }
 
-    public boolean deleteUser(int id) {
-        return DBConnector.deleteUser(id);
+    public boolean deleteUser(int id) throws SQLException {
+        return db.deleteUser(id);
     }
 
-    public boolean addUser(String data) {
+    public boolean addUser(String data) throws Exception {
         User u = gson.fromJson(data,User.class);
-        return DBConnector.addUser(u);
+        return db.addUser(u);
     }
 
 }
