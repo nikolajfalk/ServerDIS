@@ -7,6 +7,7 @@ import controllers.BookController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 
 // The Java class will be hosted at the URI path "/Book"
 @Path("/Book")
@@ -52,7 +53,7 @@ public class BookEndpoint implements IEndpoints {
 
     @POST
     @Produces("application/json")
-    public Response create(String data) {
+    public Response create(String data) throws SQLException {
         if (controller.addBook(data)) {
             return null;
         }
@@ -61,7 +62,7 @@ public class BookEndpoint implements IEndpoints {
 
     @Path("/Book/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int bookId) {
+    public Response delete (@PathParam("id") int bookId) throws SQLException {
         if(controller.deleteBook(bookId)) {
             return null;
         }

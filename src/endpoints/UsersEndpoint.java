@@ -25,7 +25,7 @@ public class UsersEndpoint implements IEndpoints {
         if (controller.getUsers() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(DBConnector.getUsers()))
+                    .entity(new Gson().toJson(controller.getUsers()))
                     .build();
         }
         else {

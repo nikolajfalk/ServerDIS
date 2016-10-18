@@ -8,6 +8,7 @@ import model.Curriculum;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Array;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -104,7 +105,7 @@ public class CurriculumEndpoint implements IEndpoints{
     @DELETE
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
-    public Response delete(@PathParam("curriculumId") int id) {
+    public Response delete(@PathParam("curriculumId") int id) throws SQLException {
         if(curriculumController.deleteCurriculum(id)) {
             return null;
         }
