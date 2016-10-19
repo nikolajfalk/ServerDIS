@@ -15,22 +15,26 @@ public class BookController {
         return db.getBooks();
     }
 
-    public Book getBook(int id) {
-        return DBConnector.getBook(id);
+    public Book getBook(int id) throws Exception {
+        DBConnector db = new DBConnector();
+        return db.getBook(id);
     }
 
-    public boolean editBook(int id) {
-        return DBConnector.editBook(id);
+    public boolean editBook(String data) throws Exception {
+        DBConnector db = new DBConnector();
+        Book b = new Gson().fromJson(data, Book.class);
+        return db.editBook(b);
     }
 
-    public boolean deleteBook(int id) {
-        return DBConnector.deleteBook(id);
+    public boolean deleteBook(int id) throws Exception {
+        DBConnector db = new DBConnector();
+        return db.deleteBook(id);
     }
 
-    public boolean addBook(String data) {
-        Gson gson = new Gson();
-        Book b = gson.fromJson(data,Book.class);
-        return DBConnector.addBook(b);
+    public boolean addBook(String data) throws Exception {
+        DBConnector db = new DBConnector();
+        Book b = new Gson().fromJson(data,Book.class);
+        return db.addBook(b);
     }
 
 }

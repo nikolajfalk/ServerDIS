@@ -3,8 +3,9 @@
  */
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import config.Config;
+import config.ConfigMap;
+import Encrypters.CrypterEndpoint;
 import endpoints.BookEndpoint;
 import endpoints.UsersEndpoint;
 import model.Curriculum;
@@ -13,48 +14,48 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Application;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.HashSet;
 import java.util.Set;
 
 //Defines the base URI for all resource URIs.
 @ApplicationPath("/")
-//The java class declares root resource and provider classes
-public class MyApplication extends Application{
+public class MyApplication extends Application {
 
-    private void initConfig(){
+  private void initConfig() {
 
-        Gson gson = new Gson();
-        try {
-            JsonReader reader = new JsonReader(new FileReader("../config.json"));
-            gson.fromJson(reader, Config.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    Gson gson = new Gson();
+    BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("/config.json")));
+    ConfigMap config = gson.fromJson(br, ConfigMap.class);
 
-    }
+    Config.setDbName(config.getDbName());
+    Config.setDbPassword(config.getDbPassword());
+    Config.setDbPort(config.getDbPort());
+    Config.setDbUrl(config.getDbUrl());
+    Config.setDbUserName(config.getDbUserName());
 
-    //The method returns a non-empty collection with classes, that must be included in the published JAX-RS application
-    @Override
-    public Set<Class<?>> getClasses() {
+  }
 
-        this.initConfig();
+  //The method returns a non-empty collection with classes, that must be included in the published JAX-RS application
+  @Override
+  public Set<Class<?>> getClasses() {
 
-        HashSet h = new HashSet<Class<?>>();
-        h.add( UsersEndpoint.class);
-        h.add( BookEndpoint.class);
-        h.add( Curriculum.class);
-        h.add( HashingEndpoint.class);
-        h.add( CrypterEndpoint.class);
-        return h;
-    }
+    this.initConfig();
 
-    //This is unnecessary and doesn't work.
-    @GET
-    @Produces("text/plain")
-    public String demo() {
-        return "This is root!";
-    }
+    HashSet h = new HashSet<Class<?>>();
+    h.add(UsersEndpoint.class);
+    h.add(BookEndpoint.class);
+    h.add(Curriculum.class);
+    h.add(HashingEndpoint.class);
+    h.add(CrypterEndpoint.class);
+    return h;
+  }
+
+  //This is unnecessary and doesn't work.
+  @GET
+  @Produces("text/plain")
+  public String demo() {
+    return "This is root!";
+  }
 }
 

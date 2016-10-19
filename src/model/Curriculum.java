@@ -6,12 +6,13 @@ package model;
 public class Curriculum {
 
     String school, education;
-    int semester;
+    int semester, curriculumID;
 
     public Curriculum(){
 
     }
-    public Curriculum(String school, String education, int semester) {
+    public Curriculum(int curriculumID, String school, String education, int semester) {
+        this.curriculumID = curriculumID;
         this.school = school;
         this.education = education;
         this.semester = semester;
@@ -41,9 +42,18 @@ public class Curriculum {
         this.semester = semester;
     }
 
+    public int getCurriculumID() {
+        return curriculumID;
+    }
+
+    public void setCurriculumID(int curriculumID) {
+        this.curriculumID = curriculumID;
+    }
+
     @Override
     public String toString() {
         return "Curriculum{" +
+                "Curriculum ID=" + curriculumID + '\'' +
                 "school='" + school + '\'' +
                 ", education='" + education + '\'' +
                 ", semester=" + semester +
