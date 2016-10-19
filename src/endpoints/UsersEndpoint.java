@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import controllers.TokenController;
 import controllers.UserController;
 import database.DBConnector;
+import model.UserLogin;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -79,13 +80,14 @@ public class UsersEndpoint implements IEndpoints {
         } else return null;
     }
 
-    @Path("/login")
     @POST
+    @Path("/login")
     @Produces("application/json")
-    public Response login(String username, String password) throws Exception {
+    public Response login(String data) throws SQLException {
 
+        UserLogin userLogin = new Gson().fromJson(data, UserLogin.class);
 
-        String token = tokenController.authenticate(username, password);
+        String token = tokenController.authenticate(userLogin.getUsername(), userLogin.getPassword());
 
         if (token != null) {
             //demo to check if it returns this on post.
@@ -97,5 +99,5 @@ public class UsersEndpoint implements IEndpoints {
                     .status(401)
                     .build();
     }
-    }
+}
 
