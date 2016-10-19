@@ -143,23 +143,24 @@ public class DBConnector {
 
     public boolean authenticate(String username, String password){
 
+        ResultSet resultSet = null;
+
         try {
             PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ?");
-            ResultSet resultSet = null;
-            resultSet = authenticate.executeQuery();
-            while ( resultSet.next() ) {
-                results.add(
-                        resultSet.getInt("user_id"),
-                        resultSet.getInt("Usertype")
-                );
 
+
+            resultSet = authenticate.executeQuery();
+
+            if (resultSet.next()){
+                return true;
+            }else{
+                return false;
             }
         }
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
+            return false;
         }
-        return results;
-
     }
 
     public ArrayList<Integer> getUserIdFromToken(String token){

@@ -1,5 +1,7 @@
 package endpoints;
 
+import database.DBConnector;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
@@ -20,6 +22,8 @@ public class AuthenticationEndpoint {
         try {
 
             // Authenticate the user using the credentials provided
+            DBConnector db = new DBConnector;
+
             authenticate(username, password);
 
             // Issue a token for the user
