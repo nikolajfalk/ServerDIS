@@ -16,7 +16,7 @@ public class BookController {
         return db.getBooks();
     }
 
-    public ArrayList<Book> getBook(int id) {
+    public Book getBook(int id) {
         DBConnector db = new DBConnector();
         return db.getBook(id);
     }
@@ -31,9 +31,8 @@ public class BookController {
     }
 
     public boolean addBook(String data) throws SQLException {
-        Gson gson = new Gson();
         DBConnector db = new DBConnector();
-        Book b = gson.fromJson(data,Book.class);
+        Book b = new Gson().fromJson(data,Book.class);
         return db.addBook(b);
     }
 

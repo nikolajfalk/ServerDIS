@@ -25,7 +25,7 @@ public class DBConnector {
     static final String USER = "bookit";
     static final String PASS = "bookit123";
 
-    String sql;
+    //String sql; Not needed anymore after introducing prepared statements.
     Connection conn = null;
     Statement stmt = null;
 
@@ -93,8 +93,8 @@ public class DBConnector {
 
     }
 
-    public ArrayList getUser(int id) throws IllegalArgumentException {
-        ArrayList results = new ArrayList();
+    public User getUser(int id) throws IllegalArgumentException {
+        User user = null;
         ResultSet resultSet = null;
 
         try {
@@ -105,7 +105,7 @@ public class DBConnector {
             while ( resultSet.next() ) {
                 try {
 
-                    User user = new User(
+                    user = new User(
                             resultSet.getInt("UserID"),
                             resultSet.getString("First_Name"),
                             resultSet.getString("Last_Name"),
@@ -115,8 +115,6 @@ public class DBConnector {
                             resultSet.getBoolean("Usertype")
                     );
 
-                    results.add(user);
-
                 }catch(Exception e){
 
                 }
@@ -125,7 +123,7 @@ public class DBConnector {
         } catch (SQLException sqlException ){
             System.out.println(sqlException.getMessage());
         }
-        return results;
+        return user;
     }
 
     public static boolean editUser(int id) {
@@ -202,7 +200,6 @@ public class DBConnector {
     }
 
     public Curriculum getCurriculum(int curriculumID) throws IllegalArgumentException {
-       // ArrayList results = new ArrayList();
         ResultSet resultSet = null;
         Curriculum curriculum = null;
 
@@ -220,8 +217,6 @@ public class DBConnector {
                             resultSet.getString("Education"),
                             resultSet.getInt("Semester")
                     );
-
-                  //results.add(curriculum);
 
                 }catch(Exception e){
 
@@ -307,41 +302,31 @@ public class DBConnector {
 
     }
 
-    public ArrayList getBook(int id) throws IllegalArgumentException {
-        ArrayList results = new ArrayList();
+    public Book getBook(int id) throws IllegalArgumentException {
+        Book book = null;
         ResultSet resultSet = null;
 
         try {
             PreparedStatement getBook = conn.prepareStatement("SELECT * FROM Books WHERE BookID=? ");
             getBook.setInt(1, id);
             resultSet = getBook.executeQuery();
-
-            while ( resultSet.next() ) {
-                try {
-
-                    Book book = new Book(
-                            resultSet.getInt("BookID"),
-                            resultSet.getString("Publisher"),
-                            resultSet.getString("Title"),
-                            resultSet.getString("Author"),
-                            resultSet.getInt("Version"),
-                            resultSet.getDouble("ISBN"),
-                            resultSet.getDouble("PriceAB"),
-                            resultSet.getDouble("PriceSAXO"),
-                            resultSet.getDouble("PriceCDON")
-                    );
-
-                    results.add(book);
-
-                }catch(Exception e){
-
-                }
-            }
+            resultSet.next();
+            book = new Book(
+                    resultSet.getInt("BookID"),
+                    resultSet.getString("Publisher"),
+                    resultSet.getString("Title"),
+                    resultSet.getString("Author"),
+                    resultSet.getInt("Version"),
+                    resultSet.getDouble("ISBN"),
+                    resultSet.getDouble("PriceAB"),
+                    resultSet.getDouble("PriceSAXO"),
+                    resultSet.getDouble("PriceCDON")
+            );
         }
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
         }
-        return results;
+        return book;
 
     }
 

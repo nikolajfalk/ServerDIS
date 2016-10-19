@@ -35,14 +35,26 @@ public class BookEndpoint implements IEndpoints {
         }
     }
 
-    @Path("/Book/{id}")
+
+    @Path("/{id}")
     @Produces("application/json")
     @GET
     public Response get(@PathParam("id") int bookId) {
-        return null;
+        if (controller.getBook(bookId)!=null) {
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(controller.getBook(bookId)))
+                    .build();
+        }
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
     }
 
-    @Path("/Book/{id}")
+    //Not created yet
+    @Path("/{id}")
     @PUT
     public Response edit(@PathParam("id") int bookId) {
         if(controller.editBook(bookId)) {
@@ -55,9 +67,16 @@ public class BookEndpoint implements IEndpoints {
     @Produces("application/json")
     public Response create(String data) throws SQLException {
         if (controller.addBook(data)) {
-            return null;
+            return Response
+                    .status(200)
+                    .entity("new user")
+                    .build();
         }
-        else return null;
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
     }
 
     @Path("/Book/{id}")
