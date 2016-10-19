@@ -137,7 +137,7 @@ public class CurriculumEndpoint {
         if (curriculumController.addCurriculumBook(curriculumID, data)) {
             return Response
                     .status(200)
-                    .entity("new user")
+                    .entity("{\"message\":\"Success! Book was created.\"}")
                     .build();
         }
         else {
