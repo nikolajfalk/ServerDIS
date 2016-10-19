@@ -19,15 +19,14 @@ public class DBConnector {
      */
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://bookit.ch3v4pqrs4c3.eu-central-1.rds.amazonaws.com/Bookit?useSSL=false";
+    static final String DB_URL = "jdbc:mysql://localhost/bookit?useSSL=false";
 
     //  Database credentials
-    static final String USER = "bookit";
-    static final String PASS = "bookit123";
+    static final String USER = "root";
+    static final String PASS = "YNXR3ecz";
 
-    String sql;
+    String sql = "";
     Connection conn = null;
-    Statement stmt = null;
 
     public DBConnector() {
 
@@ -39,9 +38,6 @@ public class DBConnector {
             this.conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
             //STEP 4: Execute a query
-            this.stmt = conn.createStatement();
-
-            System.out.println("Connected");
 
             //STEP 6: Clean-up environment
         }catch(SQLException se){
@@ -99,14 +95,17 @@ public class DBConnector {
     }
     
     /*books methods*/
-    public ArrayList<Book> getBooks() throws Exception {
-        ArrayList<Book> results = null;
+
+
+
+
+    public ArrayList getBooks() throws IllegalArgumentException {
+        ArrayList results = new ArrayList();
         ResultSet resultSet = null;
-        sql = "SELECT * FROM Books";
 
         try {
-            resultSet = stmt.executeQuery(sql);
-            results = new ArrayList<>();
+            PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Books ");
+            resultSet = getUsers.executeQuery();
 
             while ( resultSet.next() ) {
                 results.add(new Book(
@@ -120,7 +119,11 @@ public class DBConnector {
             System.out.println(sqlException.getMessage());
         }
         return results;
+
     }
+
+
+
 
     public static Book getBook(int id) {
         return new Book();
@@ -137,4 +140,29 @@ public class DBConnector {
     public static boolean deleteBook(int id) {
         return true;
     }
+
+    public ArrayList<Integer> getUserIdFromToken(String token){
+        ArrayList<Integer> results = new ArrayList();
+        ResultSet resultSet = null;
+
+        try {
+            PreparedStatement getUserIdFromToken = conn.prepareStatement("");
+            resultSet = getUserIdFromToken.executeQuery();
+                while ( resultSet.next() ) {
+                    results.add(
+                            resultSet.getInt("user_id"),
+                            resultSet.getInt("Usertype")
+                    );
+
+                }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
+
+    }
+
+
 }
