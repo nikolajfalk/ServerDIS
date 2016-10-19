@@ -461,6 +461,12 @@ public class DBConnector {
         return true;
     }
 
-
+    public void close(){
+        try {
+            this.conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
