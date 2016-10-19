@@ -30,5 +30,12 @@ public class TokenController {
         }
         //Retunerer en access token til klienten.
         return token;
+
+
+    }
+
+    public User getUserFromTokens(String token) throws SQLException {
+        return db.getUserFromToken(token);
+
     }
 }

@@ -4,6 +4,7 @@ package endpoints; /**
 
 import com.google.gson.Gson;
 import controllers.BookController;
+import controllers.TokenController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -11,8 +12,9 @@ import java.sql.SQLException;
 
 // The Java class will be hosted at the URI path "/Book"
 @Path("/Book")
-public class BookEndpoint implements IEndpoints {
+public class BookEndpoint  {
     BookController controller = new BookController();
+    TokenController tokenController = new TokenController();
 
     public BookEndpoint() {
     }
@@ -22,6 +24,9 @@ public class BookEndpoint implements IEndpoints {
     @GET
     @Produces("application/json")
     public Response get() throws Exception {
+
+
+
         if (controller.getBooks()!=null) {
             return Response
                     .status(200)
@@ -86,7 +91,7 @@ public class BookEndpoint implements IEndpoints {
 
     @Path("/Book/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int bookId) throws Exception {
+    public Response delete (@HeaderParam("authorization") String authToken, @PathParam("id") int bookId) throws Exception {
         if(controller.deleteBook(bookId)) {
             return null;
         }

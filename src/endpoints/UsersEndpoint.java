@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 // The Java class will be hosted at the URI path "/users"
 @Path("/users")
-public class UsersEndpoint implements IEndpoints {
+public class UsersEndpoint {
     UserController controller = new UserController();
     TokenController tokenController = new TokenController();
 
@@ -73,7 +73,10 @@ public class UsersEndpoint implements IEndpoints {
 
     @Path("/users/{id}")
     @DELETE
-    public Response delete(@PathParam("id") int userId) throws SQLException {
+    public Response delete(@HeaderParam("authorization") String authToken, @PathParam("id") int userId) throws SQLException {
+
+
+
         if (controller.deleteUser(userId)) {
             return null;
         } else return null;
@@ -82,20 +85,20 @@ public class UsersEndpoint implements IEndpoints {
     @Path("/login")
     @POST
     @Produces("application/json")
-    public Response login(String username, String password) throws Exception {
+    public Response login(String username) throws Exception {
 
 
-        String token = tokenController.authenticate(username, password);
-
-        if (token != null) {
-            //demo to check if it returns this on post.
-            return Response
-                    .status(200)
-                    .entity(new Gson().toJson(token))
-                    .build();
-        } else return Response
-                    .status(401)
-                    .build();
+//        String token = tokenController.authenticate(username, password);
+//
+//        if (token != null) {
+//            //demo to check if it returns this on post.
+//            return Response
+//                    .status(200)
+//                    .entity(new Gson().toJson(token))
+//                    .build();
+//        } else return Response
+//                    .status(401)
+//                    .build();
     }
     }
 
