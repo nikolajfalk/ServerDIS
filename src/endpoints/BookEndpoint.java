@@ -2,6 +2,7 @@ package endpoints; /**
  * Created by mortenlaursen on 09/10/2016.
  */
 
+import Encrypters.Crypter;
 import com.google.gson.Gson;
 import com.sun.corba.se.spi.activation.Repository;
 import controllers.BookController;
@@ -33,7 +34,7 @@ public class BookEndpoint {
         if (controller.getBooks()!=null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(controller.getBooks()))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(controller.getBooks()))))
                     .build();
         }
         else {
@@ -52,7 +53,7 @@ public class BookEndpoint {
         if (controller.getBook(bookId)!=null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(controller.getBook(bookId)))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(controller.getBook(bookId)))))
                     .build();
         }
         else {
@@ -68,7 +69,9 @@ public class BookEndpoint {
     @Produces("application/json")
     public Response edit(@PathParam("bookId") int id, String data) throws Exception {
         if (controller.getBook(id) != null) {
-            if (controller.editBook(id, data)) {
+            String s = new Gson().fromJson(data,String.class);
+            String decrypt = Crypter.encryptDecryptXOR(s);
+            if (controller.editBook(id, decrypt)) {
                 return Response
                         .status(200)
                         .entity("{\"message\":\"Success! Book edited\"}")
