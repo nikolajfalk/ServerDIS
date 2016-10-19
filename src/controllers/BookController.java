@@ -30,10 +30,10 @@ public class BookController {
         return db.deleteBook(id);
     }
 
-    public boolean addBook(String data) throws Exception {
+   /* public boolean addBook(String data) throws Exception {
         DBConnector db = new DBConnector();
         Book b = new Gson().fromJson(data,Book.class);
-        return db.addBook(b);
+        return db.addCurriculumBook(b);
     }
-
+*/
 }

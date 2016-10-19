@@ -13,7 +13,7 @@ import java.sql.SQLException;
 // The Java class will be hosted at the URI path "/Book"
 
 @Path("/Book")
-public class BookEndpoint implements IEndpoints {
+public class BookEndpoint {
     BookController controller = new BookController();
 
     public BookEndpoint() {
@@ -81,10 +81,10 @@ public class BookEndpoint implements IEndpoints {
         }
     }
 
-    @POST
+ /*  @POST
     @Produces("application/json")
     public Response create(String data) throws Exception {
-        if (controller.addBook(data)) {
+        if (controller.addCurriculumBook(data)) {
             return Response
                     .status(200)
                     .entity("{\"message\":\"Success! Book created\"}")
@@ -97,7 +97,7 @@ public class BookEndpoint implements IEndpoints {
                     .build();
         }
     }
-
+*/
 
     @Path("/{id}")
     @DELETE

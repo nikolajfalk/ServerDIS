@@ -409,11 +409,11 @@ public class DBConnector {
         return true;
     }
 
-    public boolean addBook(Book b) throws SQLException {
+    public boolean addCurriculumBook(int curriculumID, String data) throws SQLException {
+        int id;
+        PreparedStatement addBookStatement = conn.prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-    PreparedStatement addBookStatement = conn
-            .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
+        Book b = new Gson().fromJson(data, Book.class);
         try {
             addBookStatement.setString(1, b.getTitle());
             addBookStatement.setInt(2, b.getVersion());
@@ -425,27 +425,51 @@ public class DBConnector {
             addBookStatement.setString(8, b.getAuthor());
 
             addBookStatement.executeUpdate();
+            ResultSet rs = addBookStatement.getGeneratedKeys();
 
+            if(rs.next()){
+                id = rs.getInt(1);
+
+                PreparedStatement addToBooksCurriculum = conn.prepareStatement("INSERT INTO BooksCurriculum (BookID, CurriculumID) VALUES (?,?)");
+                addToBooksCurriculum.setInt(1, id);
+                addToBooksCurriculum.setInt(2, curriculumID);
+                addToBooksCurriculum.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
+
         return  true;
     }
 
     
 
     public boolean deleteBook(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET deleted = 1 WHERE BookID = ?; DELETE FROM BooksCurriculum WHERE BookID = ?;");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET Deleted = 1 WHERE BookID = ?");
+        PreparedStatement deleteBooksCurriculumRows = conn.prepareStatement("DELETE FROM BooksCurriculum WHERE BookID = ?");
 
         try {
             deleteUserStatement.setInt(1, id);
             deleteUserStatement.executeUpdate();
+
+            deleteBooksCurriculumRows.setInt(1, id);
+            deleteBooksCurriculumRows.execute();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return true;
     }
 
-
+    public void close(){
+        try {
+            this.conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
