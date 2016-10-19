@@ -179,7 +179,7 @@ public class DBConnector {
         }
         return true;
     }
-    
+
     /*Curriculum methods*/
     public ArrayList getCurriculums() throws IllegalArgumentException {
         ArrayList<Curriculum> results = new ArrayList<>();
@@ -291,7 +291,7 @@ public class DBConnector {
         }
         return true;
     }
-    
+
     /*books methods*/
 
     public ArrayList getBooks() throws IllegalArgumentException {
