@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import controllers.TokenController;
 import controllers.UserController;
 import database.DBConnector;
+import model.UserLogin;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 
 // The Java class will be hosted at the URI path "/users"
 @Path("/users")
-public class UsersEndpoint {
+public class UsersEndpoint implements IEndpoints {
     UserController controller = new UserController();
     TokenController tokenController = new TokenController();
 
@@ -73,32 +74,46 @@ public class UsersEndpoint {
 
     @Path("/users/{id}")
     @DELETE
-    public Response delete(@HeaderParam("authorization") String authToken, @PathParam("id") int userId) throws SQLException {
-
-
-
+    public Response delete(@PathParam("id") int userId) throws SQLException {
         if (controller.deleteUser(userId)) {
             return null;
         } else return null;
     }
 
-    @Path("/login")
     @POST
+    @Path("/login")
     @Produces("application/json")
-    public Response login(String username) throws Exception {
+    public Response login(String data) throws SQLException {
 
+        UserLogin userLogin = new Gson().fromJson(data, UserLogin.class);
 
-//        String token = tokenController.authenticate(username, password);
-//
-//        if (token != null) {
-//            //demo to check if it returns this on post.
-//            return Response
-//                    .status(200)
-//                    .entity(new Gson().toJson(token))
-//                    .build();
-//        } else return Response
-//                    .status(401)
-//                    .build();
+        String token = tokenController.authenticate(userLogin.getUsername(), userLogin.getPassword());
+
+        if (token != null) {
+            //demo to check if it returns this on post.
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(token))
+                    .build();
+        } else return Response
+                    .status(401)
+                    .build();
     }
+
+    @POST
+    @Path("/logout")
+    public Response logout (String data) throws SQLException {
+
+        if(tokenController.deleteToken(data)) {
+            return Response
+                    .status(200)
+                    .entity("Success!")
+                    .build();
+
+        } else return Response
+                    .status(400)
+                    .entity("Failure")
+                    .build();
     }
+}
 

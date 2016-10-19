@@ -38,4 +38,8 @@ public class TokenController {
         return db.getUserFromToken(token);
 
     }
+
+    public Boolean deleteToken(String token) throws SQLException {
+      return db.deleteToken(token);
+    }
 }
