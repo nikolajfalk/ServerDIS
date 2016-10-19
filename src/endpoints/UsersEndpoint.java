@@ -121,7 +121,7 @@ public class UsersEndpoint  {
             //demo to check if it returns this on post.
             return Response
                 .status(200)
-                .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(token))))
+                .entity(new Gson().toJson(token))
                 .build();
         } else return Response
             .status(401)
@@ -131,9 +131,7 @@ public class UsersEndpoint  {
     @POST
     @Path("/logout")
     public Response logout (String data) throws SQLException {
-        String s = new Gson().fromJson(data,String.class);
-        String decrypt = Crypter.encryptDecryptXOR(s);
-        if(tokenController.deleteToken(decrypt)) {
+        if(tokenController.deleteToken(data)) {
             return Response
                     .status(200)
                     .entity("Success!")
