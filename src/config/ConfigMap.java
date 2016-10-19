@@ -1,6 +1,6 @@
 package config;
 
-public class Config {
+public class ConfigMap {
 
   private String dbUserName;
   private String dbPassword;
