@@ -102,24 +102,17 @@ public class DBConnector {
             PreparedStatement getUser = conn.prepareStatement("SELECT * FROM Users WHERE UserID=?");
             getUser.setInt(1, id);
             resultSet = getUser.executeQuery();
+            resultSet.next();
 
-            while ( resultSet.next() ) {
-                try {
-
-                    user = new User(
-                            resultSet.getInt("UserID"),
-                            resultSet.getString("First_Name"),
-                            resultSet.getString("Last_Name"),
-                            resultSet.getString("Username"),
-                            resultSet.getString("Email"),
-                            resultSet.getString("Password"),
-                            resultSet.getBoolean("Usertype")
-                    );
-
-                }catch(Exception e){
-
-                }
-            }
+            user = new User(
+                    resultSet.getInt("UserID"),
+                    resultSet.getString("First_Name"),
+                    resultSet.getString("Last_Name"),
+                    resultSet.getString("Username"),
+                    resultSet.getString("Email"),
+                    resultSet.getString("Password"),
+                    resultSet.getBoolean("Usertype")
+            );
 
         } catch (SQLException sqlException ){
             System.out.println(sqlException.getMessage());
@@ -225,20 +218,14 @@ public class DBConnector {
             getCurriculum.setInt(1, curriculumID);
             resultSet = getCurriculum.executeQuery();
 
-            while ( resultSet.next() ) {
-                try {
+            resultSet.next();
 
-                    curriculum = new Curriculum(
-                            resultSet.getInt("CurriculumID"),
-                            resultSet.getString("School"),
-                            resultSet.getString("Education"),
-                            resultSet.getInt("Semester")
-                    );
-
-                }catch(Exception e){
-
-                }
-            }
+            curriculum = new Curriculum(
+                    resultSet.getInt("CurriculumID"),
+                    resultSet.getString("School"),
+                    resultSet.getString("Education"),
+                    resultSet.getInt("Semester")
+            );
         }
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
