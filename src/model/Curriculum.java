@@ -18,6 +18,12 @@ public class Curriculum {
         this.semester = semester;
     }
 
+    public Curriculum( String school, String education, int semester) {
+        this.school = school;
+        this.education = education;
+        this.semester = semester;
+    }
+
     public String getSchool() {
         return school;
     }

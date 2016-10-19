@@ -19,16 +19,16 @@ public class UserController {
         this.gson = new Gson();
     }
 
-    public String getUsers() {
-        return gson.toJson(db.getUsers());
+    public ArrayList getUsers() {
+        return db.getUsers();
     }
 
-    public String getUser(int id) {
-        return gson.toJson(db.getUser(id));
+    public User getUser(int id) {
+        return db.getUser(id);
     }
 
-    public boolean editUser(User u) throws SQLException {
-        return db.editUser(u);
+    public boolean editUser(int id, String data) throws SQLException {
+        return db.editUser(id, data);
     }
 
     public boolean deleteUser(int id) throws SQLException {

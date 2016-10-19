@@ -1,5 +1,6 @@
 package database;
 
+import com.google.gson.Gson;
 import config.Config;
 import model.Book;
 import model.Curriculum;
@@ -7,7 +8,6 @@ import model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by mortenlaursen on 17/10/2016.
@@ -101,6 +101,7 @@ public class DBConnector {
             PreparedStatement getUser = conn.prepareStatement("SELECT * FROM Users WHERE UserID=?");
             getUser.setInt(1, id);
             resultSet = getUser.executeQuery();
+            resultSet.next();
 
             while (resultSet.next()) {
                 try {
@@ -120,16 +121,17 @@ public class DBConnector {
                 }
             }
 
+
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
         return user;
     }
 
-    public boolean editUser(User u) throws SQLException {
-
+    public boolean editUser(int id, String data) throws SQLException {
+        User u = new Gson().fromJson(data,User.class);
         PreparedStatement editUserStatement = conn
-                .prepareStatement("UPDATE user SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID = ?");
+                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID =?");
 
         try {
             editUserStatement.setString(1, u.getFirstName());
@@ -138,7 +140,7 @@ public class DBConnector {
             editUserStatement.setString(4, u.getEmail());
             editUserStatement.setString(5, u.getPassword());
             editUserStatement.setBoolean(6, u.getUserType());
-            editUserStatement.setInt(7, u.getId());
+            editUserStatement.setInt(7, id);
 
             editUserStatement.executeUpdate();
         } catch (SQLException e) {
@@ -169,7 +171,7 @@ public class DBConnector {
 
     public boolean deleteUser(int id) throws SQLException {
 
-        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Users WHERE UserID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Users SET Deleted = 1 WHERE UserID=?");
 
         try {
             deleteUserStatement.setInt(1, id);
@@ -239,20 +241,23 @@ public class DBConnector {
                 }
             }
         } catch (SQLException sqlException) {
+
             System.out.println(sqlException.getMessage());
         }
         return curriculum;
 
     }
 
-    public boolean editCurriculum(Curriculum c) throws SQLException {
-        PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE user SET School = ?, Education = ?, Semester = ? WHERE curriculumID = ?");
+    public boolean editCurriculum(int id, String data) throws SQLException {
+        PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE Curriculum SET School = ?, Education = ?, Semester = ? WHERE curriculumID = ?");
+
+        Curriculum c = new Gson().fromJson(data,Curriculum.class);
 
         try {
             editCurriculumStatement.setString(1, c.getSchool());
             editCurriculumStatement.setString(2, c.getEducation());
             editCurriculumStatement.setInt(3, c.getSemester());
-            editCurriculumStatement.setInt(4, c.getCurriculumID());
+            editCurriculumStatement.setInt(4, id);
 
             editCurriculumStatement.executeUpdate();
         } catch (SQLException e) {
@@ -279,7 +284,7 @@ public class DBConnector {
     }
 
     public boolean deleteCurriculum(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Curriculum WHERE CurriculumID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Curriculum SET Deleted = 1 WHERE CurriculumID=?");
 
         try {
             deleteUserStatement.setInt(1, id);
@@ -290,6 +295,45 @@ public class DBConnector {
         return true;
     }
 
+    //skal skiftes
+    public ArrayList getCurriculumBooks(int curriculumID) {
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+
+        try {
+            PreparedStatement getCurriculumBooks = conn.prepareStatement("SELECT * FROM Books INNER JOIN BooksCurriculum ON Books.BookID=BooksCurriculum.BookID WHERE CurriculumID = ? ");
+            getCurriculumBooks.setInt(1, curriculumID);
+            resultSet = getCurriculumBooks.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Book books = new Book(
+                            resultSet.getInt("BookID"),
+                            resultSet.getString("Publisher"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Author"),
+                            resultSet.getInt("Version"),
+                            resultSet.getDouble("ISBN"),
+                            resultSet.getDouble("PriceAB"),
+                            resultSet.getDouble("PriceSAXO"),
+                            resultSet.getDouble("PriceCDON")
+                    );
+
+                    results.add(books);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+    }
+
     /*books methods*/
 
     public ArrayList getBooks() throws IllegalArgumentException {
@@ -297,7 +341,7 @@ public class DBConnector {
         ResultSet resultSet = null;
 
         try {
-            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM Books ");
+            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM Books WHERE Deleted = 0 ");
             resultSet = getBooks.executeQuery();
 
             while (resultSet.next()) {
@@ -355,9 +399,9 @@ public class DBConnector {
 
     }
 
-    public boolean editBook(Book b) throws SQLException {
-        PreparedStatement editBookStatement = conn.prepareStatement("UPDATE user SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID = ?");
-
+    public boolean editBook(int id, String data) throws SQLException {
+        PreparedStatement editBookStatement = conn.prepareStatement("UPDATE Books SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID =?");
+        Book b = new Gson().fromJson(data, Book.class);
         try {
             editBookStatement.setString(1, b.getTitle());
             editBookStatement.setInt(2, b.getVersion());
@@ -367,7 +411,7 @@ public class DBConnector {
             editBookStatement.setDouble(6, b.getPriceCDON());
             editBookStatement.setString(7, b.getPublisher());
             editBookStatement.setString(8, b.getAuthor());
-            editBookStatement.setInt(9, b.getId());
+            editBookStatement.setInt(9, id);
 
             editBookStatement.executeUpdate();
         } catch (SQLException e) {
@@ -376,11 +420,11 @@ public class DBConnector {
         return true;
     }
 
-    public boolean addBook(Book b) throws SQLException {
+    public boolean addCurriculumBook(int curriculumID, String data) throws SQLException {
+        int id;
+        PreparedStatement addBookStatement = conn.prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-        PreparedStatement addBookStatement = conn
-                .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-
+        Book b = new Gson().fromJson(data, Book.class);
         try {
             addBookStatement.setString(1, b.getTitle());
             addBookStatement.setInt(2, b.getVersion());
@@ -392,19 +436,38 @@ public class DBConnector {
             addBookStatement.setString(8, b.getAuthor());
 
             addBookStatement.executeUpdate();
+            ResultSet rs = addBookStatement.getGeneratedKeys();
 
+            if(rs.next()){
+                id = rs.getInt(1);
+
+                PreparedStatement addToBooksCurriculum = conn.prepareStatement("INSERT INTO BooksCurriculum (BookID, CurriculumID) VALUES (?,?)");
+                addToBooksCurriculum.setInt(1, id);
+                addToBooksCurriculum.setInt(2, curriculumID);
+                addToBooksCurriculum.executeUpdate();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return true;
+
     }
 
+    
+
     public boolean deleteBook(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Books WHERE BookID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET Deleted = 1 WHERE BookID = ?");
+        PreparedStatement deleteBooksCurriculumRows = conn.prepareStatement("DELETE FROM BooksCurriculum WHERE BookID = ?");
 
         try {
             deleteUserStatement.setInt(1, id);
             deleteUserStatement.executeUpdate();
+
+            deleteBooksCurriculumRows.setInt(1, id);
+            deleteBooksCurriculumRows.execute();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -427,7 +490,7 @@ public class DBConnector {
             while (resultSet.next()) {
                 try {
                     userFound = new User();
-                    userFound.setId(resultSet.getInt("UserID"));
+                    userFound.setUserID(resultSet.getInt("UserID"));
 
                 } catch (SQLException e) {
 
@@ -458,7 +521,7 @@ public class DBConnector {
 
                 userFromToken = new User();
 
-                userFromToken.setId(resultSet.getInt("user_id"));
+                userFromToken.setUserID(resultSet.getInt("user_id"));
                 userFromToken.setUserType(resultSet.getBoolean("Usertype"));
 
             }
@@ -469,14 +532,13 @@ public class DBConnector {
 
     }
 
-    public void addToken(String token, int userId) throws SQLException {
+    public void addToken(String token, int userId) {
 
-        PreparedStatement addTokenStatement = conn.prepareStatement("INSERT INTO Tokens (token, user_id) VALUES (?,?)");
-
+        PreparedStatement addTokenStatement;
         try {
+            addTokenStatement = conn.prepareStatement("INSERT INTO Tokens (token, user_id) VALUES (?,?)");
             addTokenStatement.setString(1, token);
             addTokenStatement.setInt(2, userId);
-
             addTokenStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -495,4 +557,13 @@ public class DBConnector {
         }
         return true;
     }
+
+    public void close(){
+        try {
+            this.conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

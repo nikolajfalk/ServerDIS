@@ -2,6 +2,7 @@ package controllers;
 
 import com.google.gson.Gson;
 import database.DBConnector;
+import model.Book;
 import model.Curriculum;
 
 import java.sql.SQLException;
@@ -21,8 +22,8 @@ public class CurriculumController {
         return db.getCurriculum(id);
     }
 
-    public boolean editCurriculum(Curriculum c) throws SQLException {
-        return db.editCurriculum(c);
+    public boolean editCurriculum(int id, String data) throws SQLException {
+        return db.editCurriculum(id, data);
     }
 
     public boolean deleteCurriculum(int id) throws SQLException {
@@ -34,4 +35,12 @@ public class CurriculumController {
         return db.addCurriculum(c);
     }
 
+    public ArrayList getCurriculumBooks(int curriculumID) {
+        return db.getCurriculumBooks(curriculumID);
+
+    }
+
+    public boolean addCurriculumBook(int curriculumID, String data) throws SQLException {
+        return db.addCurriculumBook(curriculumID, data);
+    }
 }
