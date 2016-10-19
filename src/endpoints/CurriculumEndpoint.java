@@ -137,18 +137,27 @@ public class CurriculumEndpoint {
     @POST
     @Path("/{curriculumID}/book")
     @Produces("application/json")
-    public Response create(@PathParam("curriculumID")int curriculumID, String data) throws Exception {
-        if (curriculumController.addCurriculumBook(curriculumID, data)) {
-            return Response
-                    .status(200)
-                    .entity("new user")
-                    .build();
-        }
-        else {
-            return Response
-                    .status(400)
-                    .build();
-        }
+    public Response create(@HeaderParam("authorization") String authToken, @PathParam("curriculumID")int curriculumID, String data) throws Exception {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (curriculumController.addCurriculumBook(curriculumID, data)) {
+                return Response
+                        .status(200)
+                        .entity("new user")
+                        .build();
+            }
+            else {
+                return Response
+                        .status(400)
+                        .build();
+            }
+
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
+
     }
     /**
      * Metode til at ændre et semester
@@ -157,27 +166,35 @@ public class CurriculumEndpoint {
     @PUT
     @Path("/{curriculumID}")
     @Produces("application/json")
-    public Response edit(@PathParam("curriculumID") int id, String data) throws SQLException {
-        if (curriculumController.getCurriculum(id)!=null) {
-            if (curriculumController.editCurriculum(id, data)) {
-                return Response
-                        .status(200)
-                        .entity("{\"message\":\"Success! Curriculum was changed.\"}")
-                        .build();
+    public Response edit(@HeaderParam("authorization") String authToken, @PathParam("curriculumID") int id, String data) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (curriculumController.getCurriculum(id)!=null) {
+                if (curriculumController.editCurriculum(id, data)) {
+                    return Response
+                            .status(200)
+                            .entity("{\"message\":\"Success! Curriculum was changed.\"}")
+                            .build();
+                }
+                else {
+                    return Response
+                            .status(400)
+                            .entity("{\"message\":\"failed\"}")
+                            .build();
+                }
             }
             else {
                 return Response
                         .status(400)
-                        .entity("{\"message\":\"failed\"}")
+                        .entity("{\"message\":\"failed. Curriculum doesn't exist.\"}")
                         .build();
             }
-        }
-        else {
-            return Response
-                    .status(400)
-                    .entity("{\"message\":\"failed. Curriculum doesn't exist.\"}")
-                    .build();
-        }
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
+
         /*
         if(curriculumController.editCurriculum(curriculumController.)) {
             return null;

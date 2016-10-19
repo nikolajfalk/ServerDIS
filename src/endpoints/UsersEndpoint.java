@@ -42,7 +42,8 @@ public class UsersEndpoint  {
                         .entity("{\"message\":\"failed\"}")
                         .build();
             }
-        }
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
 
     }
 
