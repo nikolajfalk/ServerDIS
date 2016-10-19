@@ -36,8 +36,6 @@ public class AuthenticationEndpoint {
 
                 db.addToken(token, foundUser.getId());
 
-
-
             }
 
             // Issue a token for the user
@@ -49,15 +47,6 @@ public class AuthenticationEndpoint {
         } catch (Exception e) {
             return Response.status(UNAUTHORIZED).build();
         }
-    }
-
-    private void authenticate(String username, String password) throws Exception
-        //
-        //Authenticate against a database, LDAP, file or whatever
-        //Throw an Exception if the credentials are invalid
-        //
-
-
     }
 
     private static String buildToken(String chars, int length) {
