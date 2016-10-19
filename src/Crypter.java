@@ -25,7 +25,8 @@ public class Crypter {
         String communication = "test123";
 
         // Returnerer den krypterede værdi.
-        return Crypter.encryptDecryptXOR(communication) + "\n" + Crypter.encryptDecryptXOR(Crypter.encryptDecryptXOR(communication));
+        return Crypter.encryptDecryptXOR(communication) + "\n" + Crypter.encryptDecryptXOR
+                (Crypter.encryptDecryptXOR(communication));
     }
 
 }
