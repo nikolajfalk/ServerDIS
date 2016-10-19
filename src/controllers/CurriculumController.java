@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by mortenlaursen on 17/10/2016.
  */
 public class CurriculumController {
-    DBConnector db = new DBConnector();
+  
 
     public ArrayList<Curriculum> getCurriculums()throws IllegalAccessException{
         DBConnector db = new DBConnector();
@@ -22,9 +22,11 @@ public class CurriculumController {
     }
 
     public Curriculum getCurriculum(int id) {
-        return db.getCurriculum(id);
+    DBConnector db = new DBConnector();
+    Curriculum curriculum = db.getCurriculum(id);
+    db.close();
+    return curriculum;
     }
-
 
     public boolean editCurriculum(int id, String data) throws SQLException {
         DBConnector db = new DBConnector();
