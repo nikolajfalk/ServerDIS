@@ -32,6 +32,7 @@ public class UsersEndpoint  {
             return Response
                     //error response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -48,6 +49,7 @@ public class UsersEndpoint  {
         }
         return Response
                 .status(400)
+                .entity("{\"message\":\"failed\"}")
                 .build();
     }
 
@@ -59,15 +61,18 @@ public class UsersEndpoint  {
             if (controller.editUser(id, data)) {
                 return Response
                         .status(200)
+                        .entity("{\"message\":\"Success! User edited\"}")
                         .build();
             } else {
                 return Response
                         .status(400)
+                        .entity("{\"message\":\"failed\"}")
                         .build();
             }
         } else {
             return Response
                     .status(400)
+                    .entity("{\"message\":\"failed. No such user\"}")
                     .build();
         }
     }
@@ -82,16 +87,16 @@ public class UsersEndpoint  {
                     .entity(new Gson().toJson(controller.getUsers()))
                     .build();
         }
-        else return null;
+        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 
     @Path("/{id}")
     @DELETE
     public Response delete (@PathParam("id") int userId) throws SQLException {
         if(controller.deleteUser(userId)) {
-            return null;
+            return Response.status(200).entity("{\"message\":\"Success! User deleted\"}").build();
         }
-        else return null;
+        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 }
 
