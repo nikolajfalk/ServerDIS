@@ -1,5 +1,6 @@
 package database;
 
+import config.Config;
 import model.Book;
 import model.Curriculum;
 import model.User;
@@ -19,11 +20,11 @@ public class DBConnector {
      */
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://bookit.ch3v4pqrs4c3.eu-central-1.rds.amazonaws.com/Bookit?useSSL=false";
+    static final String DB_URL = "jdbc:mysql://" + Config.getDbUrl() + ":" + Config.getDbPort() + "/" + Config.getDbName();
 
     //  Database credentials
-    static final String USER = "bookit";
-    static final String PASS = "bookit123";
+    static final String USER = Config.getDbUserName();
+    static final String PASS = Config.getDbPassword();
 
     //String sql; Not needed anymore after introducing prepared statements.
     Connection conn = null;
