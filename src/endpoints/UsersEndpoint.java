@@ -10,9 +10,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-// The Java class will be hosted at the URI path "/users"
+// implements IEndpoints The Java class will be hosted at the URI path "/users"
 @Path("/users")
-public class UsersEndpoint implements IEndpoints {
+public class UsersEndpoint  {
     UserController controller = new UserController();
 
     public UsersEndpoint() {
@@ -36,25 +36,40 @@ public class UsersEndpoint implements IEndpoints {
         }
     }
 
-    @Path("/users/{id}")
+    @Path("/{id}")
     @Produces("application/json")
     @GET
     public Response get(@PathParam("id") int userId) {
         if (controller.getUser(userId)!=null) {
-            return null;
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(controller.getUser(userId)))
+                    .build();
         }
-        return null;
+        return Response
+                .status(400)
+                .build();
     }
 
-    @Path("/users/{id}")
     @PUT
-    public Response edit(String data) {
-        /*
-        if(controller.editUser(data)) {
-            return null;
+    @Path("/{Id}")
+    @Produces("application/json")
+    public Response edit(@PathParam("Id") int id, String data) throws SQLException {
+        if (controller.getUser(id) != null) {
+            if (controller.editUser(id, data)) {
+                return Response
+                        .status(200)
+                        .build();
+            } else {
+                return Response
+                        .status(400)
+                        .build();
+            }
+        } else {
+            return Response
+                    .status(400)
+                    .build();
         }
-        else return null;*/
-        return null;
     }
 
     @POST
@@ -70,7 +85,7 @@ public class UsersEndpoint implements IEndpoints {
         else return null;
     }
 
-    @Path("/users/{id}")
+    @Path("/{id}")
     @DELETE
     public Response delete (@PathParam("id") int userId) throws SQLException {
         if(controller.deleteUser(userId)) {

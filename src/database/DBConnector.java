@@ -126,10 +126,10 @@ public class DBConnector {
         return user;
     }
 
-    public boolean editUser(User u) throws SQLException {
-
+    public boolean editUser(int id, String data) throws SQLException {
+        User u = new Gson().fromJson(data,User.class);
         PreparedStatement editUserStatement = conn
-                .prepareStatement("UPDATE user SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID = ?");
+                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID ="+id);
 
         try {
             editUserStatement.setString(1, u.getFirstName());
@@ -138,7 +138,6 @@ public class DBConnector {
             editUserStatement.setString(4, u.getEmail());
             editUserStatement.setString(5, u.getPassword());
             editUserStatement.setBoolean(6, u.getUserType());
-            editUserStatement.setInt(7, u.getUserID());
 
             editUserStatement.executeUpdate();
         } catch (SQLException e) {
@@ -293,6 +292,11 @@ public class DBConnector {
         return true;
     }
 
+    //skal skiftes
+    public ArrayList getCurriculumBooks(int curriculumID) {
+        return null;
+    }
+
     /*books methods*/
 
     public ArrayList getBooks() throws IllegalArgumentException {
@@ -360,9 +364,9 @@ public class DBConnector {
 
     }
 
-    public boolean editBook(Book b) throws SQLException {
-        PreparedStatement editBookStatement = conn.prepareStatement("UPDATE user SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID = ?");
-
+    public boolean editBook(int id, String data) throws SQLException {
+        PreparedStatement editBookStatement = conn.prepareStatement("UPDATE Books SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID = " + id);
+        Book b = new Gson().fromJson(data, Book.class);
         try {
             editBookStatement.setString(1, b.getTitle());
             editBookStatement.setInt(2, b.getVersion());
@@ -372,7 +376,6 @@ public class DBConnector {
             editBookStatement.setDouble(6, b.getPriceCDON());
             editBookStatement.setString(7, b.getPublisher());
             editBookStatement.setString(8, b.getAuthor());
-            editBookStatement.setInt(9, b.getBookID());
 
             editBookStatement.executeUpdate();
         } catch (SQLException e) {

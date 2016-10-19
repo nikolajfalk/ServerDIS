@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
 // The Java class will be hosted at the URI path "/Book"
+
 @Path("/Book")
 public class BookEndpoint implements IEndpoints {
     BookController controller = new BookController();
@@ -53,12 +54,25 @@ public class BookEndpoint implements IEndpoints {
         }
     }
 
-    //Not created yet
     @PUT
-    public Response edit(String data) throws Exception {
-        if (controller.editBook(data)) {
-            return null;
-        } else return null;
+    @Path("/{bookId}")
+    @Produces("application/json")
+    public Response edit(@PathParam("bookId") int id, String data) throws Exception {
+        if (controller.getBook(id) != null) {
+            if (controller.editBook(id, data)) {
+                return Response
+                        .status(200)
+                        .build();
+            } else {
+                return Response
+                        .status(400)
+                        .build();
+            }
+        } else {
+            return Response
+                    .status(400)
+                    .build();
+        }
     }
     /*
     public Response edit(@PathParam("id") int bookId) {

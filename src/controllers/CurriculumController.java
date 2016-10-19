@@ -36,7 +36,7 @@ public class CurriculumController {
     }
 
     public ArrayList getCurriculumBooks(int curriculumID) {
-        return db.getCurriculumBooks();
+        return db.getCurriculumBooks(curriculumID);
 
     }
 }

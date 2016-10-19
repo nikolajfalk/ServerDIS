@@ -20,10 +20,9 @@ public class BookController {
         return db.getBook(id);
     }
 
-    public boolean editBook(String data) throws Exception {
+    public boolean editBook(int id, String data) throws Exception {
         DBConnector db = new DBConnector();
-        Book b = new Gson().fromJson(data, Book.class);
-        return db.editBook(b);
+        return db.editBook(id, data);
     }
 
     public boolean deleteBook(int id) throws Exception {
