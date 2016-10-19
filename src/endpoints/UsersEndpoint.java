@@ -36,6 +36,8 @@ public class UsersEndpoint implements IEndpoints {
         }
     }
 
+
+
     @Path("/users/{id}")
     @Produces("application/json")
     @GET
