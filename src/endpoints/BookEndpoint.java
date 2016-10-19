@@ -84,8 +84,10 @@ public class BookEndpoint implements IEndpoints {
         }
     }
 
-    @Path("/Book/{id}")
-    @DELETE
+
+    @Path("/{id}")
+    @PUT
+    @Produces("application/json")
     public Response delete (@PathParam("id") int bookId) throws Exception {
         if(controller.deleteBook(bookId)) {
             return null;

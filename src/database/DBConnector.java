@@ -403,7 +403,7 @@ public class DBConnector {
     }
 
     public boolean deleteBook(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Books WHERE BookID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Book SET Deleted = 1 WHERE BookID=?");
 
         try {
             deleteUserStatement.setInt(1, id);
