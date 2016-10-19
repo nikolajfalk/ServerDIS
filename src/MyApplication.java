@@ -2,11 +2,13 @@
  * Created by mortenlaursen on 09/10/2016.
  */
 
+import endpoints.HashingEndpoint;
 import com.google.gson.Gson;
 import config.Config;
 import config.ConfigMap;
-import Encrypters.CrypterEndpoint;
+import endpoints.CrypterEndpoint;
 import endpoints.BookEndpoint;
+import endpoints.CurriculumEndpoint;
 import endpoints.UsersEndpoint;
 import model.Curriculum;
 
@@ -45,7 +47,7 @@ public class MyApplication extends Application {
     HashSet h = new HashSet<Class<?>>();
     h.add(UsersEndpoint.class);
     h.add(BookEndpoint.class);
-    h.add(Curriculum.class);
+    h.add(CurriculumEndpoint.class);
     h.add(HashingEndpoint.class);
     h.add(CrypterEndpoint.class);
     return h;
