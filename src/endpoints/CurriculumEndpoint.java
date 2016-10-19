@@ -44,7 +44,7 @@ public class CurriculumEndpoint implements IEndpoints{
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(curriculumController.getCurriculum(curriculumID))))
+                    .entity(new Gson().toJson(curriculumController.getCurriculum(curriculumID)))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -67,7 +67,7 @@ public class CurriculumEndpoint implements IEndpoints{
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(curriculumController.getCurriculums())))
+                    .entity(curriculumController.getCurriculums())
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -93,7 +93,7 @@ public class CurriculumEndpoint implements IEndpoints{
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(curriculumController.getCurriculum(id))))
+                    .entity(new Gson().toJson(curriculumController.getCurriculum(id)))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
