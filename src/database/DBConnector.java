@@ -282,7 +282,7 @@ public class DBConnector {
     }
 
     public boolean deleteCurriculum(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("DELETE FROM Curriculum WHERE CurriculumID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Curriculums SET Deleted = 1 WHERE BookID=?");
 
         try {
             deleteUserStatement.setInt(1, id);
@@ -415,6 +415,7 @@ public class DBConnector {
         }
         return true;
     }
+
 
 
 }

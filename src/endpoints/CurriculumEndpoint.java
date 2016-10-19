@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by magnusrasmussen on 17/10/2016.
  */
 //implements IEndpoints HUSK AT ÆNDRE INTERFACET VED PUT
-@Path("/curriculum")
+@Path("/Curriculum")
 public class CurriculumEndpoint {
     CurriculumController curriculumController;
 
@@ -35,14 +35,14 @@ public class CurriculumEndpoint {
      * @throws IllegalAccessException
      */
     @GET
-    @Path("/curriculum/{curriculumId}/books")
+    @Path("/{curriculumID}/Books")
     @Produces("application/json")
-    public Response getCurriculum(@PathParam("curriculumId") int curriculumID) throws IllegalAccessException {
+    public Response getCurriculumBooks(@PathParam("curriculumID") int curriculumID) throws IllegalAccessException {
 
-        if (curriculumController.getCurriculums() != null) {
+        if (curriculumController.getCurriculum(curriculumID) != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(curriculumController.getCurriculum(curriculumID)))
+                    .entity(new Gson().toJson(curriculumController.getCurriculumBooks(curriculumID)))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -83,9 +83,9 @@ public class CurriculumEndpoint {
      * @throws IllegalAccessException
      */
     @GET
-    @Path("/{curriculumId}")
+    @Path("/{curriculumID}")
     @Produces("application/json")
-    public Response get(@PathParam("curriculumId") int id) throws IllegalAccessException {
+    public Response get(@PathParam("curriculumID") int id) throws IllegalAccessException {
 
 
         if (curriculumController.getCurriculums() != null) {
@@ -130,9 +130,9 @@ public class CurriculumEndpoint {
      * @return
      */
     @PUT
-    @Path("/{curriculumId}")
+    @Path("/{curriculumID}")
     @Produces("application/json")
-    public Response edit(@PathParam("curriculumId") int id, String data) throws SQLException {
+    public Response edit(@PathParam("curriculumID") int id, String data) throws SQLException {
         if (curriculumController.getCurriculum(id)!=null) {
             if (curriculumController.editCurriculum(id, data)) {
                 return Response
