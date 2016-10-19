@@ -1,9 +1,14 @@
 package endpoints;
 
+import Cryptor;
+
+
 import database.DBConnector;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+
+import java.util.Random;
 
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 
@@ -24,8 +29,12 @@ public class AuthenticationEndpoint {
             // Authenticate the user using the credentials provided
             DBConnector db = new DBConnector;
 
-            if(db.authenticate(username, password)){
-                Cryptor.
+            if(db.authenticate(username, password) ==1){
+
+                String token = buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
+
+
+                db.addToken(token, username);
 
 
             }
@@ -54,9 +63,12 @@ public class AuthenticationEndpoint {
         //
     }
 
-    private String issueToken(String username) {
-        // Issue a token (can be a random String persisted to a database or a JWT token)
-        // The issued token must be associated to a user
-        // Return the issued token
+    private static String buildToken(String chars, int length) {
+        Random rand = new Random();
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            buf.append(chars.charAt(rand.nextInt(chars.length())));
+        }
+        return buf.toString();
     }
 }

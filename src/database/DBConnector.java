@@ -141,26 +141,35 @@ public class DBConnector {
         return true;
     }
 
-    public boolean authenticate(String username, String password){
+    public int authenticate(String username, String password){
 
         ResultSet resultSet = null;
+        int results = 0;
 
         try {
             PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ?");
+            authenticate.setString(1, username);
+            authenticate.setString(2, password);
 
 
             resultSet = authenticate.executeQuery();
 
-            if (resultSet.next()){
-                return true;
-            }else{
-                return false;
+            while (resultSet.next()){
+                try {
+                    results = resultSet.getInt("UserID");
+                }catch (SQLException e){
+
+                }
+
+
             }
         }
         catch ( SQLException sqlException ){
             System.out.println(sqlException.getMessage());
-            return false;
         }
+
+        return results;
+
     }
 
     public ArrayList<Integer> getUserIdFromToken(String token){
@@ -184,6 +193,20 @@ public class DBConnector {
         return results;
 
 
+    }
+
+    public void addToken (String token, int userId) throws SQLException{
+
+        PreparedStatement addTokenStatement = conn.prepareStatement("INSERT INTO Tokens (token, user_id) VALUES (?,?)");
+
+        try{
+            addTokenStatement.setString(1, token);
+            addTokenStatement.setInt(2, userId);
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+
+        }
     }
 
 
