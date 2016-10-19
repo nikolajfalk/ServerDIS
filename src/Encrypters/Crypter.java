@@ -1,3 +1,5 @@
+package Encrypters;
+
 /**
  * Created by Tastum on 17/10/2016.
  */
@@ -7,11 +9,8 @@ import java.util.Random;
 public class Crypter {
 
 
-
-    private static String encryptDecryptXOR(String input) {
-        char[] key = {'A', 'B', 'C'};
-
-        //Oprettelse af Stringbuilder, fordi den gør at den givne String kan modificeres
+    public static String encryptDecryptXOR(String input) {
+        char[] key = {'A', 'B', 'C'}; //Dette kan være alle andre bogstaver end a,b og c.
         StringBuilder output = new StringBuilder();
 
         //For loop der scrambler den String, der bliver indtastet
@@ -41,9 +40,6 @@ public class Crypter {
         }
         return buf.toString();
     }
-
-
-
 
 
 }
