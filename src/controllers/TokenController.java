@@ -23,7 +23,7 @@ public class TokenController {
 
             token = Crypter.buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
 
-            db.addToken(token, foundUser.getId());
+            db.addToken(token, foundUser.getUserID());
 
         } else {
             token = null;
