@@ -3,6 +3,7 @@ package endpoints;
 import Cryptor;
 
 import database.DBConnector;
+import model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -28,17 +29,18 @@ public class AuthenticationEndpoint {
             // Authenticate the user using the credentials provided
             DBConnector db = new DBConnector;
 
-            if(db.authenticate(username, password) ==1){
+            User foundUser = db.authenticate(username, password);
+            if(foundUser != null) {
 
                 String token = buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
 
-                db.addToken(token, username);
+                db.addToken(token, foundUser.getId());
 
 
             }
 
             // Issue a token for the user
-            String token = issueToken(username);
+            String token = issueToken(foundUser.getId());
 
             // Return the token on the response
             return Response.ok(token).build();
@@ -53,6 +55,8 @@ public class AuthenticationEndpoint {
         //Authenticate against a database, LDAP, file or whatever
         //Throw an Exception if the credentials are invalid
         //
+
+
     }
 
     private static String buildToken(String chars, int length) {
