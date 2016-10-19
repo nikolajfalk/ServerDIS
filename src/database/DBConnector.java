@@ -483,5 +483,18 @@ public class DBConnector {
         }
     }
 
+    public boolean deleteToken(String token) throws SQLException {
+
+        PreparedStatement deleteTokenStatement = conn.prepareStatement("DELETE FROM Tokens WHERE token=?");
+
+        try {
+            deleteTokenStatement.setString(1, token);
+            deleteTokenStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 
 }
