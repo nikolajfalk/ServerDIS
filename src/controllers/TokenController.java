@@ -23,13 +23,16 @@ public class TokenController {
 
             token = Crypter.buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
 
-//            db.addToken(token, foundUser.getId());
-            db.addToken(token, 12);
+            db.addToken(token, foundUser.getId());
 
         } else {
             token = null;
         }
         //Retunerer en access token til klienten.
         return token;
+    }
+
+    public Boolean deleteToken(String token) throws SQLException {
+      return db.deleteToken(token);
     }
 }

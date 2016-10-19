@@ -121,5 +121,21 @@ public class UsersEndpoint  {
             .build();
     }
 
+    @POST
+    @Path("/logout")
+    public Response logout (String data) throws SQLException {
+
+        if(tokenController.deleteToken(data)) {
+            return Response
+                    .status(200)
+                    .entity("Success!")
+                    .build();
+
+        } else return Response
+                    .status(400)
+                    .entity("Failure")
+                    .build();
+    }
+
 }
 
