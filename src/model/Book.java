@@ -2,7 +2,7 @@ package model;
 
 public class Book {
 
-    private int id;
+    private int bookID;
     private double ISBN;
     private String publisher;
     private String title;
@@ -12,8 +12,8 @@ public class Book {
     private double priceCDON;
     private int version;
 
-    public Book(int id, String publisher, String title, String author, int version, double ISBN, double priceAB, double priceSAXO, double priceCDON) {
-        this.id = id;
+    public Book(int bookID, String publisher, String title, String author, int version, double ISBN, double priceAB, double priceSAXO, double priceCDON) {
+        this.bookID = bookID;
         this.publisher = publisher;
         this.title = title;
         this.author = author;
@@ -35,12 +35,12 @@ public class Book {
         this.priceCDON = priceCDON;
     }
 
-    public int getId() {
-        return id;
+    public int getBookID() {
+        return bookID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
     }
 
     public String getPublisher() {
