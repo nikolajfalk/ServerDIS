@@ -294,7 +294,41 @@ public class DBConnector {
 
     //skal skiftes
     public ArrayList getCurriculumBooks(int curriculumID) {
-        return null;
+        ArrayList results = new ArrayList();
+        ResultSet resultSet = null;
+
+
+        try {
+            PreparedStatement getCurriculumBooks = conn.prepareStatement("SELECT * FROM Books INNER JOIN BooksCurriculum ON Books.BookID=BooksCurriculum.BookID WHERE CurriculumID = ? ");
+            getCurriculumBooks.setInt(1, curriculumID);
+            resultSet = getCurriculumBooks.executeQuery();
+
+            while ( resultSet.next() ) {
+                try {
+
+                    Book books = new Book(
+                            resultSet.getInt("BookID"),
+                            resultSet.getString("Publisher"),
+                            resultSet.getString("Title"),
+                            resultSet.getString("Author"),
+                            resultSet.getInt("Version"),
+                            resultSet.getDouble("ISBN"),
+                            resultSet.getDouble("PriceAB"),
+                            resultSet.getDouble("PriceSAXO"),
+                            resultSet.getDouble("PriceCDON")
+                    );
+
+                    results.add(books);
+
+                }catch(Exception e){
+
+                }
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
     }
 
     /*books methods*/
@@ -407,8 +441,10 @@ public class DBConnector {
         return  true;
     }
 
+    
+
     public boolean deleteBook(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET Deleted = 1 WHERE BookID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET deleted = 1 WHERE BookID = ?; DELETE FROM BooksCurriculum WHERE BookID = ?;");
 
         try {
             deleteUserStatement.setInt(1, id);
