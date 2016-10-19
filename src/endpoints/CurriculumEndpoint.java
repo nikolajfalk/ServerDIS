@@ -115,35 +115,11 @@ public class CurriculumEndpoint {
      * @return
      * @throws Exception
      */
-    @POST
-    @Produces("application/json")
-    public Response create(@HeaderParam("authorization") String authToken, String data) throws Exception {
-
-        User user = tokenController.getUserFromTokens(authToken);
-
-        if (user != null){
-            if (curriculumController.addCurriculum(data)) {
-                //demo to check if it returns this on post.
-                return Response
-                        .status(200)
-                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
-                        //at den skriver til db.
-                        .entity(new Gson().toJson(curriculumController.getCurriculums()))
-                        .build();
-            }
-            else return Response
-                    .status(400)
-                    .entity("{\"message\":\"Failed.\"}")
-                    .build();
-        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
-
-
-    }
-
 
     @POST
     @Path("/{curriculumID}/book")
     @Produces("application/json")
+
     public Response create(@HeaderParam("authorization") String authToken, @PathParam("curriculumID")int curriculumID, String data) throws Exception {
 
         User user = tokenController.getUserFromTokens(authToken);
@@ -152,19 +128,20 @@ public class CurriculumEndpoint {
             if (curriculumController.addCurriculumBook(curriculumID, data)) {
                 return Response
                         .status(200)
+                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                        //at den skriver til db.
                         .entity("new user")
                         .build();
             }
             else {
                 return Response
                         .status(400)
+                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                        //at den skriver til db.
                         .build();
             }
 
         }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
-
-
-
     }
     /**
      * Metode til at ændre et semester
@@ -226,6 +203,7 @@ public class CurriculumEndpoint {
     @DELETE
     @Path("/{curriculumId}")
     @Produces("application/json")
+
     public Response delete(@HeaderParam("authorization") String authToken, @PathParam("curriculumId") int id) throws SQLException {
 
         User user = tokenController.getUserFromTokens(authToken);
@@ -236,8 +214,5 @@ public class CurriculumEndpoint {
             }
             else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
         }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
-
-
-
     }
 }

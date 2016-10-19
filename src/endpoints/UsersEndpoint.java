@@ -43,8 +43,6 @@ public class UsersEndpoint  {
                         .build();
             }
         }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
-
-
     }
 
     @Path("/{id}")
@@ -65,8 +63,11 @@ public class UsersEndpoint  {
                     .status(400)
                     .entity("{\"message\":\"failed\"}")
                     .build();
-        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
 
+        } else return Response
+                .status(400)
+                .entity("{\"message\":\"failed\"}")
+                .build();
     }
 
     @PUT
@@ -108,7 +109,7 @@ public class UsersEndpoint  {
             //demo to check if it returns this on post.
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(controller.getUsers()))
+                    .entity("{\"message\":\"Success! User edited\"}")
                     .build();
         }
         else return Response.status(400).entity("{\"message\":\"failed\"}").build();

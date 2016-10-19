@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: bookit.ch3v4pqrs4c3.eu-central-1.rds.amazonaws.com (MySQL 5.6.27-log)
+# Host: 127.0.0.1 (MySQL 5.7.11)
 # Database: Bookit
-# Generation Time: 2016-10-19 08:30:36 +0000
+# Generation Time: 2016-10-19 19:47:06 +0000
 # ************************************************************
 
 
@@ -169,11 +169,20 @@ DROP TABLE IF EXISTS `Tokens`;
 
 CREATE TABLE `Tokens` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `token` varchar(11) DEFAULT NULL,
+  `token` varchar(255) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+LOCK TABLES `Tokens` WRITE;
+/*!40000 ALTER TABLE `Tokens` DISABLE KEYS */;
+
+INSERT INTO `Tokens` (`id`, `token`, `user_id`)
+VALUES
+	(8,'f9e!zc4k4h6nk!8c!v7pn1oqr',12);
+
+/*!40000 ALTER TABLE `Tokens` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table Users
@@ -200,9 +209,9 @@ LOCK TABLES `Users` WRITE;
 
 INSERT INTO `Users` (`UserID`, `First_Name`, `Last_Name`, `Username`, `Email`, `Password`, `Usertype`, `Created`, `Deleted`, `UpdateTs`)
 VALUES
-	(12,'Hans','Petersen','hans','Hans@','123',1,'2016-10-17 16:00:04',0,'2016-10-17 15:16:47'),
+	(12,'Hans','Petersen','hans','Hans@hotmail.com','123',1,'2016-10-17 16:00:04',0,'2016-10-19 21:40:30'),
 	(13,'Christoffer','Palsgaard','pals','pals@gmail.com','123456',1,'2016-10-17 16:03:34',0,'2016-10-17 16:11:23'),
-	(14,'Niklas','Tastum','tasty','FalkensDildo@hotmail.com','123456',1,'2016-10-17 15:02:20',0,'2016-10-17 19:57:36');
+	(14,'Niklas','Tastum','tasty','Tastum@Tastumnet.com','123456',1,'2016-10-17 15:02:20',0,'2016-10-19 21:40:26');
 
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
