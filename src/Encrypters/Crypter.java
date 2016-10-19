@@ -41,5 +41,4 @@ public class Crypter {
         return buf.toString();
     }
 
-
 }
