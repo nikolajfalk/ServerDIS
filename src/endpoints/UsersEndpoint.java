@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import controllers.TokenController;
 import controllers.UserController;
 import database.DBConnector;
+import model.User;
 import model.UserLogin;
 
 import javax.ws.rs.*;
@@ -94,11 +95,18 @@ public class UsersEndpoint  {
 
     @Path("/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int userId) throws SQLException {
-        if(controller.deleteUser(userId)) {
-            return Response.status(200).entity("{\"message\":\"Success! User deleted\"}").build();
-        }
-        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+    public Response delete (@HeaderParam("authorization") String authToken, @PathParam("id") int userId) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if(controller.deleteUser(userId)) {
+                return Response.status(200).entity("{\"message\":\"Success! User deleted\"}").build();
+            }
+            else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
     }
 
     @POST
