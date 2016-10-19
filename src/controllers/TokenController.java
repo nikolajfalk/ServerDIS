@@ -23,7 +23,7 @@ public class TokenController {
 
             token = Crypter.buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
 
-            db.addToken(token, foundUser.getId());
+            db.addToken(token, foundUser.getUserID());
 
         } else {
             token = null;
@@ -32,7 +32,11 @@ public class TokenController {
         return token;
     }
 
-    public Boolean deleteToken(String token) throws SQLException {
-      return db.deleteToken(token);
+    public boolean deleteToken(String token) throws SQLException{
+        DBConnector db = new DBConnector();
+        boolean deleteToken = db.deleteToken(token);
+        db.close();
+        return deleteToken;
+
     }
 }
