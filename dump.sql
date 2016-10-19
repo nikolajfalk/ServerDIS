@@ -5,9 +5,9 @@
 # http://www.sequelpro.com/
 # https://github.com/sequelpro/sequelpro
 #
-# Host: db4free.net (MySQL 5.7.16)
-# Database: bookit
-# Generation Time: 2016-10-17 14:12:02 +0000
+# Host: bookit.ch3v4pqrs4c3.eu-central-1.rds.amazonaws.com (MySQL 5.6.27-log)
+# Database: Bookit
+# Generation Time: 2016-10-19 08:30:36 +0000
 # ************************************************************
 
 
@@ -35,7 +35,7 @@ CREATE TABLE `Books` (
   `PriceCDON` double DEFAULT NULL,
   `Publisher` varchar(255) DEFAULT NULL,
   `Author` varchar(255) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   `UpdateTs` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`BookID`)
@@ -44,7 +44,7 @@ CREATE TABLE `Books` (
 LOCK TABLES `Books` WRITE;
 /*!40000 ALTER TABLE `Books` DISABLE KEYS */;
 
-INSERT INTO `Books` (`BookID`, `Title`, `Version`, `ISBN`, `PriceAB`, `PriceSAXO`, `PriceCDON`, `Publisher`, `Author`, `created`, `Deleted`, `UpdateTs`)
+INSERT INTO `Books` (`BookID`, `Title`, `Version`, `ISBN`, `PriceAB`, `PriceSAXO`, `PriceCDON`, `Publisher`, `Author`, `Created`, `Deleted`, `UpdateTs`)
 VALUES
 	(1,'Hvordan organisationer fungerer',3,9788741258607,469,450,516,'Hans Reitzels','Dag Ingvar Jacobsen & Jan Thorscik','2016-10-17 15:37:00',0,'2016-10-17 16:07:36'),
 	(2,'Organisationers form og funktion',4,9788759308356,195,204.75,219,'Samfundslitteratur','Niels Bo Sørensen','2016-10-17 15:37:00',0,'2016-10-17 16:07:36'),
@@ -69,31 +69,35 @@ VALUES
 	(21,'Matematisk analyse',5,9788205301399,489,473,440,'Gyldendal Akademisk','Knut Sydsæter','2016-10-17 15:37:00',0,'2016-10-17 16:07:36'),
 	(22,'Mathematical Statistics with Applications',1,9780495385080,549,530.09,536,'NULLCengage Learning, Inc','William Mendenhall, Richard L. Scheaffer & Dennis O. Wackerly\r','2016-10-17 15:37:00',0,'2016-10-17 16:07:36'),
 	(23,'Introductory Statistics with R',2,9780387790534,399,376.79,417,'Springer-Verlag New York Inc.','Peter Dalgaard','2016-10-17 15:37:00',0,'2016-10-17 16:07:36'),
-	(24,'Accounting for Decision Making and Control',9,9781259255007,499,498,551,'McGraw-Hill Education - Europe','Jerold L. Zimmerman','2016-10-17 15:37:00',0,'2016-10-17 16:07:36');
+	(24,'Accounting for Decision Making and Control',9,9781259255007,499,498,551,'McGraw-Hill Education - Europe','Jerold L. Zimmerman','2016-10-17 15:37:00',0,'2016-10-17 16:07:36'),
+	(25,'Min bog',3,0,469,450,516,'Morten','Forfatter','2016-10-19 07:14:45',0,'2016-10-19 07:14:45'),
+	(26,'Min bog',3,0,469,450,516,'Morten','Forfatter','2016-10-19 07:24:15',0,'2016-10-19 07:24:15'),
+	(27,'Min bog',3,0,469,450,516,'Morten','Forfatter','2016-10-19 07:25:57',0,'2016-10-19 07:25:57'),
+	(28,'Min bog',3,0,469,450,516,'Morten','Forfatter','2016-10-19 07:28:01',0,'2016-10-19 07:28:01');
 
 /*!40000 ALTER TABLE `Books` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table BooksCurricullum
+# Dump of table BooksCurriculum
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `BooksCurricullum`;
+DROP TABLE IF EXISTS `BooksCurriculum`;
 
-CREATE TABLE `BooksCurricullum` (
-  `BookCurricullumID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `BooksCurriculum` (
+  `BookCurriculumID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `BookID` int(11) DEFAULT NULL,
-  `CurricullumID` int(11) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `CurriculumID` int(11) DEFAULT NULL,
+  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   `UpdateTs` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`BookCurricullumID`)
+  PRIMARY KEY (`BookCurriculumID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-LOCK TABLES `BooksCurricullum` WRITE;
-/*!40000 ALTER TABLE `BooksCurricullum` DISABLE KEYS */;
+LOCK TABLES `BooksCurriculum` WRITE;
+/*!40000 ALTER TABLE `BooksCurriculum` DISABLE KEYS */;
 
-INSERT INTO `BooksCurricullum` (`BookCurricullumID`, `BookID`, `CurricullumID`, `created`, `Deleted`, `UpdateTs`)
+INSERT INTO `BooksCurriculum` (`BookCurriculumID`, `BookID`, `CurriculumID`, `Created`, `Deleted`, `UpdateTs`)
 VALUES
 	(1,1,1,'2016-10-17 15:39:29',0,'2016-10-17 16:08:42'),
 	(2,2,1,'2016-10-17 15:39:29',0,'2016-10-17 16:08:42'),
@@ -122,30 +126,30 @@ VALUES
 	(25,25,6,'2016-10-17 15:39:29',0,'2016-10-17 16:08:42'),
 	(26,26,6,'2016-10-17 15:39:29',0,'2016-10-17 16:08:42');
 
-/*!40000 ALTER TABLE `BooksCurricullum` ENABLE KEYS */;
+/*!40000 ALTER TABLE `BooksCurriculum` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
-# Dump of table Curricullum
+# Dump of table Curriculum
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `Curricullum`;
+DROP TABLE IF EXISTS `Curriculum`;
 
-CREATE TABLE `Curricullum` (
-  `CurricullumID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Curriculum` (
+  `CurriculumID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `School` varchar(255) DEFAULT NULL,
   `Education` varchar(255) DEFAULT NULL,
   `Semester` int(11) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   `UpdateTs` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`CurricullumID`)
+  PRIMARY KEY (`CurriculumID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-LOCK TABLES `Curricullum` WRITE;
-/*!40000 ALTER TABLE `Curricullum` DISABLE KEYS */;
+LOCK TABLES `Curriculum` WRITE;
+/*!40000 ALTER TABLE `Curriculum` DISABLE KEYS */;
 
-INSERT INTO `Curricullum` (`CurricullumID`, `School`, `Education`, `Semester`, `created`, `Deleted`, `UpdateTs`)
+INSERT INTO `Curriculum` (`CurriculumID`, `School`, `Education`, `Semester`, `Created`, `Deleted`, `UpdateTs`)
 VALUES
 	(1,'CBS','HA(it)',1,'2016-10-17 15:52:47',0,'2016-10-17 16:03:14'),
 	(2,'CBS','HA(it)',3,'2016-10-17 15:52:47',0,'2016-10-17 16:03:14'),
@@ -154,8 +158,22 @@ VALUES
 	(5,'CBS','HA(mat)',3,'2016-10-17 15:52:47',0,'2016-10-17 16:03:14'),
 	(6,'test','HA(mat)',5,'2016-10-17 15:52:47',0,'2016-10-17 16:05:04');
 
-/*!40000 ALTER TABLE `Curricullum` ENABLE KEYS */;
+/*!40000 ALTER TABLE `Curriculum` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table Tokens
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `Tokens`;
+
+CREATE TABLE `Tokens` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `token` varchar(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 
 # Dump of table Users
@@ -171,7 +189,7 @@ CREATE TABLE `Users` (
   `Email` varchar(255) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
   `Usertype` int(11) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Deleted` tinyint(1) NOT NULL DEFAULT '0',
   `UpdateTs` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`UserID`)
@@ -180,10 +198,11 @@ CREATE TABLE `Users` (
 LOCK TABLES `Users` WRITE;
 /*!40000 ALTER TABLE `Users` DISABLE KEYS */;
 
-INSERT INTO `Users` (`UserID`, `First_Name`, `Last_Name`, `Username`, `Email`, `Password`, `Usertype`, `created`, `Deleted`, `UpdateTs`)
+INSERT INTO `Users` (`UserID`, `First_Name`, `Last_Name`, `Username`, `Email`, `Password`, `Usertype`, `Created`, `Deleted`, `UpdateTs`)
 VALUES
-	(12,'Søren','Sanggaard','sosa','sosa@gmail.com','123456',1,'2016-10-17 16:00:04',0,'2016-10-17 16:09:08'),
-	(13,'Christoffer','Palsgaard','pals','pals@gmail.com','123456',1,'2016-10-17 16:03:34',0,'2016-10-17 16:11:23');
+	(12,'Hans','Petersen','hans','Hans@','123',1,'2016-10-17 16:00:04',0,'2016-10-17 15:16:47'),
+	(13,'Christoffer','Palsgaard','pals','pals@gmail.com','123456',1,'2016-10-17 16:03:34',0,'2016-10-17 16:11:23'),
+	(14,'Niklas','Tastum','tasty','FalkensDildo@hotmail.com','123456',1,'2016-10-17 15:02:20',0,'2016-10-17 19:57:36');
 
 /*!40000 ALTER TABLE `Users` ENABLE KEYS */;
 UNLOCK TABLES;
