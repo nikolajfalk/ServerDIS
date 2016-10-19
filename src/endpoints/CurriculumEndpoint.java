@@ -117,20 +117,27 @@ public class CurriculumEndpoint {
      */
     @POST
     @Produces("application/json")
-    public Response create(String data) throws Exception {
-        if (curriculumController.addCurriculum(data)) {
-            //demo to check if it returns this on post.
-            return Response
-                    .status(200)
-                    //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
-                    //at den skriver til db.
-                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
+    public Response create(@HeaderParam("authorization") String authToken, String data) throws Exception {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (curriculumController.addCurriculum(data)) {
+                //demo to check if it returns this on post.
+                return Response
+                        .status(200)
+                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                        //at den skriver til db.
+                        .entity(new Gson().toJson(curriculumController.getCurriculums()))
+                        .build();
+            }
+            else return Response
+                    .status(400)
+                    .entity("{\"message\":\"Failed.\"}")
                     .build();
-        }
-        else return Response
-                .status(400)
-                .entity("{\"message\":\"Failed.\"}")
-                .build();
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
     }
 
 
