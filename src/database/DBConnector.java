@@ -6,7 +6,6 @@ import model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by mortenlaursen on 17/10/2016.
@@ -138,7 +137,7 @@ public class DBConnector {
             editUserStatement.setString(4, u.getEmail());
             editUserStatement.setString(5, u.getPassword());
             editUserStatement.setBoolean(6, u.getUserType());
-            editUserStatement.setInt(7, u.getId());
+            editUserStatement.setInt(7, u.getUserID());
 
             editUserStatement.executeUpdate();
         } catch (SQLException e) {
@@ -371,7 +370,7 @@ public class DBConnector {
             editBookStatement.setDouble(6, b.getPriceCDON());
             editBookStatement.setString(7, b.getPublisher());
             editBookStatement.setString(8, b.getAuthor());
-            editBookStatement.setInt(9, b.getId());
+            editBookStatement.setInt(9, b.getBookID());
 
             editBookStatement.executeUpdate();
         } catch (SQLException e) {
