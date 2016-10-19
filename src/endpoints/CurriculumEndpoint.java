@@ -200,7 +200,7 @@ public class CurriculumEndpoint {
     @Produces("application/json")
     public Response delete(@PathParam("curriculumId") int id) throws SQLException {
         if(curriculumController.deleteCurriculum(id)) {
-            return Response.status(200).entity("{\"message\":\"Curriculum was deleted\"}").build();
+            return Response.status(200).entity("{\"message\":\"Curriculum was deleted!\"}").build();
         }
         else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
     }
