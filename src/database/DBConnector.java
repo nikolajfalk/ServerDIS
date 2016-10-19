@@ -283,7 +283,7 @@ public class DBConnector {
     }
 
     //skal skiftes
-    public ArrayList getCurriculumBooks(int curriculumID) {
+    public ArrayList<Book> getCurriculumBooks(int curriculumID) {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
 
