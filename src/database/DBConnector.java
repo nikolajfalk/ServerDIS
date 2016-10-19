@@ -128,9 +128,25 @@ public class DBConnector {
         return results;
     }
 
-    public static boolean editUser(int id) {
-        return true;
-    }
+        public boolean editUser(User u) throws Exception {
+
+            PreparedStatement editUserStatement = conn
+                    .prepareStatement("UPDATE user SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE id = ?");
+
+            try {
+                editUserStatement.setString(1, u.getFirstName());
+                editUserStatement.setString(2, u.getLastName());
+                editUserStatement.setString(3, u.getUsername());
+                editUserStatement.setString(4, u.getEmail());
+                editUserStatement.setString(5, u.getPassword());
+                editUserStatement.setBoolean(6, u.getUserType());
+
+                editUserStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return true;
+        }
 
     public boolean addUser(User u) throws Exception {
 
