@@ -41,6 +41,7 @@ public class DBConnector {
 
             //STEP 6: Clean-up environment
         }catch(SQLException se){
+
             //Handle errors for JDBC
             se.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -98,7 +99,6 @@ public class DBConnector {
 
 
 
-
     public ArrayList getBooks() throws IllegalArgumentException {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
@@ -121,9 +121,6 @@ public class DBConnector {
         return results;
 
     }
-
-
-
 
     public static Book getBook(int id) {
         return new Book();
@@ -160,9 +157,5 @@ public class DBConnector {
             System.out.println(sqlException.getMessage());
         }
         return results;
-
-
     }
-
-
 }
