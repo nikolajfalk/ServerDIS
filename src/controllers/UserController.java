@@ -1,5 +1,6 @@
 package controllers;
 
+import Encrypters.Digester;
 import com.google.gson.Gson;
 import database.DBConnector;
 import model.User;
@@ -35,8 +36,10 @@ public class UserController {
         return db.deleteUser(id);
     }
 
-    public boolean addUser(String data) throws Exception {
+    public boolean  addUser(String data) throws Exception {
         User u = gson.fromJson(data,User.class);
+        String hashedPassword = Digester.hashWithSalt(u.getPassword());
+        u.setPassword(hashedPassword);
         return db.addUser(u);
     }
 
