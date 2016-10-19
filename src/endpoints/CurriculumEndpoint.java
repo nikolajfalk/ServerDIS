@@ -2,9 +2,11 @@ package endpoints;
 
 import com.google.gson.Gson;
 import controllers.CurriculumController;
+import controllers.TokenController;
 import model.Book;
 import model.Curriculum;
 import Encrypters.Crypter;
+import model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 @Path("/curriculum")
 public class CurriculumEndpoint {
     CurriculumController curriculumController;
+
+    TokenController tokenController = new TokenController();
 
 
     public CurriculumEndpoint(){
@@ -198,10 +202,18 @@ public class CurriculumEndpoint {
     @DELETE
     @Path("/{curriculumId}")
     @Produces("application/json")
-    public Response delete(@PathParam("curriculumId") int id) throws SQLException {
-        if(curriculumController.deleteCurriculum(id)) {
-            return Response.status(200).entity("{\"message\":\"Curriculum was deleted\"}").build();
-        }
-        else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
+    public Response delete(@HeaderParam("authorization") String authToken, @PathParam("curriculumId") int id) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if(curriculumController.deleteCurriculum(id)) {
+                return Response.status(200).entity("{\"message\":\"Curriculum was deleted\"}").build();
+            }
+            else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
+
     }
 }
