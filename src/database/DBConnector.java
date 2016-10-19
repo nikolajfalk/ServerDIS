@@ -25,11 +25,10 @@ public class DBConnector {
     static final String USER = "bookit";
     static final String PASS = "bookit123";
 
-    //String sql; Not needed anymore after introducing prepared statements.
     Connection conn = null;
     Statement stmt = null;
 
-    public DBConnector() {
+    public DBConnector() throws Exception {
 
         try{
             //STEP 2: Register JDBC driver
@@ -58,7 +57,7 @@ public class DBConnector {
 
     /*5 user methods*/
 
-    public ArrayList getUsers() throws IllegalArgumentException {
+    public ArrayList getUsers() throws SQLException {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
 
@@ -126,10 +125,10 @@ public class DBConnector {
         return user;
     }
 
-        public boolean editUser(User u) throws Exception {
+        public boolean editUser(User u) throws SQLException {
 
             PreparedStatement editUserStatement = conn
-                    .prepareStatement("UPDATE user SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE id = ?");
+                    .prepareStatement("UPDATE user SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID = ?");
 
             try {
                 editUserStatement.setString(1, u.getFirstName());
@@ -138,6 +137,7 @@ public class DBConnector {
                 editUserStatement.setString(4, u.getEmail());
                 editUserStatement.setString(5, u.getPassword());
                 editUserStatement.setBoolean(6, u.getUserType());
+                editUserStatement.setInt(7, u.getUserID());
 
                 editUserStatement.executeUpdate();
             } catch (SQLException e) {
@@ -146,10 +146,9 @@ public class DBConnector {
             return true;
         }
 
-    public boolean addUser(User u) throws Exception {
+    public boolean addUser(User u) throws SQLException {
 
-        PreparedStatement addUserStatement =
-            conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?)");
+        PreparedStatement addUserStatement = conn.prepareStatement("INSERT INTO Users (First_Name, Last_Name, Username, Email, Password, Usertype) VALUES (?, ?, ?, ?, ?, ?)");
 
         try {
             addUserStatement.setString(1, u.getFirstName());
@@ -180,8 +179,8 @@ public class DBConnector {
     }
     
     /*Curriculum methods*/
-    public ArrayList getCurriculums() throws IllegalArgumentException {
-        ArrayList<Curriculum> results = new ArrayList<>();
+    public ArrayList getCurriculums() throws SQLException {
+        ArrayList results = new ArrayList();
         ResultSet resultSet = null;
 
         try {
@@ -209,7 +208,7 @@ public class DBConnector {
             }
         }
         catch ( SQLException sqlException ){
-            System.out.println(sqlException.getMessage());
+            sqlException.printStackTrace();
         }
         return results;
 
@@ -246,7 +245,19 @@ public class DBConnector {
 
     }
 
-    public static boolean editCurriculum(int id) {
+    public boolean editCurriculum(Curriculum c) throws SQLException {
+        PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE user SET School = ?, Education = ?, Semester = ? WHERE curriculumID = ?");
+
+        try {
+            editCurriculumStatement.setString(1, c.getSchool());
+            editCurriculumStatement.setString(2, c.getEducation());
+            editCurriculumStatement.setInt(3, c.getSemester());
+            editCurriculumStatement.setInt(4, c.getCurriculumID());
+
+            editCurriculumStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -281,7 +292,7 @@ public class DBConnector {
     
     /*books methods*/
 
-    public ArrayList getBooks() throws IllegalArgumentException {
+    public ArrayList getBooks() throws SQLException {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
 
@@ -346,14 +357,30 @@ public class DBConnector {
 
     }
 
-    public static boolean editBook(int id) {
+    public boolean editBook(Book b) throws SQLException {
+        PreparedStatement editBookStatement = conn.prepareStatement("UPDATE user SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID = ?");
+
+        try {
+            editBookStatement.setString(1, b.getTitle());
+            editBookStatement.setInt(2, b.getVersion());
+            editBookStatement.setDouble(3, b.getISBN());
+            editBookStatement.setDouble(4, b.getPriceAB());
+            editBookStatement.setDouble(5, b.getPriceSAXO());
+            editBookStatement.setDouble(6, b.getPriceCDON());
+            editBookStatement.setString(7, b.getPublisher());
+            editBookStatement.setString(8, b.getAuthor());
+            editBookStatement.setInt(9, b.getBookID());
+
+            editBookStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
     public boolean addBook(Book b) throws SQLException {
 
-    PreparedStatement addBookStatement = conn
-            .prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    PreparedStatement addBookStatement = conn.prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
         try {
             addBookStatement.setString(1, b.getTitle());
