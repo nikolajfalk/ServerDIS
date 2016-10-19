@@ -37,6 +37,7 @@ public class AuthenticationEndpoint {
                 db.addToken(token, foundUser.getId());
 
 
+
             }
 
             // Issue a token for the user
