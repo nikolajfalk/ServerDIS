@@ -33,7 +33,7 @@ public class AuthenticationEndpoint {
         }
     }
 
-    private void authenticate(String username, String password) throws Exception {
+    private void authenticate(String username, String password) throws Exception
         //
         //Authenticate against a database, LDAP, file or whatever
         //Throw an Exception if the credentials are invalid
