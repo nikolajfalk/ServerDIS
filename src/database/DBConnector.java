@@ -443,26 +443,29 @@ public class DBConnector {
 
     }
 
-    public ArrayList<Integer> getUserIdFromToken(String token) {
-        ArrayList<Integer> results = new ArrayList();
+    public User getUserFromToken(String token) throws SQLException {
         ResultSet resultSet = null;
+        User userFromToken = null;
 
         try {
-            PreparedStatement getUserIdFromToken = conn
+
+            PreparedStatement getUserFromToken = conn
                     .prepareStatement("select Tokens.user_id, Users.Usertype from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
-            resultSet = getUserIdFromToken.executeQuery();
+            resultSet = getUserFromToken.executeQuery();
+
+            getUserFromToken.setString(1, token);
             while (resultSet.next()) {
-                results.add(
-                        resultSet.getInt("user_id"),
-                        resultSet.getInt("Usertype")
-                );
+
+                userFromToken = new User();
+
+                userFromToken.setId(resultSet.getInt("user_id"));
+                userFromToken.setUserType(resultSet.getBoolean("Usertype"));
 
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
-        return results;
-
+        return userFromToken;
 
     }
 
