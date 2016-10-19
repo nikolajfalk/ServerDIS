@@ -49,6 +49,7 @@ public class CurriculumEndpoint {
             return Response
                 //error response
                 .status(400)
+                .entity("{\"message\":\"failed\"}")
                 .build();
     }
     }
@@ -72,6 +73,7 @@ public class CurriculumEndpoint {
             return Response
                     //error response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -98,6 +100,7 @@ public class CurriculumEndpoint {
             return Response
                     //error response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -120,8 +123,10 @@ public class CurriculumEndpoint {
                     .entity(new Gson().toJson(curriculumController.getCurriculums()))
                     .build();
         }
-        else return Response.status(400).entity("{\"message\":\"Failed.\"}").build();
-
+        else return Response
+                .status(400)
+                .entity("{\"message\":\"Failed.\"}")
+                .build();
     }
 
 
@@ -153,17 +158,20 @@ public class CurriculumEndpoint {
             if (curriculumController.editCurriculum(id, data)) {
                 return Response
                         .status(200)
+                        .entity("{\"message\":\"Success! Curriculum was changed.\"}")
                         .build();
             }
             else {
                 return Response
                         .status(400)
+                        .entity("{\"message\":\"failed\"}")
                         .build();
             }
         }
         else {
             return Response
                     .status(400)
+                    .entity("{\"message\":\"failed. Curriculum doesn't exist.\"}")
                     .build();
         }
         /*

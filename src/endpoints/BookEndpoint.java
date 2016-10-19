@@ -3,6 +3,7 @@ package endpoints; /**
  */
 
 import com.google.gson.Gson;
+import com.sun.corba.se.spi.activation.Repository;
 import controllers.BookController;
 
 import javax.ws.rs.*;
@@ -32,6 +33,7 @@ public class BookEndpoint {
         else {
             return Response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -50,6 +52,7 @@ public class BookEndpoint {
         else {
             return Response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -62,25 +65,21 @@ public class BookEndpoint {
             if (controller.editBook(id, data)) {
                 return Response
                         .status(200)
+                        .entity("{\"message\":\"Success! Book edited\"}")
                         .build();
             } else {
                 return Response
                         .status(400)
+                        .entity("{\"message\":\"failed\"}")
                         .build();
             }
         } else {
             return Response
                     .status(400)
+                    .entity("{\"message\":\"failed. Book not found\"}")
                     .build();
         }
     }
-    /*
-    public Response edit(@PathParam("id") int bookId) {
-        if(controller.editBook(bookId)) {
-            return null;
-        }
-        else return null;
-    }*/
 
  /*  @POST
     @Produces("application/json")
@@ -88,12 +87,13 @@ public class BookEndpoint {
         if (controller.addCurriculumBook(data)) {
             return Response
                     .status(200)
-                    .entity("new user")
+                    .entity("{\"message\":\"Success! Book created\"}")
                     .build();
         }
         else {
             return Response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -104,9 +104,9 @@ public class BookEndpoint {
     @Produces("application/json")
     public Response delete (@PathParam("id") int bookId) throws Exception {
         if(controller.deleteBook(bookId)) {
-            return null;
+            return Response.status(200).entity("{\"message\":\"Success! Book deleted\"}").build();
         }
-        else return null;
+        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 }
 
