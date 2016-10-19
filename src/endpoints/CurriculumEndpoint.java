@@ -120,7 +120,7 @@ public class CurriculumEndpoint {
                     .status(200)
                     //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
                     //at den skriver til db.
-                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
+                    .entity("{\"message\":\"Success! Curriculum was created\"}")
                     .build();
         }
         else return Response
@@ -137,7 +137,7 @@ public class CurriculumEndpoint {
         if (curriculumController.addCurriculumBook(curriculumID, data)) {
             return Response
                     .status(200)
-                    .entity("new user")
+                    .entity("{\"message\":\"Success! Book was created.\"}")
                     .build();
         }
         else {
@@ -200,7 +200,7 @@ public class CurriculumEndpoint {
     @Produces("application/json")
     public Response delete(@PathParam("curriculumId") int id) throws SQLException {
         if(curriculumController.deleteCurriculum(id)) {
-            return Response.status(200).entity("{\"message\":\"Curriculum was deleted\"}").build();
+            return Response.status(200).entity("{\"message\":\"Curriculum was deleted!\"}").build();
         }
         else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
     }

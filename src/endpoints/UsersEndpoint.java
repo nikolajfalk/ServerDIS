@@ -34,7 +34,7 @@ public class UsersEndpoint  {
             return Response
                     //error response
                     .status(400)
-                    .entity("{\"message\":\"failed\"}")
+                    .entity("{\"message\":\"failed!\"}")
                     .build();
         }
     }
