@@ -2,7 +2,6 @@ package endpoints;
 
 import Cryptor;
 
-
 import database.DBConnector;
 
 import javax.ws.rs.*;
@@ -33,17 +32,10 @@ public class AuthenticationEndpoint {
 
                 String token = buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
 
-
                 db.addToken(token, username);
 
 
             }
-
-
-
-
-
-
 
             // Issue a token for the user
             String token = issueToken(username);
