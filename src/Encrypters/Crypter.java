@@ -1,10 +1,13 @@
+package Encrypters;
+
 /**
  * Created by Tastum on 17/10/2016.
  */
 public class Crypter {
 
 
-    private static String encryptDecryptXOR(String input) {
+
+    public static String encryptDecryptXOR(String input) {
         char[] key = {'A', 'B', 'C'}; //Dette kan være alle andre bogstaver end a,b og c.
         StringBuilder output = new StringBuilder();
         //Opretter en Stringbuilder. En Stringbuilder er ligesom en String,
