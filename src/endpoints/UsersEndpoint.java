@@ -80,5 +80,7 @@ public class UsersEndpoint implements IEndpoints {
         }
         else return null;
     }
+
+    @Path("/")
 }
 

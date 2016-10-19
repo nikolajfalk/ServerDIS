@@ -2,12 +2,14 @@ package endpoints;
 
 import Cryptor;
 
+import Encrypters.Crypter;
 import database.DBConnector;
 import model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
+import java.sql.SQLException;
 import java.util.Random;
 
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
@@ -22,9 +24,9 @@ public class AuthenticationEndpoint {
     @Produces("application/json")
     @Consumes("application/x-www-form-urlencoded")
     public Response authenticateUser(@FormParam("username") String username,
-                                     @FormParam("password") String password) {
+                                     @FormParam("password") String password) throws SQLException {
 
-        try {
+
 
             // Authenticate the user using the credentials provided
             DBConnector db = new DBConnector;
@@ -32,7 +34,7 @@ public class AuthenticationEndpoint {
             User foundUser = db.authenticate(username, password);
             if(foundUser != null) {
 
-                String token = buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
+                String token = Crypter.buildToken("abcdefghijklmnopqrstuvxyz1234567890@&%!?", 25);
 
                 db.addToken(token, foundUser.getId());
 
@@ -42,19 +44,10 @@ public class AuthenticationEndpoint {
             String token = issueToken(foundUser.getId());
 
             // Return the token on the response
-            return Response.ok(token).build();
 
-        } catch (Exception e) {
-            return Response.status(UNAUTHORIZED).build();
-        }
+
+
     }
 
-    private static String buildToken(String chars, int length) {
-        Random rand = new Random();
-        StringBuilder buf = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            buf.append(chars.charAt(rand.nextInt(chars.length())));
-        }
-        return buf.toString();
-    }
+
 }
