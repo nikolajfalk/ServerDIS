@@ -244,7 +244,7 @@ public class DBConnector {
             editCurriculumStatement.setString(1, c.getSchool());
             editCurriculumStatement.setString(2, c.getEducation());
             editCurriculumStatement.setInt(3, c.getSemester());
-            editCurriculumStatement.setInt(4, c.getCurriculumID());
+            editCurriculumStatement.setInt(4, id);
 
             editCurriculumStatement.executeUpdate();
         } catch (SQLException e) {
@@ -271,7 +271,7 @@ public class DBConnector {
     }
 
     public boolean deleteCurriculum(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Curriculums SET Deleted = 1 WHERE CurriculumID=?");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Curriculum SET Deleted = 1 WHERE CurriculumID=?");
 
         try {
             deleteUserStatement.setInt(1, id);
@@ -400,7 +400,7 @@ public class DBConnector {
             editBookStatement.setDouble(6, b.getPriceCDON());
             editBookStatement.setString(7, b.getPublisher());
             editBookStatement.setString(8, b.getAuthor());
-            editBookStatement.setInt(9, b.getBookID());
+            editBookStatement.setInt(9, id);
 
             editBookStatement.executeUpdate();
         } catch (SQLException e) {
