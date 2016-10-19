@@ -50,7 +50,7 @@ public class UsersEndpoint  {
                     .build();
         } else return Response
                 .status(400)
-                .entity("{\"message\":\"failed\"}")
+                .entity("{\"message\":\"failed!\"}")
                 .build();
     }
 
