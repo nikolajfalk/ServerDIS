@@ -12,9 +12,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-// The Java class will be hosted at the URI path "/users"
-@Path("/users")
-public class UsersEndpoint implements IEndpoints {
+// implements IEndpoints The Java class will be hosted at the URI path "/users"
+@Path("/user")
+public class UsersEndpoint  {
     UserController controller = new UserController();
     TokenController tokenController = new TokenController();
 
@@ -34,30 +34,49 @@ public class UsersEndpoint implements IEndpoints {
             return Response
                     //error response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
 
-
-    @Path("/users/{id}")
+    @Path("/{id}")
     @Produces("application/json")
     @GET
     public Response get(@PathParam("id") int userId) {
-        if (controller.getUser(userId) != null) {
-            return null;
+        if (controller.getUser(userId)!=null) {
+            return Response
+                    .status(200)
+                    .entity(new Gson().toJson(controller.getUser(userId)))
+                    .build();
         }
-        return null;
+        return Response
+                .status(400)
+                .entity("{\"message\":\"failed\"}")
+                .build();
     }
 
-    @Path("/users/{id}")
     @PUT
-    public Response edit(String data) {
-        /*
-        if(controller.editUser(data)) {
-            return null;
+    @Path("/{Id}")
+    @Produces("application/json")
+    public Response edit(@PathParam("Id") int id, String data) throws SQLException {
+        if (controller.getUser(id) != null) {
+            if (controller.editUser(id, data)) {
+                return Response
+                        .status(200)
+                        .entity("{\"message\":\"Success! User edited\"}")
+                        .build();
+            } else {
+                return Response
+                        .status(400)
+                        .entity("{\"message\":\"failed\"}")
+                        .build();
+            }
+        } else {
+            return Response
+                    .status(400)
+                    .entity("{\"message\":\"failed. No such user\"}")
+                    .build();
         }
-        else return null;*/
-        return null;
     }
 
     @POST
@@ -69,15 +88,17 @@ public class UsersEndpoint implements IEndpoints {
                     .status(200)
                     .entity(new Gson().toJson(controller.getUsers()))
                     .build();
-        } else return null;
+        }
+        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 
-    @Path("/users/{id}")
+    @Path("/{id}")
     @DELETE
-    public Response delete(@PathParam("id") int userId) throws SQLException {
-        if (controller.deleteUser(userId)) {
-            return null;
-        } else return null;
+    public Response delete (@PathParam("id") int userId) throws SQLException {
+        if(controller.deleteUser(userId)) {
+            return Response.status(200).entity("{\"message\":\"Success! User deleted\"}").build();
+        }
+        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 
     @POST
@@ -92,12 +113,13 @@ public class UsersEndpoint implements IEndpoints {
         if (token != null) {
             //demo to check if it returns this on post.
             return Response
-                    .status(200)
-                    .entity(new Gson().toJson(token))
-                    .build();
+                .status(200)
+                .entity(new Gson().toJson(token))
+                .build();
         } else return Response
-                    .status(401)
-                    .build();
+            .status(401)
+            .build();
     }
+
 }
 

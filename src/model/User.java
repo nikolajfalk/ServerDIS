@@ -1,7 +1,7 @@
 package model;
 
 public class User {
-    int id;
+    int userID;
     String firstName, lastName, userName, email, password;
     Boolean userType;
 
@@ -9,8 +9,16 @@ public class User {
 
     }
 
-    public User(int id, String firstName, String lastName, String userName, String email, String password, Boolean userType) {
-        this.id = id;
+    public User(String firstName, String lastName, String userName, String email, String password, Boolean userType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.userType = userType;
+    }
+    public User(int userID, String firstName, String lastName, String userName, String email, String password, Boolean userType) {
+        this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
@@ -19,12 +27,12 @@ public class User {
         this.userType = userType;
     }
 
-    public int getId() {
-        return id;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 
     public String getFirstName() {
@@ -75,15 +83,16 @@ public class User {
         userType = admin;
     }
 
+    /*
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "userID=" + userID +
                 ", name='" + firstName + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
-    }
+    }*/
 }
 
 

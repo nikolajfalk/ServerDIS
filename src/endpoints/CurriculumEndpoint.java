@@ -16,11 +16,9 @@ import java.util.ArrayList;
 /**
  * Created by magnusrasmussen on 17/10/2016.
  */
+//implements IEndpoints HUSK AT ÆNDRE INTERFACET VED PUT
 @Path("/curriculum")
-public class CurriculumEndpoint implements IEndpoints{
-
-    Gson gson = new Gson();
-
+public class CurriculumEndpoint {
     CurriculumController curriculumController;
 
 
@@ -37,20 +35,21 @@ public class CurriculumEndpoint implements IEndpoints{
      * @throws IllegalAccessException
      */
     @GET
-    @Path("/curriculum/{curriculumId}/books")
+    @Path("/{curriculumID}/books")
     @Produces("application/json")
-    public Response getCurriculum(@PathParam("curriculumId") int curriculumID) throws IllegalAccessException {
+    public Response getCurriculumBooks(@PathParam("curriculumID") int curriculumID) throws IllegalAccessException {
 
-        if (curriculumController.getCurriculums() != null) {
+        if (curriculumController.getCurriculum(curriculumID) != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(curriculumController.getCurriculum(curriculumID)))
+                    .entity(new Gson().toJson(curriculumController.getCurriculumBooks(curriculumID)))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
             return Response
                 //error response
                 .status(400)
+                .entity("{\"message\":\"failed\"}")
                 .build();
     }
     }
@@ -67,13 +66,14 @@ public class CurriculumEndpoint implements IEndpoints{
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(curriculumController.getCurriculums())
+                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
             return Response
                     //error response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -85,9 +85,9 @@ public class CurriculumEndpoint implements IEndpoints{
      * @throws IllegalAccessException
      */
     @GET
-    @Path("/curriculum/{curriculumId}")
+    @Path("/{curriculumID}")
     @Produces("application/json")
-    public Response get(@PathParam("curriculumId") int id) throws IllegalAccessException {
+    public Response get(@PathParam("curriculumID") int id) throws IllegalAccessException {
 
 
         if (curriculumController.getCurriculums() != null) {
@@ -100,6 +100,7 @@ public class CurriculumEndpoint implements IEndpoints{
             return Response
                     //error response
                     .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
         }
     }
@@ -113,28 +114,71 @@ public class CurriculumEndpoint implements IEndpoints{
     @POST
     @Produces("application/json")
     public Response create(String data) throws Exception {
-
         if (curriculumController.addCurriculum(data)) {
             //demo to check if it returns this on post.
             return Response
                     .status(200)
+                    //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                    //at den skriver til db.
                     .entity(new Gson().toJson(curriculumController.getCurriculums()))
                     .build();
         }
-        else return Response.status(400).entity("{\"message\":\"Failed.\"}").build();
-
+        else return Response
+                .status(400)
+                .entity("{\"message\":\"Failed.\"}")
+                .build();
     }
 
 
+    @POST
+    @Path("/{curriculumID}/book")
+    @Produces("application/json")
+    public Response create(@PathParam("curriculumID")int curriculumID, String data) throws Exception {
+        if (curriculumController.addCurriculumBook(curriculumID, data)) {
+            return Response
+                    .status(200)
+                    .entity("new user")
+                    .build();
+        }
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
+    }
     /**
      * Metode til at ændre et semester
      * @return
      */
     @PUT
-    @Path("/curriculum/{curriculumId}")
+    @Path("/{curriculumID}")
     @Produces("application/json")
-    public Response edit(String data) {
-        return null;
+    public Response edit(@PathParam("curriculumID") int id, String data) throws SQLException {
+        if (curriculumController.getCurriculum(id)!=null) {
+            if (curriculumController.editCurriculum(id, data)) {
+                return Response
+                        .status(200)
+                        .entity("{\"message\":\"Success! Curriculum was changed.\"}")
+                        .build();
+            }
+            else {
+                return Response
+                        .status(400)
+                        .entity("{\"message\":\"failed\"}")
+                        .build();
+            }
+        }
+        else {
+            return Response
+                    .status(400)
+                    .entity("{\"message\":\"failed. Curriculum doesn't exist.\"}")
+                    .build();
+        }
+        /*
+        if(curriculumController.editCurriculum(curriculumController.)) {
+            return null;
+        }
+        else return null;*/
     }
     /*
     public Response edit(@PathParam("curriculumId") int id) {
@@ -152,7 +196,7 @@ public class CurriculumEndpoint implements IEndpoints{
      * @throws SQLException
      */
     @DELETE
-    @Path("/curriculum/{curriculumId}")
+    @Path("/{curriculumId}")
     @Produces("application/json")
     public Response delete(@PathParam("curriculumId") int id) throws SQLException {
         if(curriculumController.deleteCurriculum(id)) {
