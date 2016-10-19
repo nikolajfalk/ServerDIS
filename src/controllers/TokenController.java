@@ -32,7 +32,7 @@ public class TokenController {
         return token;
     }
 
-    public void deleteToken(String token) throws SQLException {
-        db.deleteToken(token);
+    public Boolean deleteToken(String token) throws SQLException {
+      return db.deleteToken(token);
     }
 }

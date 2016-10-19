@@ -495,6 +495,4 @@ public class DBConnector {
         }
         return true;
     }
-
-
 }
