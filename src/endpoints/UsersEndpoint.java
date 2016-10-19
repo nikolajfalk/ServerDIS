@@ -20,7 +20,7 @@ public class UsersEndpoint implements IEndpoints {
 
     @GET
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("text/plain")
+    @Produces("application/json")
     public Response get() {
         if (controller.getUsers() != null) {
             return Response
