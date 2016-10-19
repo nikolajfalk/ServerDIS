@@ -24,8 +24,17 @@ public class AuthenticationEndpoint {
             // Authenticate the user using the credentials provided
             DBConnector db = new DBConnector;
 
+            if(db.authenticate(username, password)){
+                Cryptor.
 
-            db.authenticate(username, password);
+
+            }
+
+
+
+
+
+
 
             // Issue a token for the user
             String token = issueToken(username);
