@@ -126,7 +126,24 @@ public class DBConnector {
         return user;
     }
 
-    public static boolean editUser(int id) {
+    public boolean editUser(User u) throws SQLException {
+
+        PreparedStatement editUserStatement = conn
+                .prepareStatement("UPDATE user SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID = ?");
+
+        try {
+            editUserStatement.setString(1, u.getFirstName());
+            editUserStatement.setString(2, u.getLastName());
+            editUserStatement.setString(3, u.getUsername());
+            editUserStatement.setString(4, u.getEmail());
+            editUserStatement.setString(5, u.getPassword());
+            editUserStatement.setBoolean(6, u.getUserType());
+            editUserStatement.setInt(7, u.getId());
+
+            editUserStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -230,7 +247,19 @@ public class DBConnector {
 
     }
 
-    public static boolean editCurriculum(int id) {
+    public boolean editCurriculum(Curriculum c) throws SQLException {
+        PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE user SET School = ?, Education = ?, Semester = ? WHERE curriculumID = ?");
+
+        try {
+            editCurriculumStatement.setString(1, c.getSchool());
+            editCurriculumStatement.setString(2, c.getEducation());
+            editCurriculumStatement.setInt(3, c.getSemester());
+            editCurriculumStatement.setInt(4, c.getCurriculumID());
+
+            editCurriculumStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -330,7 +359,24 @@ public class DBConnector {
 
     }
 
-    public static boolean editBook(int id) {
+    public boolean editBook(Book b) throws SQLException {
+        PreparedStatement editBookStatement = conn.prepareStatement("UPDATE user SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID = ?");
+
+        try {
+            editBookStatement.setString(1, b.getTitle());
+            editBookStatement.setInt(2, b.getVersion());
+            editBookStatement.setDouble(3, b.getISBN());
+            editBookStatement.setDouble(4, b.getPriceAB());
+            editBookStatement.setDouble(5, b.getPriceSAXO());
+            editBookStatement.setDouble(6, b.getPriceCDON());
+            editBookStatement.setString(7, b.getPublisher());
+            editBookStatement.setString(8, b.getAuthor());
+            editBookStatement.setInt(9, b.getId());
+
+            editBookStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

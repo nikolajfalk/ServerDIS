@@ -48,11 +48,13 @@ public class UsersEndpoint implements IEndpoints {
 
     @Path("/users/{id}")
     @PUT
-    public Response edit(@PathParam("id") int userId) {
-        if(controller.editUser(userId)) {
+    public Response edit(String data) {
+        /*
+        if(controller.editUser(data)) {
             return null;
         }
-        else return null;
+        else return null;*/
+        return null;
     }
 
     @POST

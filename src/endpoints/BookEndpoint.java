@@ -39,7 +39,7 @@ public class BookEndpoint implements IEndpoints {
     @Path("/{id}")
     @Produces("application/json")
     @GET
-    public Response get(@PathParam("id") int bookId) {
+    public Response get(@PathParam("id") int bookId) throws Exception {
         if (controller.getBook(bookId)!=null) {
             return Response
                     .status(200)
@@ -54,18 +54,23 @@ public class BookEndpoint implements IEndpoints {
     }
 
     //Not created yet
-    @Path("/{id}")
     @PUT
+    public Response edit(String data) throws Exception {
+        if (controller.editBook(data)) {
+            return null;
+        } else return null;
+    }
+    /*
     public Response edit(@PathParam("id") int bookId) {
         if(controller.editBook(bookId)) {
             return null;
         }
         else return null;
-    }
+    }*/
 
     @POST
     @Produces("application/json")
-    public Response create(String data) throws SQLException {
+    public Response create(String data) throws Exception {
         if (controller.addBook(data)) {
             return Response
                     .status(200)
@@ -81,7 +86,7 @@ public class BookEndpoint implements IEndpoints {
 
     @Path("/Book/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int bookId) throws SQLException {
+    public Response delete (@PathParam("id") int bookId) throws Exception {
         if(controller.deleteBook(bookId)) {
             return null;
         }

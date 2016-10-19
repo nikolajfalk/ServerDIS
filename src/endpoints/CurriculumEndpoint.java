@@ -128,18 +128,21 @@ public class CurriculumEndpoint implements IEndpoints{
 
     /**
      * Metode til at ændre et semester
-     * @param id
      * @return
      */
     @PUT
     @Path("/curriculum/{curriculumId}")
     @Produces("application/json")
+    public Response edit(String data) {
+        return null;
+    }
+    /*
     public Response edit(@PathParam("curriculumId") int id) {
         if(curriculumController.editCurriculum(id)) {
             return null;
         }
         else return null;
-    }
+    }*/
 
 
     /**

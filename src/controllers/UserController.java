@@ -27,8 +27,8 @@ public class UserController {
         return gson.toJson(db.getUser(id));
     }
 
-    public boolean editUser(int id) {
-        return db.editUser(id);
+    public boolean editUser(User u) throws SQLException {
+        return db.editUser(u);
     }
 
     public boolean deleteUser(int id) throws SQLException {

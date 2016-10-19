@@ -21,8 +21,8 @@ public class CurriculumController {
         return db.getCurriculum(id);
     }
 
-    public boolean editCurriculum(int id) {
-        return db.editCurriculum(id);
+    public boolean editCurriculum(Curriculum c) throws SQLException {
+        return db.editCurriculum(c);
     }
 
     public boolean deleteCurriculum(int id) throws SQLException {
