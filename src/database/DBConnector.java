@@ -154,7 +154,7 @@ public class DBConnector {
             addUserStatement.setString(5, u.getPassword());
             addUserStatement.setBoolean(6, u.getUserType());
 
-            addUserStatement.executeUpdate();
+            addUserStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
