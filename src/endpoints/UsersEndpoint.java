@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import controllers.TokenController;
 import controllers.UserController;
 import database.DBConnector;
+import model.User;
 import model.UserLogin;
 
 import javax.ws.rs.*;
@@ -24,30 +25,45 @@ public class UsersEndpoint  {
     @GET
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("application/json")
-    public Response get() {
-        if (controller.getUsers() != null) {
-            return Response
-                    .status(200)
-                    .entity(new Gson().toJson(controller.getUsers()))
-                    .build();
-        } else {
-            return Response
-                    //error response
-                    .status(400)
-                    .entity("{\"message\":\"failed!\"}")
-                    .build();
-        }
+    public Response get(@HeaderParam("authorization") String authToken) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (controller.getUsers() != null) {
+                return Response
+                        .status(200)
+                        .entity(new Gson().toJson(controller.getUsers()))
+                        .build();
+            } else {
+                return Response
+                        //error response
+                        .status(400)
+                        .entity("{\"message\":\"failed\"}")
+                        .build();
+            }
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 
     @Path("/{id}")
     @Produces("application/json")
     @GET
-    public Response get(@PathParam("id") int userId) {
-        if (controller.getUser(userId)!=null) {
+    public Response get(@HeaderParam("authorization") String authToken, @PathParam("id") int userId) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (controller.getUser(userId)!=null) {
+                return Response
+                        .status(200)
+                        .entity(new Gson().toJson(controller.getUser(userId)))
+                        .build();
+            }
             return Response
-                    .status(200)
-                    .entity(new Gson().toJson(controller.getUser(userId)))
+                    .status(400)
+                    .entity("{\"message\":\"failed\"}")
                     .build();
+
         } else return Response
                 .status(400)
                 .entity("{\"message\":\"failed\"}")
@@ -57,25 +73,33 @@ public class UsersEndpoint  {
     @PUT
     @Path("/{Id}")
     @Produces("application/json")
-    public Response edit(@PathParam("Id") int id, String data) throws SQLException {
-        if (controller.getUser(id) != null) {
-            if (controller.editUser(id, data)) {
-                return Response
-                        .status(200)
-                        .entity("{\"message\":\"Success! User edited\"}")
-                        .build();
+    public Response edit(@HeaderParam("authorization") String authToken, @PathParam("Id") int id, String data) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (controller.getUser(id) != null) {
+                if (controller.editUser(id, data)) {
+                    return Response
+                            .status(200)
+                            .entity("{\"message\":\"Success! User edited\"}")
+                            .build();
+                } else {
+                    return Response
+                            .status(400)
+                            .entity("{\"message\":\"failed\"}")
+                            .build();
+                }
             } else {
                 return Response
                         .status(400)
-                        .entity("{\"message\":\"failed\"}")
+                        .entity("{\"message\":\"failed. No such user\"}")
                         .build();
             }
-        } else {
-            return Response
-                    .status(400)
-                    .entity("{\"message\":\"failed. No such user\"}")
-                    .build();
-        }
+
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
     }
 
     @POST
@@ -93,11 +117,18 @@ public class UsersEndpoint  {
 
     @Path("/{id}")
     @DELETE
-    public Response delete (@PathParam("id") int userId) throws SQLException {
-        if(controller.deleteUser(userId)) {
-            return Response.status(200).entity("{\"message\":\"Success! User deleted\"}").build();
-        }
-        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+    public Response delete (@HeaderParam("authorization") String authToken, @PathParam("id") int userId) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if(controller.deleteUser(userId)) {
+                return Response.status(200).entity("{\"message\":\"Success! User deleted\"}").build();
+            }
+            else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
     }
 
     @POST

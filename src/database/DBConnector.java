@@ -509,13 +509,15 @@ public class DBConnector {
         ResultSet resultSet = null;
         User userFromToken = null;
 
+
+
         try {
 
             PreparedStatement getUserFromToken = conn
                     .prepareStatement("select Tokens.user_id, Users.Usertype from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
+            getUserFromToken.setString(1, token);
             resultSet = getUserFromToken.executeQuery();
 
-            getUserFromToken.setString(1, token);
             while (resultSet.next()) {
 
                 userFromToken = new User();
