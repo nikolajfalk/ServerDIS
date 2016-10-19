@@ -31,4 +31,8 @@ public class TokenController {
         //Retunerer en access token til klienten.
         return token;
     }
+
+    public void deleteToken(String token) throws SQLException {
+        db.deleteToken(token);
+    }
 }
