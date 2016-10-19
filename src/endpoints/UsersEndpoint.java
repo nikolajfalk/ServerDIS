@@ -48,8 +48,7 @@ public class UsersEndpoint  {
                     .status(200)
                     .entity(new Gson().toJson(controller.getUser(userId)))
                     .build();
-        }
-        return Response
+        } else return Response
                 .status(400)
                 .entity("{\"message\":\"failed\"}")
                 .build();
