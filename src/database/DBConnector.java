@@ -160,22 +160,8 @@ public class DBConnector {
             System.out.println(sqlException.getMessage());
         }
         return results;
-    }
 
-    public boolean addToken(String token, int userId) throws Exception {
 
-        PreparedStatement addTokenStatement =
-                conn.prepareStatement("INSERT INTO Tokens (token, user_id) VALUES (?, ?)");
-
-        try {
-            addTokenStatement.setString(1, token);
-            addTokenStatement.setInt(2, userId);
-
-            addTokenStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
     }
 
 
