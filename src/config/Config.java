@@ -6,6 +6,16 @@ public class Config {
   private static String dbPassword;
   private static String dbUrl;
   private static String dbName;
+  private static String dbPort;
+
+  public static String getDbPort() {
+    return dbPort;
+  }
+
+  public static void setDbPort(String dbPort) {
+    Config.dbPort = dbPort;
+  }
+
 
   public static String getDbUserName() {
     return dbUserName;
