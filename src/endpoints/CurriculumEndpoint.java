@@ -120,7 +120,7 @@ public class CurriculumEndpoint {
                     .status(200)
                     //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
                     //at den skriver til db.
-                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
+                    .entity("{\"message\":\"Success! Curriculum was created\"}")
                     .build();
         }
         else return Response
