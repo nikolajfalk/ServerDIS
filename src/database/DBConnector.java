@@ -298,7 +298,7 @@ public class DBConnector {
         ResultSet resultSet = null;
 
         try {
-            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM Books ");
+            PreparedStatement getBooks = conn.prepareStatement("SELECT * FROM Books WHERE Deleted = 0 ");
             resultSet = getBooks.executeQuery();
 
             while ( resultSet.next() ) {
