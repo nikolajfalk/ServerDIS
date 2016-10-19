@@ -476,6 +476,8 @@ public class DBConnector {
         try {
             addTokenStatement.setString(1, token);
             addTokenStatement.setInt(2, userId);
+
+            addTokenStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
