@@ -73,7 +73,7 @@ public class UsersEndpoint  {
         } else {
             return Response
                     .status(400)
-                    .entity("{\"message\":\"failed. No such user\"}")
+                    .entity("{\"message\":\"failed. No such user!\"}")
                     .build();
         }
     }
