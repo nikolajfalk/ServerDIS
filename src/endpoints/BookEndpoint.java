@@ -5,6 +5,7 @@ package endpoints; /**
 import com.google.gson.Gson;
 import com.sun.corba.se.spi.activation.Repository;
 import controllers.BookController;
+import controllers.TokenController;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -14,7 +15,9 @@ import java.sql.SQLException;
 
 @Path("/book")
 public class BookEndpoint {
+
     BookController controller = new BookController();
+    TokenController tokenController = new TokenController();
 
     public BookEndpoint() {
     }
@@ -24,6 +27,9 @@ public class BookEndpoint {
     @GET
     @Produces("application/json")
     public Response get() throws Exception {
+
+
+
         if (controller.getBooks()!=null) {
             return Response
                     .status(200)
@@ -101,8 +107,7 @@ public class BookEndpoint {
 
     @Path("/{id}")
     @DELETE
-    @Produces("application/json")
-    public Response delete (@PathParam("id") int bookId) throws Exception {
+    public Response delete (@HeaderParam("authorization") String authToken, @PathParam("id") int bookId) throws Exception {
         if(controller.deleteBook(bookId)) {
             return Response.status(200).entity("{\"message\":\"Success! Book deleted\"}").build();
         }

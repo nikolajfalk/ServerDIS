@@ -30,9 +30,20 @@ public class TokenController {
         }
         //Retunerer en access token til klienten.
         return token;
+
+
     }
 
-    public Boolean deleteToken(String token) throws SQLException {
-      return db.deleteToken(token);
+    public User getUserFromTokens(String token) throws SQLException {
+        return db.getUserFromToken(token);
+
+    }
+
+    public boolean deleteToken(String token) throws SQLException{
+        DBConnector db = new DBConnector();
+        boolean deleteToken = db.deleteToken(token);
+        db.close();
+        return deleteToken;
+
     }
 }
