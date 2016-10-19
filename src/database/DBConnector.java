@@ -1,5 +1,6 @@
 package database;
 
+import com.google.gson.Gson;
 import model.Book;
 import model.Curriculum;
 import model.User;
@@ -246,14 +247,15 @@ public class DBConnector {
 
     }
 
-    public boolean editCurriculum(Curriculum c) throws SQLException {
-        PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE user SET School = ?, Education = ?, Semester = ? WHERE curriculumID = ?");
+    public boolean editCurriculum(int id, String data) throws SQLException {
+        PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE Curriculum SET School = ?, Education = ?, Semester = ? WHERE curriculumID = "+id);
+
+        Curriculum c = new Gson().fromJson(data,Curriculum.class);
 
         try {
             editCurriculumStatement.setString(1, c.getSchool());
             editCurriculumStatement.setString(2, c.getEducation());
             editCurriculumStatement.setInt(3, c.getSemester());
-            editCurriculumStatement.setInt(4, c.getCurriculumID());
 
             editCurriculumStatement.executeUpdate();
         } catch (SQLException e) {

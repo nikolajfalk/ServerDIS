@@ -83,6 +83,7 @@ public class User {
         userType = admin;
     }
 
+    /*
     @Override
     public String toString() {
         return "User{" +
@@ -91,7 +92,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
-    }
+    }*/
 }
 
 

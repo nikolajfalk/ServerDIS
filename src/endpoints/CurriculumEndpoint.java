@@ -16,11 +16,9 @@ import java.util.ArrayList;
 /**
  * Created by magnusrasmussen on 17/10/2016.
  */
+//implements IEndpoints HUSK AT ÆNDRE INTERFACET VED PUT
 @Path("/curriculum")
-public class CurriculumEndpoint implements IEndpoints{
-
-    Gson gson = new Gson();
-
+public class CurriculumEndpoint {
     CurriculumController curriculumController;
 
 
@@ -67,7 +65,7 @@ public class CurriculumEndpoint implements IEndpoints{
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(curriculumController.getCurriculums())
+                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -85,7 +83,7 @@ public class CurriculumEndpoint implements IEndpoints{
      * @throws IllegalAccessException
      */
     @GET
-    @Path("/curriculum/{curriculumId}")
+    @Path("/{curriculumId}")
     @Produces("application/json")
     public Response get(@PathParam("curriculumId") int id) throws IllegalAccessException {
 
@@ -113,11 +111,12 @@ public class CurriculumEndpoint implements IEndpoints{
     @POST
     @Produces("application/json")
     public Response create(String data) throws Exception {
-
         if (curriculumController.addCurriculum(data)) {
             //demo to check if it returns this on post.
             return Response
                     .status(200)
+                    //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                    //at den skriver til db.
                     .entity(new Gson().toJson(curriculumController.getCurriculums()))
                     .build();
         }
@@ -131,10 +130,31 @@ public class CurriculumEndpoint implements IEndpoints{
      * @return
      */
     @PUT
-    @Path("/curriculum/{curriculumId}")
+    @Path("/{curriculumId}")
     @Produces("application/json")
-    public Response edit(String data) {
-        return null;
+    public Response edit(@PathParam("curriculumId") int id, String data) throws SQLException {
+        if (curriculumController.getCurriculum(id)!=null) {
+            if (curriculumController.editCurriculum(id, data)) {
+                return Response
+                        .status(200)
+                        .build();
+            }
+            else {
+                return Response
+                        .status(400)
+                        .build();
+            }
+        }
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
+        /*
+        if(curriculumController.editCurriculum(curriculumController.)) {
+            return null;
+        }
+        else return null;*/
     }
     /*
     public Response edit(@PathParam("curriculumId") int id) {
