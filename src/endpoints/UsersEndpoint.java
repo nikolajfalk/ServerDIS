@@ -2,6 +2,7 @@ package endpoints; /**
  * Created by mortenlaursen on 09/10/2016.
  */
 
+import Encrypters.Crypter;
 import com.google.gson.Gson;
 import controllers.TokenController;
 import controllers.UserController;
@@ -28,7 +29,7 @@ public class UsersEndpoint  {
         if (controller.getUsers() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(controller.getUsers()))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(controller.getUsers()))))
                     .build();
         } else {
             return Response
@@ -46,7 +47,7 @@ public class UsersEndpoint  {
         if (controller.getUser(userId)!=null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(controller.getUser(userId)))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(controller.getUser(userId)))))
                     .build();
         }
         return Response
@@ -59,8 +60,10 @@ public class UsersEndpoint  {
     @Path("/{Id}")
     @Produces("application/json")
     public Response edit(@PathParam("Id") int id, String data) throws SQLException {
+        String s = new Gson().fromJson(data,String.class);
+        String decrypt = Crypter.encryptDecryptXOR(s);
         if (controller.getUser(id) != null) {
-            if (controller.editUser(id, data)) {
+            if (controller.editUser(id, decrypt)) {
                 return Response
                         .status(200)
                         .entity("{\"message\":\"Success! User edited\"}")
@@ -82,11 +85,13 @@ public class UsersEndpoint  {
     @POST
     @Produces("application/json")
     public Response create(String data) throws Exception {
-        if (controller.addUser(data)) {
+        String s = new Gson().fromJson(data,String.class);
+        String decrypt = Crypter.encryptDecryptXOR(s);
+        if (controller.addUser(decrypt)) {
             //demo to check if it returns this on post.
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(controller.getUsers()))
+                    .entity("{\"message\":\"Success! User added\"}")
                     .build();
         }
         else return Response.status(400).entity("{\"message\":\"failed\"}").build();
@@ -105,8 +110,10 @@ public class UsersEndpoint  {
     @Path("/login")
     @Produces("application/json")
     public Response login(String data) throws SQLException {
+        String s = new Gson().fromJson(data,String.class);
+        String decrypt = Crypter.encryptDecryptXOR(s);
 
-        UserLogin userLogin = new Gson().fromJson(data, UserLogin.class);
+        UserLogin userLogin = new Gson().fromJson(decrypt, UserLogin.class);
 
         String token = tokenController.authenticate(userLogin.getUsername(), userLogin.getPassword());
 
@@ -114,7 +121,7 @@ public class UsersEndpoint  {
             //demo to check if it returns this on post.
             return Response
                 .status(200)
-                .entity(new Gson().toJson(token))
+                .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(token))))
                 .build();
         } else return Response
             .status(401)
@@ -124,8 +131,9 @@ public class UsersEndpoint  {
     @POST
     @Path("/logout")
     public Response logout (String data) throws SQLException {
-
-        if(tokenController.deleteToken(data)) {
+        String s = new Gson().fromJson(data,String.class);
+        String decrypt = Crypter.encryptDecryptXOR(s);
+        if(tokenController.deleteToken(decrypt)) {
             return Response
                     .status(200)
                     .entity("Success!")
