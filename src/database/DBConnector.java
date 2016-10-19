@@ -1,5 +1,6 @@
 package database;
 
+import com.sun.deploy.security.MacOSXBrowserAuthenticator;
 import model.Book;
 import model.Curriculum;
 import model.User;
@@ -7,6 +8,7 @@ import model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by mortenlaursen on 17/10/2016.
@@ -30,17 +32,18 @@ public class DBConnector {
 
     public DBConnector() {
 
-        try{
+        try {
             //STEP 2: Register JDBC driver
             Class.forName(JDBC_DRIVER).newInstance();
 
             //STEP 3: Open a connection
-            this.conn = DriverManager.getConnection(DB_URL,USER,PASS);
+            this.conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
             //STEP 4: Execute a query
 
+
             //STEP 6: Clean-up environment
-        }catch(SQLException se){
+        } catch (SQLException se) {
 
             //Handle errors for JDBC
             se.printStackTrace();
@@ -73,7 +76,7 @@ public class DBConnector {
     public static boolean deleteUser(int id) {
         return true;
     }
-    
+
     /*Curriculum methods*/
     public static ArrayList<Curriculum> getCurriculums() {
         return new ArrayList<Curriculum>();
@@ -98,7 +101,6 @@ public class DBConnector {
     /*books methods*/
 
 
-
     public ArrayList getBooks() throws IllegalArgumentException {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
@@ -107,15 +109,14 @@ public class DBConnector {
             PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Books ");
             resultSet = getUsers.executeQuery();
 
-            while ( resultSet.next() ) {
+            while (resultSet.next()) {
                 results.add(new Book(
                         resultSet.getString("Title"),
                         resultSet.getString("Publisher"),
                         resultSet.getString("ISBN")
                 ));
             }
-        }
-        catch ( SQLException sqlException ){
+        } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
         return results;
@@ -138,24 +139,24 @@ public class DBConnector {
         return true;
     }
 
-    public ArrayList<Integer> getUserIdFromToken(String token){
+    public ArrayList<Integer> getUserIdFromToken(String token) {
         ArrayList<Integer> results = new ArrayList();
         ResultSet resultSet = null;
 
         try {
             PreparedStatement getUserIdFromToken = conn.prepareStatement("");
             resultSet = getUserIdFromToken.executeQuery();
-                while ( resultSet.next() ) {
-                    results.add(
-                            resultSet.getInt("user_id"),
-                            resultSet.getInt("Usertype")
-                    );
+            while (resultSet.next()) {
+                results.add(
+                        resultSet.getInt("user_id"),
+                        resultSet.getInt("Usertype")
+                );
 
-                }
-        }
-        catch ( SQLException sqlException ){
+            }
+        } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
         return results;
     }
+
 }
