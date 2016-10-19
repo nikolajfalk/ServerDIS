@@ -131,16 +131,15 @@ public class DBConnector {
     public boolean editUser(int id, String data) throws SQLException {
         User u = new Gson().fromJson(data,User.class);
         PreparedStatement editUserStatement = conn
-                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ?, Usertype = ? WHERE userID =?");
+                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Usertype = ? WHERE userID =?");
 
         try {
             editUserStatement.setString(1, u.getFirstName());
             editUserStatement.setString(2, u.getLastName());
             editUserStatement.setString(3, u.getUsername());
             editUserStatement.setString(4, u.getEmail());
-            editUserStatement.setString(5, u.getPassword());
-            editUserStatement.setBoolean(6, u.getUserType());
-            editUserStatement.setInt(7, id);
+            editUserStatement.setBoolean(5, u.getUserType());
+            editUserStatement.setInt(6, id);
 
             editUserStatement.executeUpdate();
         } catch (SQLException e) {
@@ -162,7 +161,7 @@ public class DBConnector {
             addUserStatement.setString(5, u.getPassword());
             addUserStatement.setBoolean(6, u.getUserType());
 
-            addUserStatement.executeUpdate();
+            addUserStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -296,7 +295,7 @@ public class DBConnector {
     }
 
     //skal skiftes
-    public ArrayList getCurriculumBooks(int curriculumID) {
+    public ArrayList<Book> getCurriculumBooks(int curriculumID) {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
 
@@ -454,7 +453,7 @@ public class DBConnector {
 
     }
 
-    
+
 
     public boolean deleteBook(int id) throws SQLException {
         PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET Deleted = 1 WHERE BookID = ?");
