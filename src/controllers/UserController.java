@@ -19,24 +19,40 @@ public class UserController {
         this.gson = new Gson();
     }
 
-    public ArrayList getUsers() {
-        return db.getUsers();
+
+    public ArrayList<User>getUsers() {
+    DBConnector db = new DBConnector();
+    ArrayList<User> users = db.getUsers();
+    db.close();
+        return users;
+
     }
 
     public User getUser(int id) {
-        return db.getUser(id);
+        DBConnector db = new DBConnector();
+        User user = db.getUser(id);
+        db.close();
+        return user;
     }
 
     public boolean editUser(int id, String data) throws SQLException {
-        return db.editUser(id, data);
+        DBConnector db = new DBConnector();
+        boolean editUser = db.editUser(id, data);
+        db.close();
+        return editUser;
     }
 
     public boolean deleteUser(int id) throws SQLException {
-        return db.deleteUser(id);
+        DBConnector db = new DBConnector();
+        boolean deleteUser = db.deleteUser(id);
+        db.close();
+        return deleteUser;
     }
 
     public boolean addUser(String data) throws Exception {
+        DBConnector db = new DBConnector();
         User u = gson.fromJson(data,User.class);
+        db.close();
         return db.addUser(u);
     }
 
