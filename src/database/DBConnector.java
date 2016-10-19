@@ -141,12 +141,33 @@ public class DBConnector {
         return true;
     }
 
+    public boolean authenticate(String username, String password){
+
+        try {
+            PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ?");
+            ResultSet resultSet = null;
+            resultSet = authenticate.executeQuery();
+            while ( resultSet.next() ) {
+                results.add(
+                        resultSet.getInt("user_id"),
+                        resultSet.getInt("Usertype")
+                );
+
+            }
+        }
+        catch ( SQLException sqlException ){
+            System.out.println(sqlException.getMessage());
+        }
+        return results;
+
+    }
+
     public ArrayList<Integer> getUserIdFromToken(String token){
         ArrayList<Integer> results = new ArrayList();
         ResultSet resultSet = null;
 
         try {
-            PreparedStatement getUserIdFromToken = conn.prepareStatement("");
+            PreparedStatement getUserIdFromToken = conn.prepareStatement("select Tokens.user_id, Users.Usertype from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
             resultSet = getUserIdFromToken.executeQuery();
                 while ( resultSet.next() ) {
                     results.add(
