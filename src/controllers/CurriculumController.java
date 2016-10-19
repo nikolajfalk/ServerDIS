@@ -39,4 +39,8 @@ public class CurriculumController {
         return db.getCurriculumBooks(curriculumID);
 
     }
+
+    public boolean addCurriculumBook(int curriculumID, String data) throws SQLException {
+        return db.addCurriculumBook(curriculumID, data);
+    }
 }

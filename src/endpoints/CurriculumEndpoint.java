@@ -125,6 +125,22 @@ public class CurriculumEndpoint {
     }
 
 
+    @POST
+    @Path("/{curriculumID}/Book")
+    @Produces("application/json")
+    public Response create(@PathParam("curriculumID")int curriculumID, String data) throws Exception {
+        if (curriculumController.addCurriculumBook(curriculumID, data)) {
+            return Response
+                    .status(200)
+                    .entity("new user")
+                    .build();
+        }
+        else {
+            return Response
+                    .status(400)
+                    .build();
+        }
+    }
     /**
      * Metode til at ændre et semester
      * @return
