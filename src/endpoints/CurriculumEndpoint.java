@@ -180,7 +180,7 @@ public class CurriculumEndpoint {
      * @throws SQLException
      */
     @DELETE
-    @Path("/curriculum/{curriculumId}")
+    @Path("/{curriculumId}")
     @Produces("application/json")
     public Response delete(@PathParam("curriculumId") int id) throws SQLException {
         if(curriculumController.deleteCurriculum(id)) {
