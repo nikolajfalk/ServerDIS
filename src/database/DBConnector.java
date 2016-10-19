@@ -444,11 +444,17 @@ public class DBConnector {
     
 
     public boolean deleteBook(int id) throws SQLException {
-        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET deleted = 1 WHERE BookID = ?; DELETE FROM BooksCurriculum WHERE BookID = ?;");
+        PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET Deleted = 1 WHERE BookID = ?");
+        PreparedStatement deleteBooksCurriculumRows = conn.prepareStatement("DELETE FROM BooksCurriculum WHERE BookID = ?");
 
         try {
             deleteUserStatement.setInt(1, id);
             deleteUserStatement.executeUpdate();
+
+            deleteBooksCurriculumRows.setInt(1, id);
+            deleteBooksCurriculumRows.execute();
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
