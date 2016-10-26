@@ -56,6 +56,10 @@ public class Curriculum {
         this.curriculumID = curriculumID;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Curriculum{" +

@@ -50,7 +50,7 @@ public class CurriculumController {
         db.close();
         return addCurriculum;
     }
-
+    // Stavefejl 
     public ArrayList<Book> getCurriculumBooks(int curriculumID) {
         DBConnector db = new DBConnector();
         ArrayList<Book> curricilumBooks = db.getCurriculumBooks(curriculumID);
