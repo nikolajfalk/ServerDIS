@@ -7,8 +7,10 @@ import model.User;
 import java.sql.SQLException;
 
 /**
- * Created by Tastum on 19/10/2016.
+ * Opretter en instans af DBConnector og kalder alle metoder til AccesTokens.
+ * Hver metode er forklaret med kommentarer i DBConnector.
  */
+
 public class TokenController {
 
     DBConnector db = new DBConnector();

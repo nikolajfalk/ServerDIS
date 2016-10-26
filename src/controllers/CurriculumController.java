@@ -9,7 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by mortenlaursen on 17/10/2016.
+ * Opretter en instans af DBConnector og kalder alle metoder til Curriculum.
+ * Hver metode er forklaret med kommentarer i DBConnector.
  */
 public class CurriculumController {
 
@@ -22,10 +23,10 @@ public class CurriculumController {
     }
 
     public Curriculum getCurriculum(int id) {
-    DBConnector db = new DBConnector();
-    Curriculum curriculum = db.getCurriculum(id);
-    db.close();
-    return curriculum;
+        DBConnector db = new DBConnector();
+        Curriculum curriculum = db.getCurriculum(id);
+        db.close();
+        return curriculum;
     }
 
     public boolean editCurriculum(int id, String data) throws SQLException {

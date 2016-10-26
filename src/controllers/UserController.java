@@ -9,8 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by mortenlaursen on 17/10/2016.
+ * Opretter en instans af DBConnector og kalder alle metoder til User.
+ * Hver metode er forklaret med kommentarer i DBConnector.
  */
+
 public class UserController {
   Gson gson;
   DBConnector db = new DBConnector();
