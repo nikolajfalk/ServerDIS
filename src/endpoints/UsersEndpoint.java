@@ -2,11 +2,10 @@ package endpoints; /**
  * Created by mortenlaursen on 09/10/2016.
  */
 
-import Encrypters.Crypter;
+import Encrypters.*;
 import com.google.gson.Gson;
 import controllers.TokenController;
 import controllers.UserController;
-import database.DBConnector;
 import model.User;
 import model.UserLogin;
 
@@ -143,8 +142,8 @@ public class UsersEndpoint  {
     @Path("/login")
     @Produces("application/json")
     public Response login(String data) throws SQLException {
-        String s = new Gson().fromJson(data,String.class);
-        String decrypt = Crypter.encryptDecryptXOR(s);
+        String decrypt = Crypter.encryptDecryptXOR(data); //Fjernes når din klient krypterer.
+        decrypt = Crypter.encryptDecryptXOR(decrypt);
 
         UserLogin userLogin = new Gson().fromJson(decrypt, UserLogin.class);
 

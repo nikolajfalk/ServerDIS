@@ -1,6 +1,6 @@
 package controllers;
 
-import Encrypters.Crypter;
+import Encrypters.*;
 import database.DBConnector;
 import model.User;
 

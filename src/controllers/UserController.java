@@ -1,6 +1,6 @@
 package controllers;
 
-import Encrypters.Digester;
+import Encrypters.*;
 import com.google.gson.Gson;
 import database.DBConnector;
 import model.User;
