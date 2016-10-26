@@ -50,12 +50,12 @@ public class CurriculumController {
         db.close();
         return addCurriculum;
     }
-    // Stavefejl 
+    // Stavefejl - Rettet fra curricilum til curriculum
     public ArrayList<Book> getCurriculumBooks(int curriculumID) {
         DBConnector db = new DBConnector();
-        ArrayList<Book> curricilumBooks = db.getCurriculumBooks(curriculumID);
+        ArrayList<Book> curriculumBooks = db.getCurriculumBooks(curriculumID);
         db.close();
-        return curricilumBooks;
+        return curriculumBooks;
 
     }
 
