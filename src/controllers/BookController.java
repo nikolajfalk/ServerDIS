@@ -6,6 +6,12 @@ import model.Book;
 
 import java.util.ArrayList;
 
+/**
+ * Opretter en instans af DBConnector og kalder alle metoder til Book.
+ * Klassen modtager datasættet fra DBConnector som videresendes til BookEndpoint.
+ * Hver metode er forklaret med kommentarer i DBConnector.
+ */
+
 public class BookController {
 
     public ArrayList<Book> getBooks() throws Exception {

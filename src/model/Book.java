@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Variabler til Book oprettes samt deres getters/setters.
+ */
+
 public class Book {
 
     private int bookID;
