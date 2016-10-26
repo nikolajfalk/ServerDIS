@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Variabler til User oprettes samt deres getters/setters.
+ */
+
 public class User {
     int userID;
     String firstName, lastName, userName, email, password;

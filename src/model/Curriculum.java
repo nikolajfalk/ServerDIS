@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Created by magnusrasmussen on 12/10/2016.
+ * Variabler til Curriculum oprettes samt deres getters/setters.
  */
 public class Curriculum {
 

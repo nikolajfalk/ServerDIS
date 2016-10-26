@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * Variabler til UserLogin oprettes samt deres getters/setters.
+ */
+
 public class UserLogin {
 
     private String username;
