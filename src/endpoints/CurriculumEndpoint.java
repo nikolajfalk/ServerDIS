@@ -46,7 +46,7 @@ public class CurriculumEndpoint {
         if (curriculumController.getCurriculum(curriculumID) != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(curriculumController.getCurriculumBooks(curriculumID)))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(curriculumController.getCurriculumBooks(curriculumID)))))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -70,7 +70,7 @@ public class CurriculumEndpoint {
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(curriculumController.getCurriculums()))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(curriculumController.getCurriculums()))))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -97,7 +97,7 @@ public class CurriculumEndpoint {
         if (curriculumController.getCurriculums() != null) {
             return Response
                     .status(200)
-                    .entity(new Gson().toJson(curriculumController.getCurriculum(id)))
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(curriculumController.getCurriculum(id)))))
                     .header("Access-Control-Allow-Origin", "*") //Skal måske være der
                     .build(); //kør
         } else {
@@ -117,6 +117,26 @@ public class CurriculumEndpoint {
      */
 
     @POST
+    @Produces("application/json")
+    public Response create(String data) throws Exception {
+        String s = new Gson().fromJson(data,String.class);
+        String decrypt = Crypter.encryptDecryptXOR(s);
+        if (curriculumController.addCurriculum(decrypt)) {
+            //demo to check if it returns this on post.
+            return Response
+                    .status(200)
+                    //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                    //at den skriver til db.
+                    .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(curriculumController.getCurriculums()))))
+                    .build();
+        }
+        else return Response
+                .status(400)
+                .entity("{\"message\":\"Failed.\"}")
+                .build();
+    }
+
+    @POST
     @Path("/{curriculumID}/book")
     @Produces("application/json")
 
@@ -125,12 +145,12 @@ public class CurriculumEndpoint {
         User user = tokenController.getUserFromTokens(authToken);
 
         if (user != null){
-            if (curriculumController.addCurriculumBook(curriculumID, data)) {
+            String s = new Gson().fromJson(data,String.class);
+            String decrypt = Crypter.encryptDecryptXOR(s);
+            if (curriculumController.addCurriculumBook(curriculumID, decrypt)) {
                 return Response
                         .status(200)
-                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
-                        //at den skriver til db.
-                        .entity("new user")
+                        .entity("Success!")
                         .build();
             }
             else {
@@ -147,16 +167,20 @@ public class CurriculumEndpoint {
      * Metode til at ændre et semester
      * @return
      */
+
     @PUT
     @Path("/{curriculumID}")
     @Produces("application/json")
+
     public Response edit(@HeaderParam("authorization") String authToken, @PathParam("curriculumID") int id, String data) throws SQLException {
 
         User user = tokenController.getUserFromTokens(authToken);
 
         if (user != null){
             if (curriculumController.getCurriculum(id)!=null) {
-                if (curriculumController.editCurriculum(id, data)) {
+                String s = new Gson().fromJson(data,String.class);
+                String decrypt = Crypter.encryptDecryptXOR(s);
+                if (curriculumController.editCurriculum(id, decrypt)) {
                     return Response
                             .status(200)
                             .entity("{\"message\":\"Success! Curriculum was changed.\"}")
@@ -168,6 +192,7 @@ public class CurriculumEndpoint {
                             .entity("{\"message\":\"failed\"}")
                             .build();
                 }
+
             }
             else {
                 return Response
@@ -177,21 +202,7 @@ public class CurriculumEndpoint {
             }
         }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
 
-
-
-        /*
-        if(curriculumController.editCurriculum(curriculumController.)) {
-            return null;
-        }
-        else return null;*/
     }
-    /*
-    public Response edit(@PathParam("curriculumId") int id) {
-        if(curriculumController.editCurriculum(id)) {
-            return null;
-        }
-        else return null;
-    }*/
 
 
     /**
