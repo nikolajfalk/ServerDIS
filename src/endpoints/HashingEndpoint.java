@@ -1,7 +1,7 @@
 package endpoints; /**
  * Created by madsgade on 17/10/2016.
  */
-import Encrypters.Digester;
+import Encrypters.*;
 import com.google.gson.Gson;
 
 import javax.ws.rs.GET;

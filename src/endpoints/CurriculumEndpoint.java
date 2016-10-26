@@ -3,16 +3,12 @@ package endpoints;
 import com.google.gson.Gson;
 import controllers.CurriculumController;
 import controllers.TokenController;
-import model.Book;
-import model.Curriculum;
-import Encrypters.Crypter;
+import Encrypters.*;
 import model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.lang.reflect.Array;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 
 /**
