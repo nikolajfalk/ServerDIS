@@ -9,6 +9,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+/**
+ * Denne klasse modtager krypteret kommunikation fra klienten, og dekrypterer det vha. Crypter-klassen,
+ * så resten af serveren kan gøre brug af dataen.
+ */
 @Path("/crypter")
 public class CrypterEndpoint {
     Gson gson;
@@ -19,9 +23,11 @@ public class CrypterEndpoint {
         crypter = new Crypter();
     }
 
-    // The Java method will process HTTP GET requests
+    /**
+     * Modtager krypteret data
+     * @return returnerer dekrypteret data
+     */
     @GET
-    // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("text/plain")
 
     public String xor() {
