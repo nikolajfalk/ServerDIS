@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.sun.corba.se.spi.activation.Repository;
 import controllers.BookController;
 import controllers.TokenController;
+import model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -66,25 +67,34 @@ public class BookEndpoint {
     @PUT
     @Path("/{bookId}")
     @Produces("application/json")
-    public Response edit(@PathParam("bookId") int id, String data) throws Exception {
-        if (controller.getBook(id) != null) {
-            if (controller.editBook(id, data)) {
-                return Response
-                        .status(200)
-                        .entity("{\"message\":\"Success! Book edited\"}")
-                        .build();
+    public Response edit(@HeaderParam("authorization") String authToken, @PathParam("bookId") int id, String data) throws Exception {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+
+            if (controller.getBook(id) != null) {
+                if (controller.editBook(id, data)) {
+                    return Response
+                            .status(200)
+                            .entity("{\"message\":\"Success! Book edited\"}")
+                            .build();
+                } else {
+                    return Response
+                            .status(400)
+                            .entity("{\"message\":\"failed\"}")
+                            .build();
+                }
             } else {
                 return Response
                         .status(400)
-                        .entity("{\"message\":\"failed\"}")
+                        .entity("{\"message\":\"failed. Book not found\"}")
                         .build();
             }
-        } else {
-            return Response
-                    .status(400)
-                    .entity("{\"message\":\"failed. Book not found\"}")
-                    .build();
-        }
+
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
     }
 
  /*  @POST
@@ -108,10 +118,18 @@ public class BookEndpoint {
     @Path("/{id}")
     @DELETE
     public Response delete (@HeaderParam("authorization") String authToken, @PathParam("id") int bookId) throws Exception {
-        if(controller.deleteBook(bookId)) {
-            return Response.status(200).entity("{\"message\":\"Success! Book deleted\"}").build();
-        }
-        else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+
+            if(controller.deleteBook(bookId)) {
+                return Response.status(200).entity("{\"message\":\"Success! Book deleted\"}").build();
+            }
+            else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
     }
 }
 

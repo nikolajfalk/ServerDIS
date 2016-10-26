@@ -2,9 +2,11 @@ package endpoints;
 
 import com.google.gson.Gson;
 import controllers.CurriculumController;
+import controllers.TokenController;
 import model.Book;
 import model.Curriculum;
 import Encrypters.Crypter;
+import model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -20,6 +22,8 @@ import java.util.ArrayList;
 @Path("/curriculum")
 public class CurriculumEndpoint {
     CurriculumController curriculumController;
+
+    TokenController tokenController = new TokenController();
 
 
     public CurriculumEndpoint(){
@@ -111,40 +115,33 @@ public class CurriculumEndpoint {
      * @return
      * @throws Exception
      */
-    @POST
-    @Produces("application/json")
-    public Response create(String data) throws Exception {
-        if (curriculumController.addCurriculum(data)) {
-            //demo to check if it returns this on post.
-            return Response
-                    .status(200)
-                    //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
-                    //at den skriver til db.
-                    .entity("{\"message\":\"Success! Curriculum was created\"}")
-                    .build();
-        }
-        else return Response
-                .status(400)
-                .entity("{\"message\":\"Failed.\"}")
-                .build();
-    }
-
 
     @POST
     @Path("/{curriculumID}/book")
     @Produces("application/json")
-    public Response create(@PathParam("curriculumID")int curriculumID, String data) throws Exception {
-        if (curriculumController.addCurriculumBook(curriculumID, data)) {
-            return Response
-                    .status(200)
-                    .entity("{\"message\":\"Success! Book was created.\"}")
-                    .build();
-        }
-        else {
-            return Response
-                    .status(400)
-                    .build();
-        }
+
+    public Response create(@HeaderParam("authorization") String authToken, @PathParam("curriculumID")int curriculumID, String data) throws Exception {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (curriculumController.addCurriculumBook(curriculumID, data)) {
+                return Response
+                        .status(200)
+                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                        //at den skriver til db.
+                        .entity("new user")
+                        .build();
+            }
+            else {
+                return Response
+                        .status(400)
+                        //nedenstående skal formentlig laves om. Den skal ikke returne curriculums. Lavet for at checke
+                        //at den skriver til db.
+                        .build();
+            }
+
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
     /**
      * Metode til at ændre et semester
@@ -153,27 +150,35 @@ public class CurriculumEndpoint {
     @PUT
     @Path("/{curriculumID}")
     @Produces("application/json")
-    public Response edit(@PathParam("curriculumID") int id, String data) throws SQLException {
-        if (curriculumController.getCurriculum(id)!=null) {
-            if (curriculumController.editCurriculum(id, data)) {
-                return Response
-                        .status(200)
-                        .entity("{\"message\":\"Success! Curriculum was changed.\"}")
-                        .build();
+    public Response edit(@HeaderParam("authorization") String authToken, @PathParam("curriculumID") int id, String data) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if (curriculumController.getCurriculum(id)!=null) {
+                if (curriculumController.editCurriculum(id, data)) {
+                    return Response
+                            .status(200)
+                            .entity("{\"message\":\"Success! Curriculum was changed.\"}")
+                            .build();
+                }
+                else {
+                    return Response
+                            .status(400)
+                            .entity("{\"message\":\"failed\"}")
+                            .build();
+                }
             }
             else {
                 return Response
                         .status(400)
-                        .entity("{\"message\":\"failed\"}")
+                        .entity("{\"message\":\"failed. Curriculum doesn't exist.\"}")
                         .build();
             }
-        }
-        else {
-            return Response
-                    .status(400)
-                    .entity("{\"message\":\"failed. Curriculum doesn't exist.\"}")
-                    .build();
-        }
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
+
+
+
         /*
         if(curriculumController.editCurriculum(curriculumController.)) {
             return null;
@@ -198,10 +203,16 @@ public class CurriculumEndpoint {
     @DELETE
     @Path("/{curriculumId}")
     @Produces("application/json")
-    public Response delete(@PathParam("curriculumId") int id) throws SQLException {
-        if(curriculumController.deleteCurriculum(id)) {
-            return Response.status(200).entity("{\"message\":\"Curriculum was deleted!\"}").build();
-        }
-        else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
+
+    public Response delete(@HeaderParam("authorization") String authToken, @PathParam("curriculumId") int id) throws SQLException {
+
+        User user = tokenController.getUserFromTokens(authToken);
+
+        if (user != null){
+            if(curriculumController.deleteCurriculum(id)) {
+                return Response.status(200).entity("{\"message\":\"Curriculum was deleted\"}").build();
+            }
+            else return Response.status(400).entity("{\"message\":\"Failed. Curriculum was not deleted\"}").build();
+        }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 }
