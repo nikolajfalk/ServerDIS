@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 /**
  * Opretter en instans af DBConnector og kalder alle metoder til Curriculum.
+ * Klassen modtager datasættet fra DBConnector som videresendes til CurriculumEndpoint.
  * Hver metode er forklaret med kommentarer i DBConnector.
  */
 public class CurriculumController {
-
 
     public ArrayList<Curriculum> getCurriculums()throws IllegalAccessException{
         DBConnector db = new DBConnector();
