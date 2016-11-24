@@ -1,5 +1,6 @@
 package database;
 
+import Encrypters.Digester;
 import com.google.gson.Gson;
 import config.Config;
 import model.Book;
@@ -481,7 +482,7 @@ public class DBConnector {
         try {
             PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ?");
             authenticate.setString(1, username);
-            authenticate.setString(2, password);
+            authenticate.setString(2, Digester.hashWithSalt(password));
 
 
             resultSet = authenticate.executeQuery();
