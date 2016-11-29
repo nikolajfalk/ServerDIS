@@ -65,7 +65,7 @@ public class DBConnector {
         ResultSet resultSet = null;
 
         try {
-            PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Users ");
+            PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Users WHERE DELETED = 0");
             resultSet = getUsers.executeQuery();
 
             while (resultSet.next()) {
@@ -480,10 +480,9 @@ public class DBConnector {
         User userFound = null;
 
         try {
-            PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ?");
+            PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ? AND DELETED =0");
             authenticate.setString(1, username);
             authenticate.setString(2, Digester.hashWithSalt(password));
-            //
 
             resultSet = authenticate.executeQuery();
 
