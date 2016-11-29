@@ -480,7 +480,7 @@ public class DBConnector {
         User userFound = null;
 
         try {
-            PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ? AND DELETED =0");
+            PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ? AND DELETED = 0");
             authenticate.setString(1, username);
             authenticate.setString(2, Digester.hashWithSalt(password));
 
@@ -490,12 +490,15 @@ public class DBConnector {
                 try {
                     userFound = new User();
                     userFound.setUserID(resultSet.getInt("UserID"));
+                    userFound.setFirstName(resultSet.getString("First_Name"));
+                    userFound.setLastName(resultSet.getString("Last_Name"));
+                    userFound.setUsername(resultSet.getString("Username"));
+                    userFound.setEmail(resultSet.getString("Email"));
+                    userFound.setPassword(resultSet.getString("Password"));
 
                 } catch (SQLException e) {
 
                 }
-
-
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
@@ -508,33 +511,22 @@ public class DBConnector {
     public User getUserFromToken(String token) throws SQLException {
         ResultSet resultSet = null;
         User userFromToken = null;
-
-
-
         try {
-
             PreparedStatement getUserFromToken = conn
                     .prepareStatement("select Tokens.user_id, Users.Usertype from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
             getUserFromToken.setString(1, token);
             resultSet = getUserFromToken.executeQuery();
-
             while (resultSet.next()) {
-
                 userFromToken = new User();
-
                 userFromToken.setUserID(resultSet.getInt("user_id"));
                 userFromToken.setUserType(resultSet.getBoolean("Usertype"));
-
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
         return userFromToken;
-
     }
-
     public void addToken(String token, int userId) {
-
         PreparedStatement addTokenStatement;
         try {
             addTokenStatement = conn.prepareStatement("INSERT INTO Tokens (token, user_id) VALUES (?,?)");
@@ -545,11 +537,8 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
-
     public boolean deleteToken(String token) throws SQLException {
-
         PreparedStatement deleteTokenStatement = conn.prepareStatement("DELETE FROM Tokens WHERE token=?");
-
         try {
             deleteTokenStatement.setString(1, token);
             deleteTokenStatement.executeUpdate();
@@ -558,7 +547,6 @@ public class DBConnector {
         }
         return true;
     }
-
     public void close(){
         try {
             this.conn.close();
@@ -566,5 +554,4 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
-
 }
