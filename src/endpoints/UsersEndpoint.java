@@ -1,6 +1,4 @@
-package endpoints; /**
- * Created by mortenlaursen on 09/10/2016.
- */
+package endpoints;
 
 import Encrypters.*;
 import com.google.gson.Gson;
@@ -173,6 +171,27 @@ public class UsersEndpoint  {
                     .status(400)
                     .entity("Failure")
                     .build();
+    }
+
+    @Path("/currentuser")
+    @Produces("application/json")
+    @GET
+    public Response getUser(@HeaderParam("authorization") String authToken) throws SQLException {
+        User user = tokenController.getUserFromTokens(authToken);
+
+        int userId = user.getUserID();
+
+        if(controller.getUser(userId) != null) {
+
+            return Response
+                .status(200)
+                .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(user))))
+                .build();
+
+         } else return Response
+            .status(400)
+            .entity("{\"message\":\"failed\"}")
+            .build();
     }
 }
 
