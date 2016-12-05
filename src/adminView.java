@@ -86,9 +86,9 @@ public class adminView  {
                     case 3:
                         System.out.println("Indtast UserID på den bruger som du ønsker slettet");
                         int brugerid = input.nextInt();
-                       // if()
 
-                    //    db.deleteUser();
+                        if(user.getUserID() == brugerid);
+                        db.deleteUser(brugerid);
                         break;
                     case 4:
                         try {
@@ -114,7 +114,8 @@ public class adminView  {
 
                             Book b = new Book(forlag, titel, forfatter, version, ISBN, prisAB, prisSAXO, prisCDON);
 
-                        //    db.addCurriculumBook(curriculumID, b);
+                            db.addCurriculumBook(curriculumID, b);
+
 
                         } catch (Exception e) {
                             e.printStackTrace();

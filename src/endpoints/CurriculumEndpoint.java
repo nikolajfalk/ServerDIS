@@ -131,11 +131,11 @@ public class CurriculumEndpoint {
                 .build();
     }
 
-    @POST
+  /*  @POST
     @Path("/{curriculumID}/book")
     @Produces("application/json")
 
-    public Response create(@HeaderParam("authorization") String authToken, @PathParam("curriculumID")int curriculumID, String data) throws Exception {
+    public Response create(@HeaderParam("authorization") String authToken, @PathParam("curriculumID")int curriculumID, Book b) throws Exception {
 
         User user = tokenController.getUserFromTokens(authToken);
 
@@ -157,7 +157,7 @@ public class CurriculumEndpoint {
             }
 
         }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
-    }
+    }*/
     /**
      * Metode til at ændre et semester
      * @return
