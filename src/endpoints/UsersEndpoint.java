@@ -6,6 +6,7 @@ import controllers.TokenController;
 import controllers.UserController;
 import model.User;
 import model.UserLogin;
+import endpoints.CORSFilter;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -120,8 +121,9 @@ public class UsersEndpoint  {
         else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 
-    @Path("/{id}")
-    @DELETE
+    @Path("delete/{id}")
+    @PUT
+    @Produces("application/json")
     public Response delete (@HeaderParam("authorization") String authToken, @PathParam("id") int userId) throws SQLException {
 
         User user = tokenController.getUserFromTokens(authToken);
@@ -132,7 +134,6 @@ public class UsersEndpoint  {
             }
             else return Response.status(400).entity("{\"message\":\"failed\"}").build();
         }else return Response.status(400).entity("{\"message\":\"failed\"}").build();
-
 
     }
 
@@ -186,9 +187,7 @@ public class UsersEndpoint  {
             return Response
                 .status(200)
                 .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(user))))
-                    .header("Access-Control-Allow-Origin", "*") //Skal måske være der
-
-                    .build();
+                .build();
 
          } else return Response
             .status(400)
