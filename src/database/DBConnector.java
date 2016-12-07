@@ -513,13 +513,18 @@ public class DBConnector {
         User userFromToken = null;
         try {
             PreparedStatement getUserFromToken = conn
-                    .prepareStatement("select Tokens.user_id, Users.Usertype from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
+                    .prepareStatement("select Tokens.user_id, Users.Usertype, Users.First_Name, Users.Last_Name, Users.Username, Users.Email from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
             getUserFromToken.setString(1, token);
             resultSet = getUserFromToken.executeQuery();
             while (resultSet.next()) {
                 userFromToken = new User();
                 userFromToken.setUserID(resultSet.getInt("user_id"));
                 userFromToken.setUserType(resultSet.getBoolean("Usertype"));
+                userFromToken.setFirstName(resultSet.getString("First_Name"));
+                userFromToken.setLastName(resultSet.getString("Last_Name"));
+                userFromToken.setUsername(resultSet.getString("Username"));
+                userFromToken.setEmail(resultSet.getString("Email"));
+
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());

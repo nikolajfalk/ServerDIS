@@ -186,7 +186,9 @@ public class UsersEndpoint  {
             return Response
                 .status(200)
                 .entity(new Gson().toJson(Crypter.encryptDecryptXOR(new Gson().toJson(user))))
-                .build();
+                    .header("Access-Control-Allow-Origin", "*") //Skal måske være der
+
+                    .build();
 
          } else return Response
             .status(400)
