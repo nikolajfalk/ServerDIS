@@ -10,9 +10,6 @@ import model.User;
 import java.sql.*;
 import java.util.ArrayList;
 
-/**
- * Created by mortenlaursen on 17/10/2016.
- */
 public class DBConnector {
     /**
      * Constructor for establishing connection.
@@ -65,7 +62,9 @@ public class DBConnector {
         ResultSet resultSet = null;
 
         try {
+
             PreparedStatement getUsers = conn.prepareStatement("SELECT * FROM Users WHERE DELETED = 0");
+
             resultSet = getUsers.executeQuery();
 
             while (resultSet.next()) {
@@ -130,17 +129,16 @@ public class DBConnector {
     }
 
     public boolean editUser(int id, String data) throws SQLException {
-        User u = new Gson().fromJson(data,User.class);
+        User u = new Gson().fromJson(data, User.class);
         PreparedStatement editUserStatement = conn
-                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Usertype = ? WHERE userID =?");
+                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ? WHERE userID =?");
 
         try {
             editUserStatement.setString(1, u.getFirstName());
             editUserStatement.setString(2, u.getLastName());
             editUserStatement.setString(3, u.getUsername());
             editUserStatement.setString(4, u.getEmail());
-            editUserStatement.setBoolean(5, u.getUserType());
-            editUserStatement.setInt(6, id);
+            editUserStatement.setInt(5, id);
 
             editUserStatement.executeUpdate();
         } catch (SQLException e) {
@@ -424,7 +422,7 @@ public class DBConnector {
         int id;
         PreparedStatement addBookStatement = conn.prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
-  //      Book b = new Gson().fromJson(data, Book.class);
+        //Book b = new Gson().fromJson(b, Book.class);
         try {
             addBookStatement.setString(1, b.getTitle());
             addBookStatement.setInt(2, b.getVersion());
@@ -480,9 +478,13 @@ public class DBConnector {
         User userFound = null;
 
         try {
+
             PreparedStatement authenticate = conn.prepareStatement("select * from Users where username = ? AND Password = ? AND DELETED = 0");
+
             authenticate.setString(1, username);
             authenticate.setString(2, Digester.hashWithSalt(password));
+
+
 
             resultSet = authenticate.executeQuery();
 
@@ -490,15 +492,18 @@ public class DBConnector {
                 try {
                     userFound = new User();
                     userFound.setUserID(resultSet.getInt("UserID"));
-                    userFound.setFirstName(resultSet.getString("First_Name"));
-                    userFound.setLastName(resultSet.getString("Last_Name"));
-                    userFound.setUsername(resultSet.getString("Username"));
-                    userFound.setEmail(resultSet.getString("Email"));
-                    userFound.setPassword(resultSet.getString("Password"));
+                    userFound.setFirstName((resultSet.getString("First_Name")));
+                    userFound.setLastName((resultSet.getString("Last_Name")));
+                    userFound.setUsername((resultSet.getString("Username")));
+                    userFound.setEmail((resultSet.getString("Email")));
+                    userFound.setPassword((resultSet.getString("Password")));
+
 
                 } catch (SQLException e) {
 
                 }
+
+
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
@@ -511,27 +516,37 @@ public class DBConnector {
     public User getUserFromToken(String token) throws SQLException {
         ResultSet resultSet = null;
         User userFromToken = null;
+
+
+
         try {
+
             PreparedStatement getUserFromToken = conn
-                    .prepareStatement("select Tokens.user_id, Users.Usertype, Users.First_Name, Users.Last_Name, Users.Username, Users.Email from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
+                    .prepareStatement("select Tokens.user_id, Users.Usertype, Users.First_Name, Users.Last_Name, Users.Email, Users.username from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
             getUserFromToken.setString(1, token);
             resultSet = getUserFromToken.executeQuery();
+
             while (resultSet.next()) {
+
                 userFromToken = new User();
+
                 userFromToken.setUserID(resultSet.getInt("user_id"));
-                userFromToken.setUserType(resultSet.getBoolean("Usertype"));
                 userFromToken.setFirstName(resultSet.getString("First_Name"));
                 userFromToken.setLastName(resultSet.getString("Last_Name"));
-                userFromToken.setUsername(resultSet.getString("Username"));
                 userFromToken.setEmail(resultSet.getString("Email"));
+                userFromToken.setUsername(resultSet.getString("username"));
+                userFromToken.setUserType(resultSet.getBoolean("Usertype"));
 
             }
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
         return userFromToken;
+
     }
+
     public void addToken(String token, int userId) {
+
         PreparedStatement addTokenStatement;
         try {
             addTokenStatement = conn.prepareStatement("INSERT INTO Tokens (token, user_id) VALUES (?,?)");
@@ -542,8 +557,11 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
+
     public boolean deleteToken(String token) throws SQLException {
+
         PreparedStatement deleteTokenStatement = conn.prepareStatement("DELETE FROM Tokens WHERE token=?");
+
         try {
             deleteTokenStatement.setString(1, token);
             deleteTokenStatement.executeUpdate();
@@ -552,6 +570,7 @@ public class DBConnector {
         }
         return true;
     }
+
     public void close(){
         try {
             this.conn.close();
@@ -559,4 +578,5 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
+
 }
