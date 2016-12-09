@@ -11,9 +11,6 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
 
-/**
- * Created by magnusrasmussen on 17/10/2016.
- */
 //implements IEndpoints HUSK AT ÆNDRE INTERFACET VED PUT
 @Path("/curriculum")
 public class CurriculumEndpoint {

@@ -1,5 +1,7 @@
 package config;
 
+//Denne klasse benyttes til at sætte serveren op med localhost. De nødvendige variabler defineres her.
+
 public class Config {
 
   private static String dbUserName;

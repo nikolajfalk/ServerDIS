@@ -10,6 +10,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
+/**
+ * Denne klasse indeholder serverens TUI.
+ * Her er det muligt at se alle brugere, opret en bruger, slet en bruger og opret en bog.
+ * TUI skal startes uden om GlasFish Serveren.
+ */
+
+
 public class adminView  {
 
     private DBConnector db;

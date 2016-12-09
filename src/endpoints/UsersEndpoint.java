@@ -12,7 +12,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-// implements IEndpoints The Java class will be hosted at the URI path "/users"
+/**
+ * Endpoint klasse indeholder alle user-endpoints. Klassen står for kald af metoder fra controller-klasse
+ * og kommunikation med klient.
+ */
+
 @Path("/user")
 public class UsersEndpoint  {
     UserController controller = new UserController();
@@ -21,6 +25,11 @@ public class UsersEndpoint  {
     public UsersEndpoint() {
     }
 
+    /**
+     * Metode til at hente alle brugere i systemet.
+     * @return
+     * @throws IllegalAccessException
+     */
     @GET
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("application/json")
@@ -46,6 +55,13 @@ public class UsersEndpoint  {
 
     }
 
+    /**
+     * Metode til at hente en specfik bruger.
+     * @param authToken
+     * @param userId
+     * @return
+     * @throws SQLException
+     */
     @Path("/{id}")
     @Produces("application/json")
     @GET
@@ -71,6 +87,14 @@ public class UsersEndpoint  {
                 .build();
     }
 
+    /**
+     * Metoden til ændre en bruger
+     * @param authToken
+     * @param id
+     * @param data
+     * @return
+     * @throws SQLException
+     */
     @PUT
     @Path("/{Id}")
     @Produces("application/json")
@@ -106,6 +130,12 @@ public class UsersEndpoint  {
 
     }
 
+    /**
+     * Metode til at oprette en bruger.
+     * @param data
+     * @return
+     * @throws Exception
+     */
     @POST
     @Produces("application/json")
     public Response create(String data) throws Exception {
@@ -121,6 +151,13 @@ public class UsersEndpoint  {
         else return Response.status(400).entity("{\"message\":\"failed\"}").build();
     }
 
+    /**
+     * Metode til at ændre en bruger.
+     * @param authToken
+     * @param userId
+     * @return
+     * @throws SQLException
+     */
     @Path("delete/{id}")
     @PUT
     @Produces("application/json")
@@ -137,6 +174,12 @@ public class UsersEndpoint  {
 
     }
 
+    /**
+     * Metode til at logge ind.
+     * @param data
+     * @return
+     * @throws SQLException
+     */
     @POST
     @Path("/login")
     @Produces("application/json")
@@ -159,6 +202,12 @@ public class UsersEndpoint  {
             .build();
     }
 
+    /**
+     * Metode til at lukke ud.
+     * @param data
+     * @return
+     * @throws SQLException
+     */
     @POST
     @Path("/logout")
     public Response logout (String data) throws SQLException {
@@ -173,6 +222,13 @@ public class UsersEndpoint  {
                     .entity("Failure")
                     .build();
     }
+
+    /**
+     * Metode til hente den bruger som er logget ind.
+     * @param authToken
+     * @return
+     * @throws SQLException
+     */
 
     @Path("/currentuser")
     @Produces("application/json")

@@ -1,6 +1,4 @@
-package endpoints; /**
- * Created by mortenlaursen on 09/10/2016.
- */
+package endpoints;
 
 import com.google.gson.Gson;
 import controllers.BookController;

@@ -3,7 +3,8 @@ package Encrypters;
 import java.security.MessageDigest;
 
 /**
- * Created by madsgade on 17/10/2016.
+ * Klasse der tager sig af hashing.
+ * Vi hasher password, når en bruger oprettes.
  */
 
 public class Digester {

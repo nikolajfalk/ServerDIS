@@ -12,9 +12,8 @@ import java.util.ArrayList;
 
 public class DBConnector {
     /**
-     * Constructor for establishing connection.
-     *
-     * @throws Exception
+     * Konstruktor der opretter forbindelse til databasen via config klasse.
+     * Config klassens input varierer fra bruger til bruger, da man skal definere variabler til sit eget system.
      */
     // JDBC driver name and database URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -54,9 +53,10 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
-
-    /*5 user methods*/
-
+    /**
+     * Metode til at hente af alle brugere i systemet.
+     * Metoden benytter sig af et SQL query til at vælge brugerne i databasen og derefter returneres de som et objekt.
+    **/
     public ArrayList getUsers() throws IllegalArgumentException {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
@@ -92,7 +92,10 @@ public class DBConnector {
         return results;
 
     }
-
+    /**
+     * Metode til at hente en specifik bruger.
+     * Metoden henter denne gang en bruger på dens id, men det fungere på samme måde som getUsers metoden.
+    **/
     public User getUser(int id) throws IllegalArgumentException {
         User user = null;
         ResultSet resultSet = null;
@@ -128,17 +131,23 @@ public class DBConnector {
         return user;
     }
 
+    /**
+     * Metode til at ændre en specifik bruger.
+     * Metoden bruger et SQL query til at "update" en brugers informationer.
+     * Dernæst gemmes det i databasen.
+     **/
     public boolean editUser(int id, String data) throws SQLException {
         User u = new Gson().fromJson(data, User.class);
         PreparedStatement editUserStatement = conn
-                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ? WHERE userID =?");
+                .prepareStatement("UPDATE Users SET First_Name = ?, Last_Name = ?, Username = ?, Email = ?, Password = ? WHERE userID =?");
 
         try {
             editUserStatement.setString(1, u.getFirstName());
             editUserStatement.setString(2, u.getLastName());
             editUserStatement.setString(3, u.getUsername());
             editUserStatement.setString(4, u.getEmail());
-            editUserStatement.setInt(5, id);
+            editUserStatement.setString(5, Digester.hashWithSalt(u.getPassword()));
+            editUserStatement.setInt(6, id);
 
             editUserStatement.executeUpdate();
         } catch (SQLException e) {
@@ -147,6 +156,11 @@ public class DBConnector {
         return true;
     }
 
+    /**
+     * Metode til at oprette en bruger.
+     * Metoden benytter et SQL query som alle de andre, men denne gang tilføjer den en nye bruger i databasen.
+     * UserID bliver automatisk tildelt brugeren.
+     **/
     public boolean addUser(User u) throws Exception {
 
         PreparedStatement addUserStatement =
@@ -167,6 +181,10 @@ public class DBConnector {
         return true;
     }
 
+    /**
+     * Metode til at slette en specifik bruger.
+     * Metoden sletter en bruger på et unikt UserID.
+     **/
     public boolean deleteUser(int id) throws SQLException {
 
         PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Users SET Deleted = 1 WHERE UserID=?");
@@ -180,7 +198,10 @@ public class DBConnector {
         return true;
     }
 
-    /*Curriculum methods*/
+    /**
+     * Metode til at hente alle pensumlister. Dog kun deres informationer, ikke bøgerne.
+     * Metoden fungere på samme måde som getUsers.
+     **/
     public ArrayList getCurriculums() throws IllegalArgumentException {
         ArrayList<Curriculum> results = new ArrayList<>();
         ResultSet resultSet = null;
@@ -214,7 +235,10 @@ public class DBConnector {
         return results;
 
     }
-
+    /**
+     * Metode til at hente en specifik pensumliste, igen kun informationerne for pensumlisten, ikke bøgerne..
+     * Metoden fungere på samme måde som getUser.
+     **/
     public Curriculum getCurriculum(int curriculumID) throws IllegalArgumentException {
         ResultSet resultSet = null;
         Curriculum curriculum = null;
@@ -246,6 +270,10 @@ public class DBConnector {
 
     }
 
+    /**
+     * Metode til at ændre en specifik pensumliste.
+     * Metoden fungere på samme måde som editUser.
+     **/
     public boolean editCurriculum(int id, String data) throws SQLException {
         PreparedStatement editCurriculumStatement = conn.prepareStatement("UPDATE Curriculum SET School = ?, Education = ?, Semester = ? WHERE curriculumID = ?");
 
@@ -263,7 +291,10 @@ public class DBConnector {
         }
         return true;
     }
-
+    /**
+     * Metode til at oprette en pensumliste.
+     * Metoden fungere på samme måde som addUser.
+     **/
     public boolean addCurriculum(Curriculum c) throws SQLException {
         PreparedStatement addCurriculumStatement = conn.prepareStatement("INSERT INTO Curriculum (School, Education, Semester) VALUES (?, ?, ?)");
 
@@ -281,6 +312,10 @@ public class DBConnector {
         return true;
     }
 
+    /**
+     * Metode til at slette en pensumliste.
+     * Metoden fungere på samme måde som deleteUser.
+     **/
     public boolean deleteCurriculum(int id) throws SQLException {
         PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Curriculum SET Deleted = 1 WHERE CurriculumID=?");
 
@@ -293,7 +328,10 @@ public class DBConnector {
         return true;
     }
 
-    //skal skiftes
+    /**
+     * Metode til at hente en pensumliste, denne gang pensumlistens bøger.
+     * Metoden fungere på samme måde som getUser.
+     **/
     public ArrayList<Book> getCurriculumBooks(int curriculumID) {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
@@ -332,8 +370,10 @@ public class DBConnector {
         return results;
     }
 
-    /*books methods*/
-
+    /**
+     * Metode til at hente alle bøger.
+     * Metoden fungere på samme måde som getUsers.
+     **/
     public ArrayList getBooks() throws IllegalArgumentException {
         ArrayList results = new ArrayList();
         ResultSet resultSet = null;
@@ -370,6 +410,10 @@ public class DBConnector {
 
     }
 
+    /**
+     * Metode til at hente en bog.
+     * Metoden fungere på samme måde som getUser.
+     **/
     public Book getBook(int id) throws IllegalArgumentException {
         Book book = null;
         ResultSet resultSet = null;
@@ -397,6 +441,10 @@ public class DBConnector {
 
     }
 
+    /**
+     * Metode til at ændre en bog.
+     * Metoden fungere på samme måde som editUser.
+     **/
     public boolean editBook(int id, String data) throws SQLException {
         PreparedStatement editBookStatement = conn.prepareStatement("UPDATE Books SET Title = ?, Version = ?, ISBN = ?, PriceAB = ?, PriceSAXO = ?, PriceCDON = ?, Publisher = ?, Author = ? WHERE bookID =?");
         Book b = new Gson().fromJson(data, Book.class);
@@ -418,6 +466,11 @@ public class DBConnector {
         return true;
     }
 
+    /**
+     * Metode til at tilføje en bog samt at tilføje den til en pensumliste.
+     * Det er ikke muligt at tilføje en bog uden at tilføje den til en pensumliste.
+     * Metoden fungere på samme måde som addUser.
+     **/
     public boolean addCurriculumBook(int curriculumID, Book b) throws SQLException {
         int id;
         PreparedStatement addBookStatement = conn.prepareStatement("INSERT INTO Books (Title, Version, ISBN, PriceAB, PriceSAXO, PriceCDON, Publisher, Author) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -452,8 +505,10 @@ public class DBConnector {
 
     }
 
-
-
+    /**
+     * Metode til at slette en bog.
+     * Metoden fungere på samme måde som deleteUser.
+     **/
     public boolean deleteBook(int id) throws SQLException {
         PreparedStatement deleteUserStatement = conn.prepareStatement("UPDATE Books SET Deleted = 1 WHERE BookID = ?");
         PreparedStatement deleteBooksCurriculumRows = conn.prepareStatement("DELETE FROM BooksCurriculum WHERE BookID = ?");
@@ -472,6 +527,10 @@ public class DBConnector {
         return true;
     }
 
+    /**
+     * Metode til at logge ind i systemet.
+     * Når et brugernavn samt password bekræftes af SQL query'en, logges brugeren ind og bliver tildelt en token.
+     **/
     public User authenticate(String username, String password) {
 
         ResultSet resultSet = null;
@@ -512,7 +571,10 @@ public class DBConnector {
         return userFound;
 
     }
-
+    /**
+     * Metode til at hente en bruger ud fra en token.
+     * Metoden finder en token og derudfra findes brugeren tilknyttet denne token.
+     **/
     public User getUserFromToken(String token) throws SQLException {
         ResultSet resultSet = null;
         User userFromToken = null;
@@ -545,6 +607,10 @@ public class DBConnector {
 
     }
 
+    /**
+     * Metode til at tilføje en token.
+     * Metoden fungere på samme måde som addUser.
+     **/
     public void addToken(String token, int userId) {
 
         PreparedStatement addTokenStatement;
@@ -558,6 +624,10 @@ public class DBConnector {
         }
     }
 
+    /**
+     * Metode til at slette en token.
+     * Metoden benyttes til at slette en token, hvilket systemet skal benyttes sig af når der logges ud.
+     **/
     public boolean deleteToken(String token) throws SQLException {
 
         PreparedStatement deleteTokenStatement = conn.prepareStatement("DELETE FROM Tokens WHERE token=?");
