@@ -1,6 +1,10 @@
 package endpoints;
 
 
+/**
+ * Denne klasse bliver ikke benyttet.
+ */
+
 import Encrypters.*;
 import com.google.gson.Gson;
 

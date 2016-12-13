@@ -8,8 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
 /**
- * Denne klasse modtager krypteret kommunikation fra klienten, og dekrypterer det vha. Crypter-klassen,
- * så resten af serveren kan gøre brug af dataen.
+ * Denne klasse bliver ikke benyttet.
  */
 @Path("/crypter")
 public class CrypterEndpoint {
@@ -21,10 +20,6 @@ public class CrypterEndpoint {
         crypter = new Crypter();
     }
 
-    /**
-     * Modtager krypteret data
-     * @return returnerer dekrypteret data
-     */
     @GET
     @Produces("text/plain")
 

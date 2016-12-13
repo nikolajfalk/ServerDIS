@@ -2,7 +2,6 @@ package Encrypters;
 
 /**
  * Klassen der tager sig af kryptering.
- * Der krypteres i dette program med XOR.
  */
 
 import java.util.Random;

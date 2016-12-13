@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
 /**
- * Created by jesperbruun on 17/10/2016.
+ * Dette er en interface klasse, den bliver ikke brugt i systemet.
  */
 public interface IEndpoints {
   public Response get() throws Exception;
