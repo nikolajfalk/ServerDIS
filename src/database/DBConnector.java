@@ -584,7 +584,7 @@ public class DBConnector {
         try {
 
             PreparedStatement getUserFromToken = conn
-                    .prepareStatement("select Tokens.user_id, Users.Usertype, Users.First_Name, Users.Last_Name, Users.Email, Users.username from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
+                    .prepareStatement("select Tokens.user_id, Users.Usertype, Users.First_Name, Users.Last_Name, Users.Email, Users.username, Users.Password from Tokens inner join Users on Tokens.user_id = Users.UserID where Tokens.token = ?");
             getUserFromToken.setString(1, token);
             resultSet = getUserFromToken.executeQuery();
 
@@ -597,7 +597,7 @@ public class DBConnector {
                 userFromToken.setLastName(resultSet.getString("Last_Name"));
                 userFromToken.setEmail(resultSet.getString("Email"));
                 userFromToken.setUsername(resultSet.getString("username"));
-                userFromToken.setUserType(resultSet.getBoolean("Usertype"));
+                userFromToken.setPassword(resultSet.getString(("Password")));
 
             }
         } catch (SQLException sqlException) {
